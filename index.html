@@ -95,12 +95,17 @@ header{padding:38px 4px 22px;color:#eafaf7}
   box-shadow:0 4px 16px rgba(13,79,74,.07),0 1px 2px rgba(13,79,74,.05);
   text-decoration:none;color:var(--ink);
   overflow:hidden;cursor:pointer;
-  transform:translateY(16px) scale(.985);opacity:0;
-  animation:rise .52s cubic-bezier(.22,.9,.30,1.02) forwards;
-  animation-delay:var(--d);
   transition:transform .22s cubic-bezier(.2,.8,.3,1),box-shadow .22s,border-color .22s;
 }
-@keyframes rise{to{transform:translateY(0) scale(1);opacity:1}}
+.card.in{
+  transform:translateY(0) scale(1);opacity:1;
+}
+.card.pre{
+  transform:translateY(16px) scale(.985);opacity:0;
+}
+.anim{
+  transition:transform .52s cubic-bezier(.22,.9,.30,1.02),opacity .52s ease,box-shadow .22s,border-color .22s;
+}
 .card::before{
   content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
   background:linear-gradient(180deg,var(--glow),var(--teal));
@@ -288,7 +293,7 @@ const jumpName = document.getElementById('jumpName');
 
 SITES.forEach((s, k) => {
   const a = document.createElement('a');
-  a.className = 'card';
+  a.className = 'card pre';
   a.href = s.u;
   a.style.setProperty('--d', (80 + k * 65) + 'ms');
   a.style.setProperty('--c1', s.c1);
@@ -301,6 +306,15 @@ SITES.forEach((s, k) => {
       <p>${s.d}</p>
     </div>
     <div class="go"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>`;
+  grid.appendChild(a);
+
+  // 入场：下一帧开启过渡，保证任何环境都能正常显示
+  const delay = 80 + k * 65;
+  setTimeout(() => {
+    a.classList.add('anim');
+    requestAnimationFrame(() => a.classList.remove('pre'));
+  }, delay);
+
   a.addEventListener('click', e => {
     // 涟漪
     const r = document.createElement('div');
@@ -320,7 +334,6 @@ SITES.forEach((s, k) => {
     // 不阻止默认行为 —— 保证在微信等内置浏览器中正常跳转
     setTimeout(() => jump.classList.remove('on'), 1600);
   });
-});
-</script>
+});</script>
 </body>
 </html>
