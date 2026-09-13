@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0d4f4a">
+<title>壶兰呼吸 · 规培导航台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ink:#0d3b39;
+  --deep:#0d4f4a;
+  --teal:#12776d;
+  --mint:#2fa89a;
+  --glow:#4fd1c0;
+  --paper:#f4faf8;
+  --card:#ffffff;
+  --sub:#5b7a76;
+}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+/* 顶部氛围层 */
+.sky{
+  position:fixed;inset:0 0 auto 0;height:340px;
+  background:
+    radial-gradient(120% 80% at 12% 0%, rgba(79,209,192,.34) 0%, rgba(79,209,192,0) 62%),
+    radial-gradient(90% 70% at 92% 8%, rgba(18,119,109,.26) 0%, rgba(18,119,109,0) 60%),
+    linear-gradient(178deg,#0d4f4a 0%,#116b62 46%,#f4faf8 100%);
+  z-index:0;
+}
+.sky::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 18% 26%, rgba(255,255,255,.20) 0 1.6px, transparent 2px),
+    radial-gradient(circle at 74% 18%, rgba(255,255,255,.16) 0 1.4px, transparent 2px),
+    radial-gradient(circle at 46% 62%, rgba(255,255,255,.13) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 88% 44%, rgba(255,255,255,.15) 0 1.3px, transparent 2px);
+  background-size:180px 180px,220px 220px,160px 160px,240px 240px;
+  animation:drift 26s linear infinite;
+}
+@keyframes drift{to{background-position:180px 180px,-220px 220px,160px -160px,-240px -240px}}
+
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 18px 40px}
+
+/* 头部 */
+header{padding:38px 4px 22px;color:#eafaf7}
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.brand .mark{
+  width:42px;height:42px;border-radius:13px;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(226,246,242,.86));
+  display:grid;place-items:center;
+  box-shadow:0 6px 18px rgba(6,50,46,.30);
+  animation:float 4.4s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.brand .mark svg{width:25px;height:25px}
+.brand h1{font-size:20px;font-weight:800;letter-spacing:.5px;text-shadow:0 2px 12px rgba(4,38,35,.35)}
+.brand span{display:block;font-size:11.5px;font-weight:500;opacity:.76;letter-spacing:2.4px;margin-top:2px}
+.headline{font-size:25px;font-weight:800;line-height:1.32;letter-spacing:.3px;text-shadow:0 2px 14px rgba(4,38,35,.32)}
+.headline em{font-style:normal;color:#8ff0e0}
+.meta{
+  margin-top:14px;display:flex;flex-wrap:wrap;gap:8px 10px;font-size:12px;
+}
+.meta i{
+  font-style:normal;padding:5px 11px;border-radius:999px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(6px);color:#dff9f4;letter-spacing:.4px;
+}
+
+/* 提示条 */
+.tip{
+  margin:20px 0 4px;padding:12px 15px;border-radius:14px;
+  background:rgba(255,255,255,.72);border:1px solid rgba(18,119,109,.14);
+  font-size:12.5px;color:var(--teal);line-height:1.6;
+  display:flex;gap:8px;align-items:flex-start;
+  box-shadow:0 4px 14px rgba(13,79,74,.06);
+}
+.tip b{color:var(--ink)}
+
+/* 卡片 */
+.grid{margin-top:16px;display:flex;flex-direction:column;gap:13px}
+.card{
+  --h:126deg;
+  position:relative;display:flex;align-items:center;gap:15px;
+  padding:17px 17px;border-radius:19px;
+  background:var(--card);
+  border:1px solid rgba(18,119,109,.10);
+  box-shadow:0 4px 16px rgba(13,79,74,.07),0 1px 2px rgba(13,79,74,.05);
+  text-decoration:none;color:var(--ink);
+  overflow:hidden;cursor:pointer;
+  transform:translateY(16px) scale(.985);opacity:0;
+  animation:rise .52s cubic-bezier(.22,.9,.30,1.02) forwards;
+  animation-delay:var(--d);
+  transition:transform .22s cubic-bezier(.2,.8,.3,1),box-shadow .22s,border-color .22s;
+}
+@keyframes rise{to{transform:translateY(0) scale(1);opacity:1}}
+.card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,var(--glow),var(--teal));
+  transform:scaleY(0);transform-origin:top;transition:transform .30s ease;
+}
+.card::after{
+  content:"";position:absolute;right:-46px;top:-46px;width:132px;height:132px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,209,192,.20),rgba(79,209,192,0) 70%);
+  opacity:0;transition:opacity .3s;
+}
+.card:active{transform:scale(.972);box-shadow:0 2px 8px rgba(13,79,74,.10)}
+@media(hover:hover){
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(13,79,74,.14);border-color:rgba(18,119,109,.26)}
+  .card:hover::before{transform:scaleY(1)}
+  .card:hover::after{opacity:1}
+  .card:hover .ico{transform:rotate(-5deg) scale(1.07)}
+  .card:hover .go{transform:translateX(4px);background:var(--teal);color:#fff;border-color:var(--teal)}
+}
+.ico{
+  flex:0 0 auto;width:48px;height:48px;border-radius:15px;
+  display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--c1),var(--c2));
+  box-shadow:0 6px 15px var(--cs);
+  transition:transform .26s cubic-bezier(.2,.8,.3,1.4);
+}
+.ico svg{width:25px;height:25px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.body{flex:1 1 auto;min-width:0}
+.body h3{font-size:16.5px;font-weight:700;letter-spacing:.2px;display:flex;align-items:center;gap:7px}
+.body h3 .tag{
+  font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;letter-spacing:.4px;
+  background:rgba(18,119,109,.09);color:var(--teal);white-space:nowrap;
+}
+.body p{font-size:12.3px;color:var(--sub);margin-top:4px;line-height:1.52;
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.go{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  display:grid;place-items:center;
+  border:1.5px solid rgba(18,119,109,.22);color:var(--teal);
+  transition:transform .26s cubic-bezier(.2,.8,.3,1.4),background .22s,color .22s,border-color .22s;
+}
+.go svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* 分组标题 */
+.group{
+  margin:26px 2px 11px;font-size:12.5px;font-weight:700;color:var(--teal);
+  letter-spacing:2px;display:flex;align-items:center;gap:9px;
+}
+.group::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(18,119,109,.22),rgba(18,119,109,0))}
+
+/* 底部 */
+footer{
+  margin-top:34px;text-align:center;font-size:11.5px;color:var(--sub);line-height:1.9;
+}
+footer .line{width:34px;height:3px;border-radius:2px;background:rgba(18,119,109,.20);margin:0 auto 14px}
+footer b{color:var(--teal);font-weight:600}
+
+/* 涟漪 */
+.ripple{position:fixed;border-radius:50%;background:rgba(18,119,109,.20);transform:scale(0);animation:rip .55s ease-out forwards;pointer-events:none;z-index:99}
+@keyframes rip{to{transform:scale(2.6);opacity:0}}
+
+/* 跳转遮罩 */
+.jump{
+  position:fixed;inset:0;z-index:200;display:none;place-items:center;
+  background:rgba(9,48,45,.90);backdrop-filter:blur(5px);color:#eafaf7;
+}
+.jump.on{display:grid;animation:fade .18s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.jump .box{text-align:center}
+.spin{
+  width:44px;height:44px;margin:0 auto 16px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.20);border-top-color:#8ff0e0;
+  animation:sp .8s linear infinite;
+}
+@keyframes sp{to{transform:rotate(360deg)}}
+.jump .box p{font-size:14.5px;font-weight:600;letter-spacing:.6px}
+.jump .box small{display:block;margin-top:7px;font-size:11.5px;opacity:.66}
+</style>
+</head>
+<body>
+<div class="sky"></div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 3c3.2 2.4 5.2 5.6 5.2 9a5.2 5.2 0 0 1-10.4 0c0-3.4 2-6.6 5.2-9Z" fill="#12776d"/>
+          <path d="M12 21v-6.4" stroke="#12776d" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M9.6 12.6h4.8" stroke="#0d4f4a" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1>壶兰呼吸</h1>
+        <span>HULAN RESPIRATORY</span>
+      </div>
+    </div>
+    <div class="headline">规培导航台<br><em>六个入口 · 一次扫码</em></div>
+    <div class="meta">
+      <i>莆田学院附属医院</i>
+      <i>呼吸与危重症医学科</i>
+    </div>
+  </header>
+
+  <div class="tip">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#12776d" stroke-width="2" stroke-linecap="round" style="flex:0 0 auto;margin-top:2px">
+      <circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5"/>
+    </svg>
+    <div>点击下方任意卡片即可进入对应工具，<b>无需再次扫码</b>。建议在手机浏览器中打开并添加到主屏幕。</div>
+  </div>
+
+  <div class="group">规培教学</div>
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    <div class="line"></div>
+    壶兰呼吸 · 规培小助手<br>
+    <b>莆田学院附属医院 呼吸与危重症医学科</b><br>
+    依据《内科学》《诊断学》第 10 版 · 仅供教学使用
+  </footer>
+</div>
+
+<div class="jump" id="jump">
+  <div class="box">
+    <div class="spin"></div>
+    <p id="jumpName">正在打开…</p>
+    <small>即将跳转，请稍候</small>
+  </div>
+</div>
+
+<script>
+const SITES = [
+  {
+    n: "规培小助手",
+    d: "壶兰呼吸主站 · 内科学 / 查体 / 听诊 / 血气分析 / 影像判读",
+    u: "https://niuontheway-ops.github.io/resident-doctor/",
+    tag: "主站",
+    c1: "#1fb6a6", c2: "#0d6b62", cs: "rgba(23,150,138,.34)",
+    i: '<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H11v14H6.5A2.5 2.5 0 0 1 4 16.5v-9Z"/><path d="M20 7.5A2.5 2.5 0 0 0 17.5 5H13v14h4.5A2.5 2.5 0 0 0 20 16.5v-9Z"/>'
+  },
+  {
+    n: "内科探案系列",
+    d: "呼吸病学病例推理 · 从症状到诊断的完整临床思维链",
+    u: "https://niuontheway-ops.github.io/detective/",
+    tag: "病例",
+    c1: "#4facfe", c2: "#1064c4", cs: "rgba(55,140,240,.30)",
+    i: '<circle cx="10.5" cy="10.5" r="6"/><path d="M20 20l-5-5"/><path d="M8.5 10.5h4M10.5 8.5v4"/>'
+  },
+  {
+    n: "神经内科探案系列",
+    d: "神经内科病例推理 · 定位诊断与定性诊断双线推演",
+    u: "https://niuontheway-ops.github.io/detective-Neurol/",
+    tag: "病例",
+    c1: "#9b8cff", c2: "#5b46c9", cs: "rgba(139,124,255,.30)",
+    i: '<path d="M12 4.5a4 4 0 0 0-4 4c-1.6.6-2.6 2-2.6 3.7 0 1.5.8 2.8 2 3.5-.2 1.6 1 3.3 3 3.6"/><path d="M12 4.5a4 4 0 0 1 4 4c1.6.6 2.6 2 2.6 3.7 0 1.5-.8 2.8-2 3.5.2 1.6-1 3.3-3 3.6"/><path d="M12 4.5v14.6M9.4 9.6h2.6M14 13.2h-2.6"/>'
+  },
+  {
+    n: "临床第一课：病历书写",
+    d: "主诉 / 现病史 / 查体 / 诊断依据 · 规范化病历书写训练",
+    u: "https://niuontheway-ops.github.io/medical-record/",
+    tag: "技能",
+    c1: "#ffb457", c2: "#e07c1b", cs: "rgba(255,168,66,.32)",
+    i: '<path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M14 3.5V8h5"/><path d="M9 12.5h7M9 16h5"/>'
+  },
+  {
+    n: "手机课堂：人体肺脏三维解剖",
+    d: "3D 可交互肺脏模型 · 肺叶 / 支气管树 / 血管走行",
+    u: "https://niuontheway-ops.github.io/3D-LUNG/",
+    tag: "3D",
+    c1: "#43d9a3", c2: "#0f9c6d", cs: "rgba(58,208,158,.32)",
+    i: '<path d="M12 3.5c2.8 2.2 4.6 5.2 4.6 8.4a4.6 4.6 0 0 1-9.2 0c0-3.2 1.8-6.2 4.6-8.4Z"/><path d="M12 20.5v-5.2"/>'
+  },
+  {
+    n: "医学的温度",
+    d: "医患沟通与人文叙事 · 医学人文教育专题",
+    u: "https://niuontheway-ops.github.io/med-kindness/",
+    tag: "人文",
+    c1: "#ff8fa8", c2: "#d94868", cs: "rgba(255,138,164,.30)",
+    i: '<path d="M12 20s-7-4.4-7-9.2A4 4 0 0 1 12 8.2 4 4 0 0 1 19 10.8C19 15.6 12 20 12 20Z"/>'
+  }
+];
+
+const grid = document.getElementById('grid');
+const jump = document.getElementById('jump');
+const jumpName = document.getElementById('jumpName');
+
+SITES.forEach((s, k) => {
+  const a = document.createElement('a');
+  a.className = 'card';
+  a.href = s.u;
+  a.style.setProperty('--d', (80 + k * 65) + 'ms');
+  a.style.setProperty('--c1', s.c1);
+  a.style.setProperty('--c2', s.c2);
+  a.style.setProperty('--cs', s.cs);
+  a.innerHTML = `
+    <div class="ico"><svg viewBox="0 0 24 24">${s.i}</svg></div>
+    <div class="body">
+      <h3>${s.n}<span class="tag">${s.tag}</span></h3>
+      <p>${s.d}</p>
+    </div>
+    <div class="go"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>`;
+  a.addEventListener('click', e => {
+    // 涟漪
+    const r = document.createElement('div');
+    r.className = 'ripple';
+    const rect = a.getBoundingClientRect();
+    const sz = Math.max(rect.width, rect.height);
+    r.style.width = r.style.height = sz + 'px';
+    r.style.left = (rect.left + rect.width / 2 - sz / 2) + 'px';
+    r.style.top = (rect.top + rect.height / 2 - sz / 2) + 'px';
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 600);
+
+    // 轻微震动 + 跳转过渡
+    if (navigator.vibrate) navigator.vibrate(12);
+    jumpName.textContent = '正在打开 ' + s.n + '…';
+    jump.classList.add('on');
+    // 不阻止默认行为 —— 保证在微信等内置浏览器中正常跳转
+    setTimeout(() => jump.classList.remove('on'), 1600);
+  });
+});
+</script>
+</body>
+</html>
