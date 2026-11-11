@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f6b5c">
+<title>西学中题库 · 四科答题入口</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --paper:#f6f3ec;--card:#fffdf8;--ink:#1b2422;--ink2:#3f4c48;--mut:#8b9793;
+  --line:rgba(27,36,34,.09);
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 48px}
+
+.hero{
+  position:relative;overflow:hidden;margin:0 -16px;
+  padding:calc(34px + env(safe-area-inset-top)) 22px 52px;
+  background:linear-gradient(158deg,#0f6b5c,#2aa593);color:#fff;
+  border-radius:0 0 30px 30px;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(58% 70% at 90% 6%,rgba(255,255,255,.22),transparent 62%),
+             radial-gradient(46% 60% at 2% 98%,rgba(0,0,0,.15),transparent 60%);
+}
+.hero::after{
+  content:"";position:absolute;right:-54px;top:-58px;width:200px;height:200px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 24px rgba(255,255,255,.05),0 0 0 50px rgba(255,255,255,.032);
+}
+.hero .k{position:relative;font-size:11.5px;letter-spacing:2.2px;opacity:.85;font-weight:500}
+.hero h1{position:relative;font-size:27px;font-weight:800;letter-spacing:1.4px;margin-top:12px;line-height:1.3}
+.hero p{position:relative;font-size:13px;opacity:.84;margin-top:10px;letter-spacing:.4px;line-height:1.7}
+.hero .meta{position:relative;display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.hero .meta span{font-size:11.5px;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);letter-spacing:.3px}
+
+.grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:-26px;position:relative;z-index:2}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:18px 18px 16px;box-shadow:0 8px 26px rgba(27,36,34,.08);
+  position:relative;overflow:hidden;
+  transition:transform .16s,box-shadow .2s;
+}
+.card:active{transform:scale(.99)}
+.card::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,var(--c1),var(--c2))}
+.ctop{display:flex;align-items:flex-start;gap:14px}
+.cinfo{flex:1;min-width:0;padding-top:4px}
+.cinfo h2{font-size:19px;font-weight:800;letter-spacing:1.1px;color:var(--c1)}
+.cinfo .py{font-size:10px;letter-spacing:1.6px;color:var(--mut);margin-top:4px;text-transform:uppercase}
+.cinfo .nm{display:flex;gap:6px;margin-top:11px;flex-wrap:wrap}
+.cinfo .nm span{font-size:10.5px;padding:3px 8px;border-radius:6px;background:rgba(27,36,34,.05);color:var(--ink2);letter-spacing:.2px}
+.cqr{flex:0 0 auto;width:96px;height:96px;border-radius:10px;overflow:hidden;background:#fff;border:1px solid var(--line);padding:4px}
+.cqr img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.ctip{font-size:11px;color:var(--mut);margin-top:13px;letter-spacing:.2px;line-height:1.6}
+.go{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:13px;height:42px;border-radius:12px;width:100%;
+  background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;
+  font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;
+  box-shadow:0 8px 18px -9px var(--c1);
+}
+.go:active{opacity:.9}
+.go svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+.note{margin-top:22px;padding:16px 18px;border-radius:16px;background:rgba(255,253,248,.7);border:1px dashed rgba(27,36,34,.14)}
+.note h3{font-size:12.5px;letter-spacing:1px;color:var(--ink);margin-bottom:9px;font-weight:700}
+.note li{font-size:12px;color:var(--ink2);line-height:2;list-style:none;padding-left:13px;position:relative}
+.note li::before{content:"";position:absolute;left:0;top:11px;width:4px;height:4px;border-radius:50%;background:var(--mut)}
+.foot{margin-top:26px;text-align:center;font-size:11px;color:var(--mut);line-height:2;letter-spacing:.4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="k">福建中医药大学 · 骨干西学中培训</div>
+    <h1>西学中题库<br>四科答题入口</h1>
+    <p>扫码或点击进入，题目与解析均离线可用<br>自动记录进度、错题与章节掌握度</p>
+    <div class="meta"><span id="mTotal">1596 题</span><span>单选 + 多选</span><span>附完整解析</span></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="note">
+    <h3>使用说明</h3>
+    <ul>
+      <li>扫码后页面可离线打开，进度存在本机浏览器</li>
+      <li>错题答对后自动移出错题本，可反复刷</li>
+      <li>模拟考试 100 题、限时 90 分钟，交卷后统一判分</li>
+    </ul>
+  </div>
+
+  <div class="foot">题库来源 · 福建中医药大学骨干西学中题库<br>仅供学习使用</div>
+</div>
+
+<script>
+var CARDS = [{"slug": "jichu", "name": "中医基础理论", "py": "Zhongyi Jichu Lilun", "c1": "#0f6b5c", "c2": "#2aa593", "n": 400, "single": 300, "multi": 100, "qr": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFN0lEQVR42u3dQYpUSxCG0b/ELTgV3P+iBKcu4roCkSsZNyKqzhm/13SV/ZEJQWa+rusK8KwvvgIQHggPEB4IDxAeCA8QHggPEB4ID4QHCA+EBwgPtvl693/49uP7ig/2++ev0s916udP+zl3P2/X97b9782KB7aaIDxAeCA8QHggPCCH53g5NMc45dSc59Scastc9O7nnTaH3P73ZsUDW00QHiA8EB4gPBAekIfmeGmas3X9PtXzqC3zw+rzeNv/3qx4YKsJwgOEB8IDhAfCAzJ0jrfFqXNld+d7XfO0rvOKp+afVjxAeCA8QHggPBAeIDyIOR55/r24rnfwTs3fzOuseCA8QHggPBAeIDwQHpDRc7wtc5uueyy3vC9X/W7ep/29WfFAeCA8QHggPEB4IDwgD83xqudgGXa+btp/3zVv7LpXc/vfmxUPhAfCA4QHwgOEB8ID/uF1XddHfeCuOVLXubtpPwcrHggPhAcID4QHCA+EB6Rkjjft/FiK52bTzvV1/T7Tvrft93Na8cBWE4QHCA+EBwgPhAfk8L2a1fONLfdPVs/HttyrWf09TJsHnvpcVjyw1QThAcID4QHCA+EBOTzHq75Psno+03X+bdo7dVveu6v+OV1/z1Y8sNUE4QHCA+EBwgPhAWl+H+/UXOXT3q/r+j2r54Fb7vlM8fzWige2miA8QHggPEB4IDwgD72PlyX3Ina9s1d9n+S7zs265qLV81UrHthqgvAA4YHwAOGB8IAMneN1vavWdX/m9vnnlnsys+S+TSse2GqC8ADhgfAA4YHwgBx+Hy/L36/b8l5cmt4t/NvPufu5quecXd+z9/HAVhMQHggPEB4ID4QHZNkcL0vut0zTea003Z857fNWf29b5oFWPLDVBOEBwgPhAcID4QE5fK9mPuwcWvW5rGnfw7S53LveF2rFA1tNEB4gPBAeIDwQHpDmOV6G3Wc47Z207XOz6ncOp81pzfHAVhMQHggPEB4ID4QHZOgcr2sesuX81bQ5Ydfv7xymFQ9sNQHhgfBAeIDwQHhAHn0fr+s+yWn3WKbpHGD13GzLe4AZdo7Rige2moDwQHggPEB4IDwgzXO8rnN0XecAp821us7Rdd1r6n08wFYThAcID4QHCA+EBzHHyzu9O7flfsgsOTfY9Y5c9b9L17+7FQ9sNUF4gPBAeIDwQHhAHprjdc1V7s6dps0bu2z5PtM0n6ye71nxwFYThAcID4QHCA+EB+ShOV6a5iHT7l2s/h667s+snr9VzxW77i+14oGtJggPEB4IDxAeCA/4T6/ruuL+zGTaucSuey/TNC/NsHOJ3scDW01AeCA8QHggPEB4kGXn8e7OK6rnWtt//rTzbFvmaVn+LqIVD2w1QXiA8EB4gPBAeEAOz/G2z4XuznOq50LTzgdO+/ftmrN5Hw9sNQHhgfAA4YHwAOFB3uR9vK5za9Xvp506f9h1TmzL+3hd5/S8jwe2moDwQHiA8EB4gPAgbz7HS/H5ri33W2b5u21d88lpc8Lq38eKB7aaIDxAeCA8QHggPCDNc7ztqu/JfNd7O7vmt9O+Hyse2GqC8ADhgfAA4YHwgJjj5RPmUfmwd+S67kG14oGtJiA8EB4gPBAeIDxo9rquKxvmRVt+ny33jnadWzv186e9Q2jFA1tNQHggPBAeIDwQHpCh5/G67ifsuiezei60/X286r+T6u+5+vu04oGtJggPEB4IDxAeCA/I4fN4gBUPhAcID4QHCA+EB8IDhAfCA4QHwgOEB8IDhAfCgw/0B1HPGHiMF8EwAAAAAElFTkSuQmCC", "url": "https://niuontheway-ops.github.io/qr-hub/ximing/jichu.html"}, {"slug": "zhenduan", "name": "中医诊断学", "py": "Zhongyi Zhenduanxue", "c1": "#a4432a", "c2": "#cf6b4a", "n": 400, "single": 300, "multi": 100, "qr": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFSUlEQVR42u3dQaobOxCG0d8hW8g0kP0vKpBpFtFZwSU0qFxV7nPGeX6+tj/UUEh6XdcV4L2++QhAeCA8QHggPEB4IDxAeCA8QHggPBAeIDwQHiA82Ob73f/gx6+fK/6wv7//jHo/X31ud99n9evc/TxPvc7Tfm9WPPCoCcIDhAfCA4QHwgNyeI6XYXOz6jnPqTnVqTlY9ff11fuZNofc/nuz4oFHTRAeIDwQHiA8EB6QN83xUjz3ODW3mba/q3q+t2XO+am/NyseeNQE4QHCA+EBwgPhARk6x9uua9/aqfdz6t/n0Nys+vOx4gHCA+GB8ADhgfAA4UHM8R7h1HwsTfO6rv115nVWPBAeIDwQHggPEB4ID8joOZ65TVrngdX77qbN67b83qx4IDwQHiA8EB4gPBAekDfN8abdO5dh99RVn4e5Zd7YdZ6nFQ8QHggPhAcID4QHCA+WeV3XFfviMm5/V/X5lrHf0ooHwgOEB8IDhAfCA4QH+aQ53rT9Yzk0X/rU91l9f13XfsXt53Na8cCjJggPEB4IDxAeCA/I4XM1u86HfNq5i11zp7vfY/WccNo88NTfZcUDj5ogPEB4IDxAeCA8IEP343XNnbLkHrk07RPr+n67Xqfr92PFA4+aIDxAeCA8QHggPCCH9+OlaX/U3f1gWXIO5LTzJLfPx05979X7Ra144FEThAcID4QHCA+EB+TwfrwMmyNl+fmW2/ehVX8v0+4PNMcDj5qA8EB4gPBAeCA8IMvmeF1zti339eVh53l+6nmb5njgURMQHggPEB4ID4QHZNm5ml33tnXtB5t271/1PrS776d6H13XuZ2nXt+KBx41QXiA8EB4gPBAeEAeuh9v2v14XedDVn+P087h3DKXtuKBR00QHiA8EB4gPBAekMP78bafn1k9z+naD3Zq/rblfrzt54Va8cCjJggPEB4IDxAeCA/Im87VzLB9U9XnTG7/99PeZ4r3B576HKx44FETEB4IDxAeCA+EB2TouZpb9l9Vv071fq2u1+ma16Xp/M+u80uteOBRE4QHCA+EBwgPhAek+X68afuvsuRcx6750vb7+rLk3jwrHnjUBOEBwgPhAcID4QFp3o/XNc/pmh+6V3DmvNf9eIDwQHggPEB4IDxAeJCH3o/Xta+s65zJaXOkrn/fdT9e9XzY/XjgURMQHggPEB4IDxAe5EPmeFkyp+raz3bq7+raX3d3nll9Hmn1fs7qz9OKBx41QXiA8EB4gPBAeECa53in5iFd+7iq52ld9+xV7zfr2s857T49Kx4ID4QHCA+EBwgPhAdk6Bwvw/ZZbZnXbX+daed/Vv9d7scDj5qA8EB4IDxAeCA8IM1zvOp9dF379Lact5mmOWeGnb+6ff+kFQ88aoLwAOGB8ADhgfCAHJ7jbZ8LVZ+rOe18yK45Z4adyzrt/2vFA4+aIDxAeCA8QHggPCBvOlez6761rvlY17xryxxyyz69rvsGrXjgUROEBwgPhAcID4QHpPl+vK59ZVt0zammnSM6bU5Y/X6seOBRE4QHCA+EBwgPhAekeY6X5fO06n1cXfe5bbmXr3r/Ydf80IoHwgPhAcID4QHCA+EBMcfLhP1yXfOo7ffInZqjTtvnacUD4YHwAOGB8ADhgfCANM/xpp2HeWqeVv1+qud11fvWql+/er9i9e/WigceNUF4gPBAeIDwQHjAf7yu68qkuVaG3eeW4v1p0+Zy0+ac0+4bPPX6VjzwqAnCA4QHwgOEB8IDcniOB1jxQHiA8EB4gPBAeCA8QHggPEB4IDxAeCA8QHggPHigf42d/rkMM0pHAAAAAElFTkSuQmCC", "url": "https://niuontheway-ops.github.io/qr-hub/ximing/zhenduan.html"}, {"slug": "zhongyao", "name": "中药学", "py": "Zhongyaoxue", "c1": "#3d7a3f", "c2": "#63a05f", "n": 400, "single": 300, "multi": 100, "qr": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFL0lEQVR42u3dQYocORCG0b+Nr+Ctwfc/lMFbHyJ9Ai8SFBkRWe+tZ2qqe/pDgkDS13VdAZ71za8AhAfCA4QHwgOEB8IDhAfCA4QHwgPhAcID4QHCg22+3/0Xfvz6ueIH+/v7z6jv87/f293vWf05d3+fpz7n0/7erHhgqwnCA4QHwgOEB8IDcniOl2Fzs+o5z6k51ak52Kn53t3vM20Ouf3vzYoHtpogPEB4IDxAeCA8IA/N8VI89zg1tzk1R0rx/HPLObfq77n9782KB7aaIDxAeCA8QHggPCBD53hb3J3vVZ9by6G5X/U5t7tzs2lzVCseCA8QHggPEB4IDxAexBzvVarvyaye16Xp3bxPm9dZ8UB4IDxAeCA8QHggPCBD53jb5zZd78J1vZt393O23FNqxQOEB8ID4QHCA+EBwoN86Bzv1Nwpztc98n265o3Vc0UrHiA8EB4IDxAeCA8QHrzE13Vd8Q5exp3vqr7fMs5bWvFAeIDwQHiA8EB4gPAgb5rjTTs/lkPzpa652bTv2XUubvvfjxUPbDUB4YHwQHiA8EB4QJrv1ey6H3LavGv7vY6n5rTVc8Jp88BTP5cVD2w1QXiA8EB4gPBAeECa79XsOr93au437V27LT9X9ffs+nmteGCrCQgPhAcID4QHwgPy8vfxut6pq57bTLv3csv3n3bPZ4rnq1Y8sNUE4QHCA+EBwgPhATl8r2aa7mPsmtt0vf+25RzatP9fW97ls+KBrSYIDxAeCA8QHggPyENzvCyfj017z63rntJp7+N1zYeteGCrCQgPhAcID4QHCA/ifbyV9yV23c95ak5V/TnmulY8sNUEhAfCA+EBwgPhARkxx5s2R+qag2XJ+4HVc7Mt92p2/f+14oGtJggPEB4IDxAeCA/I4Xs1T81hts/rpt3D+da53Jaf9+7nWPHAVhOEBwgPhAcID4QH5PAcb9r7Y1vO9U3759N0z2f1nPDu9+max1rxwFYThAcID4QHCA+EB2Toebw0vb837ft3nffb8o5c9Vyua75nxQNbTRAeIDwQHiA8EB6Qh97Hy7B34arvXZz2ft329/q2zI3N8cBWExAeCA8QHggPhAdk6Byv+pzStHsmp/1cWXLer/rvx/t4gK0mCA8QHggPhAcID2KOl0+Yg3WdH+uaX2XJvaDb58ZWPLDVBOEBwgPhAcID4QFZdh6veh5Vfa4sS84ZTptPTjtH515NsNUEhAfCA4QHwgOEB0N9z/L51ZZzfZ92f2bXO4TTzita8UB4IDxAeCA8QHggPCBD53gZNif8tPNsXZ9TPX/rmn+6VxNsNQHhgfAA4YHwQHhAhs7x7s4rpv3z28/7Vc8PM+w83pb7S614YKsJCA+EB8IDhAfCA9I8x9s+F9pyf+b2d+TSdN5yy3/Xige2miA8QHggPEB4IDwgD92r2fXe2qn5WPW9kVt+z13nBrvO6XW9N2jFA1tNEB4gPBAeIDwQHpDm9/G6zpWlaa61ZZ556v7St85Fq7+PFQ9sNUF4gPBAeIDwQHhAmud4b9X1Lt+Wudm0e0GnnTO04oHwQHiA8EB4gPBAeEDM8bLxPbdT86jt78h1nTO04oGtJiA8EB4gPBAeIDxo9nVdVybNbbJkjrTlPF6GnVs79fnV93xW/z1b8cBWE4QHCA+EBwgPhAfkoTleltx7WT0Hm/Z9pv0ept132jUftuKBrSYIDxAeCA8QHggPyOE5HmDFA+EBwgPhAcID4YHwAOGB8ADhgfAA4YHwAOGB8OAD/QN64yAQEEH91QAAAABJRU5ErkJggg==", "url": "https://niuontheway-ops.github.io/qr-hub/ximing/zhongyao.html"}, {"slug": "fangji", "name": "方剂学", "py": "Fangjixue", "c1": "#31527e", "c2": "#4f78ab", "n": 396, "single": 300, "multi": 96, "qr": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFRklEQVR42u3dwY0TQRCG0X8RKXBFIv+gkLgSxBDBgoy6pqrG752Xxfb6U49U6u6P67oC3OuLjwCEB8IDhAfCA4QHwgOEB8IDhAfCA+EBwgPhAcKDbb6++g++/fi+4o39/vmr9H1N+/1P9dTvmxUPPGqC8ADhgfAA4YHwgBye42XY3OnVOc9nP//Z6z81Rzr1+VS/nlc/n1Ov/9Xfv+X7ZsUDj5ogPEB4IDxAeCA8IM1zvDTNndK0z+rUPKprLndq/jnt77jldVrxwKMmCA8QHggPEB4ID0jzHC9vdq5j9X6zV+dyXfsMT71OKx4gPBAeIDwQHiA8EB7EHO8tnJprTdtXVj2v237+qhUPEB4ID4QHCA+EBwgPYo6XJ81tTp2rWf3zW96X75sVD4QHwgOEB8IDhAfCA3LrHG/avq9T515u//ntn//275sVD4QHwgOEB8IDhAfCA/7Tx3Vdcd9dyvetbT9X03mYVjwQHiA8EB4gPBAeCA/I6DnetP1gW/azde1Dm3aPX5rOz5w2z7TigUdNEB4gPBAeIDwQHpDm/Xhdc7bquc20+VXXeZ7T9vVteZ1WPPCoCcIDhAfCA4QHwgNy+H68rvnVlvMwu+Z+2+/re+rfxYoHHjVBeIDwQHiA8EB4QB6yH2/L//vUe+e65nJd+wPTdM6nFQ88aoLwAOGB8ADhgfCA3LQf77M5xqk5TPU8Z9q9f9vvA5y238+KBwgPhAfCA4QHwgOEB3n4frzt50NmyX6tDLsvruv80q7zVE/9v1Y88KgJwgOEB8IDhAfCA3LTfrzqcylfnZ9MO9/y1Puq3pfYNU+bdu9i1/fEigceNUF4gPBAeIDwQHhAbrofr2tONe3czup75PLQe/C65qtd+wyteOBRE4QHCA+EBwgPhAek+X68rv142+9Pm3Z+5rTXM20fphUPPGoCwgPhgfAA4YHwgDTP8fJm+/HSNP/Zfs5k136/U3Pj6r+vFQ88aoLwAOGB8ADhgfCA3DTHS9M9aV3nZ6Z4H+O73Uf3bvswrXggPBAeIDwQHiA8EB6Qw/fjTZv/TLsfb9o+t+p517TfX/33OvW+rHjgUROEBwgPhAcID4QH5PAcL8vnLdP2xVV/nl3zva5zMrv2i776e6x44FEThAcID4QHCA+EB+TwuZpd5x9u35fVta+v67zQrnsFq+e69uOBR01AeCA8QHggPBAekGXnak47lzJN++Wmzf2m/b9PfV9WPPCoCQgPhAfCA4QHwgPSvB8vS84tzLB73rbcj7dl7jdtf6NzNcGjJiA8EB4IDxAeCA/I0P14Gbb/LUv26XWdPzltXpo3mydb8cCjJggPEB4IDxAeCA/I4Tnedl37x7acO5qHnnfatb/RigceNUF4gPBAeIDwQHhAbjpXc8vcqfrcyK550bRzOKu/D089Z9WKBx41QXiA8EB4gPBAeEBuuh+v6x65Lec0Vu/3y7B56bTzRbvOg7XigUdNEB4gPBAeIDwQHpDmOV6W3xe3ZS5Ufd5j9T1yr+5vzJI5pHM1waMmIDwQHggPEB4ID8iyOV6W35t3aq6VYXPOU3Oqrv141eeOWvHAoyYgPBAeIDwQHiA8iDleNs73Ujwn3HIPYZacFzrt87figUdNEB4gPBAeIDwQHpDmOd608zC7zqt86v14XfO37X9fKx541AThAcID4QHCA+EBuWmOt2X/WPXcpvq8x1M/3zVfrf6enLoPsPp7YsUDj5ogPEB4IDxAeCA84B8+ruvyKYAVD4QHCA+EBwgPhAcID4QHwvMRgPBAeIDwQHiA8EB4wN/9ATEjzAc4XNEsAAAAAElFTkSuQmCC", "url": "https://niuontheway-ops.github.io/qr-hub/ximing/fangji.html"}];
+var grid = document.getElementById('grid');
+CARDS.forEach(function(c){
+  var a = document.createElement('div');
+  a.className = 'card';
+  a.style.setProperty('--c1', c.c1);
+  a.style.setProperty('--c2', c.c2);
+  a.innerHTML =
+    '<div class="ctop">' +
+      '<div class="cinfo"><h2></h2><div class="py"></div>' +
+        '<div class="nm"><span></span><span></span><span>附解析</span></div></div>' +
+      '<div class="cqr"><img alt="二维码"></div>' +
+    '</div>' +
+    '<div class="ctip"></div>' +
+    '<a class="go"><span>进入答题</span><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>';
+  a.querySelector('h2').textContent = c.name;
+  a.querySelector('.py').textContent = c.py;
+  var sp = a.querySelectorAll('.nm span');
+  sp[0].textContent = '共 ' + c.n + ' 题';
+  sp[1].textContent = '单选 ' + c.single + ' / 多选 ' + c.multi;
+  a.querySelector('.cqr img').src = c.qr;
+  a.querySelector('.ctip').textContent = '长按二维码可保存 · 扫码直达该科答题页';
+  a.querySelector('.go').href = c.slug + '.html';
+  grid.appendChild(a);
+});
+</script>
+</body>
+</html>

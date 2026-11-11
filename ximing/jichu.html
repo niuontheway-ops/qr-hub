@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0f6b5c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>中医基础理论 · 西学中题库</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --c1:#0f6b5c;
+  --c2:#2aa593;
+  --paper:#f6f3ec;
+  --card:#fffdf8;
+  --ink:#1b2422;
+  --ink2:#3f4c48;
+  --mut:#8b9793;
+  --line:rgba(27,36,34,.09);
+  --ok:#2e8f63;
+  --okbg:#e8f5ee;
+  --no:#c5463a;
+  --nobg:#fbe9e6;
+  --r:16px;
+  --sh:0 2px 10px rgba(27,36,34,.05);
+  --sh2:0 8px 28px rgba(27,36,34,.10);
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--paper);color:var(--ink);
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+#app{max-width:720px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
+.screen{display:none}
+.screen.on{display:block;animation:fade .28s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+/* ============ 首页 ============ */
+.hero{
+  position:relative;overflow:hidden;
+  padding:calc(18px + env(safe-area-inset-top)) 20px 44px;
+  background:linear-gradient(158deg,var(--c1) 0%,var(--c2) 100%);
+  color:#fff;border-radius:0 0 30px 30px;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(60% 70% at 88% 8%,rgba(255,255,255,.22),transparent 62%),
+    radial-gradient(50% 60% at 4% 96%,rgba(0,0,0,.16),transparent 60%);
+}
+.hero::after{
+  content:"";position:absolute;right:-46px;top:-52px;width:190px;height:190px;
+  border-radius:50%;border:1px solid rgba(255,255,255,.20);
+  box-shadow:0 0 0 22px rgba(255,255,255,.05),0 0 0 46px rgba(255,255,255,.035);
+}
+.htop{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brandline{font-size:11.5px;letter-spacing:1.6px;opacity:.84;font-weight:500}
+.qrbtn{
+  width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(4px);transition:transform .16s,background .16s;
+}
+.qrbtn:active{transform:scale(.92);background:rgba(255,255,255,.26)}
+.qrbtn svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.7}
+.hname{position:relative;font-size:27px;font-weight:800;letter-spacing:1.5px;margin-top:20px;line-height:1.28}
+.hname small{display:block;font-size:12px;font-weight:500;letter-spacing:2.6px;opacity:.62;margin-top:7px;text-transform:uppercase}
+.hmeta{position:relative;display:flex;align-items:center;gap:9px;margin-top:15px;font-size:12px;opacity:.9;flex-wrap:wrap}
+.hmeta i{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.55);font-style:normal}
+
+.statcard{
+  position:relative;margin:-28px 16px 0;padding:16px 16px 14px;
+  background:var(--card);border-radius:var(--r);box-shadow:var(--sh2);
+  border:1px solid var(--line);
+}
+.statrow{display:flex}
+.st{flex:1;text-align:center;position:relative}
+.st+.st::before{content:"";position:absolute;left:0;top:14%;height:72%;width:1px;background:var(--line)}
+.st b{display:block;font-size:21px;font-weight:800;letter-spacing:.4px;font-variant-numeric:tabular-nums}
+.st span{font-size:11.5px;color:var(--mut);letter-spacing:.6px}
+.pbar{height:5px;border-radius:4px;background:rgba(27,36,34,.07);margin-top:14px;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--c2),var(--c1));transition:width .6s cubic-bezier(.2,.8,.3,1)}
+
+.cta{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin:14px 16px 0;padding:16px 18px;width:calc(100% - 32px);
+  background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;
+  border-radius:var(--r);box-shadow:0 10px 24px -10px var(--c1);
+  transition:transform .14s ease;
+}
+.cta:active{transform:scale(.985)}
+.cta span{font-size:16px;font-weight:700;letter-spacing:.6px}
+.cta em{font-style:normal;font-size:12px;opacity:.8;font-weight:400}
+.cta .arw{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;opacity:.85;flex:0 0 auto}
+
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:26px 20px 11px}
+.sec h2{font-size:14px;font-weight:700;letter-spacing:1.1px;color:var(--ink)}
+.sec .hint{font-size:11.5px;color:var(--mut)}
+
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+.mode{
+  display:flex;align-items:center;gap:11px;padding:15px 13px;min-height:74px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  text-align:left;box-shadow:var(--sh);transition:transform .14s,border-color .18s,box-shadow .18s;
+}
+.mode:active{transform:scale(.97)}
+.mode .ic{
+  flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--c1) 10%,transparent);
+}
+.mode .ic svg{width:17px;height:17px;stroke:var(--c1);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.mode b{display:block;font-size:14.5px;font-weight:700;letter-spacing:.3px;line-height:1.35}
+.mode span{display:block;font-size:11px;color:var(--mut);margin-top:2px;letter-spacing:.2px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px}
+.chip{
+  padding:8px 13px;border-radius:10px;background:var(--card);border:1px solid var(--line);
+  font-size:12.5px;color:var(--ink2);display:inline-flex;align-items:center;gap:6px;
+  transition:transform .14s,border-color .16s,color .16s;
+}
+.chip:active{transform:scale(.95)}
+.chip b{font-weight:700;font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+.chip.hot{border-color:color-mix(in srgb,var(--c1) 34%,transparent);color:var(--c1);background:color-mix(in srgb,var(--c1) 6%,var(--card))}
+.chip.hot b{color:var(--c2)}
+
+.foot{padding:28px 20px calc(38px + env(safe-area-inset-bottom))}
+.switch{display:flex;align-items:center;gap:10px;padding:13px 15px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:13px;color:var(--ink2)}
+.switch input{display:none}
+.switch i{position:relative;width:38px;height:22px;border-radius:20px;background:rgba(27,36,34,.14);flex:0 0 auto;transition:background .2s}
+.switch i::after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.switch input:checked+i{background:var(--c1)}
+.switch input:checked+i::after{transform:translateX(16px)}
+.brand{margin-top:22px;text-align:center;font-size:11px;color:var(--mut);letter-spacing:.6px;line-height:1.9}
+
+/* ============ 答题页 ============ */
+#quiz{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.tbar{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:10px;
+  padding:calc(10px + env(safe-area-inset-top)) 12px 10px;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+}
+.ibtn{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;transition:background .16s,transform .14s;flex:0 0 auto}
+.ibtn:active{transform:scale(.9);background:rgba(27,36,34,.06)}
+.ibtn svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tprog{flex:1;min-width:0}
+.tprog .t1{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-bottom:5px;font-variant-numeric:tabular-nums}
+.tprog .t1 b{color:var(--ink);font-weight:700}
+.tline{height:4px;border-radius:3px;background:rgba(27,36,34,.08);overflow:hidden}
+.tline i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c2),var(--c1));border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.3,1)}
+.timer{font-size:12px;font-weight:700;color:var(--c1);font-variant-numeric:tabular-nums;letter-spacing:.5px;padding:5px 9px;border-radius:8px;background:color-mix(in srgb,var(--c1) 9%,transparent);flex:0 0 auto}
+.timer.warn{color:var(--no);background:var(--nobg);animation:blink 1.1s infinite}
+@keyframes blink{50%{opacity:.45}}
+
+.qwrap{padding:18px 16px 0}
+.qcard{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:18px 17px 16px;box-shadow:var(--sh);
+}
+.qcard.cin{animation:cin .3s cubic-bezier(.2,.85,.3,1)}
+@keyframes cin{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.qcard.cin.rev{animation-direction:reverse}
+.qhead{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.8px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb,var(--c1) 11%,transparent);color:var(--c1)}
+.tag.multi{background:rgba(160,120,40,.11);color:#9a7328}
+.kptag{font-size:10.5px;letter-spacing:.3px;padding:3px 8px;border-radius:6px;background:rgba(27,36,34,.05);color:var(--mut);max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qnum{margin-left:auto;font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+.stem{font-size:16.5px;line-height:1.78;letter-spacing:.2px;color:var(--ink);font-weight:500;word-break:break-word}
+.opts{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.opt{
+  display:flex;align-items:flex-start;gap:11px;width:100%;text-align:left;
+  padding:12px 13px;background:#fff;border:1.4px solid var(--line);border-radius:13px;
+  transition:border-color .16s,background .16s,transform .12s,box-shadow .16s;
+  position:relative;
+}
+.opt:active{transform:scale(.988)}
+.ob{
+  flex:0 0 auto;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;
+  font-size:12px;font-weight:700;color:var(--mut);background:rgba(27,36,34,.05);
+  transition:background .16s,color .16s,transform .16s;margin-top:1px;
+}
+.ot{font-size:15px;line-height:1.6;color:var(--ink2);letter-spacing:.2px;word-break:break-word}
+.opt.sel{border-color:var(--c1);background:color-mix(in srgb,var(--c1) 5%,#fff)}
+.opt.sel .ob{background:var(--c1);color:#fff}
+.opt.sel .ot{color:var(--ink)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.right .ob{background:var(--ok);color:#fff;animation:pop .3s cubic-bezier(.2,1.4,.4,1)}
+.opt.right .ot{color:#1e6b47;font-weight:600}
+.opt.bad{border-color:var(--no);background:var(--nobg);animation:shake .32s}
+.opt.bad .ob{background:var(--no);color:#fff}
+.opt.bad .ot{color:#9c3428}
+.opt.dim{opacity:.55}
+.opt.lock{cursor:default}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}22%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
+.opt .mk{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:15px;font-weight:800;opacity:0}
+.opt.right .mk{opacity:1;color:var(--ok);animation:pop .34s .05s both}
+.opt.bad .mk{opacity:1;color:var(--no)}
+
+.exp{
+  margin-top:14px;border-radius:14px;padding:0 14px;
+  background:color-mix(in srgb,var(--c1) 5%,#fff);
+  border:1px solid color-mix(in srgb,var(--c1) 15%,transparent);
+  max-height:0;overflow:hidden;opacity:0;padding-top:0;padding-bottom:0;
+  transition:max-height .34s cubic-bezier(.2,.85,.3,1),opacity .26s,padding .3s;
+}
+.exp.on{max-height:1400px;opacity:1;padding-top:13px;padding-bottom:13px;margin-top:15px}
+.exphead{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+.exphead .lbl{font-size:11px;color:var(--mut);letter-spacing:.6px}
+.exphead .ans{font-size:15px;font-weight:800;color:var(--c1);letter-spacing:1px}
+.exphead .verd{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px}
+.verd.ok{color:var(--ok);background:var(--okbg)}
+.verd.no{color:var(--no);background:var(--nobg)}
+.exptxt{font-size:14px;line-height:1.85;color:var(--ink2);letter-spacing:.2px;word-break:break-word;white-space:pre-wrap}
+.expfoot{display:flex;align-items:center;gap:8px;margin-top:11px;padding-top:10px;border-top:1px dashed color-mix(in srgb,var(--c1) 18%,transparent);font-size:11px;color:var(--mut)}
+
+.qfoot{
+  position:fixed;left:0;right:0;bottom:0;z-index:22;
+  max-width:720px;margin:0 auto;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  display:flex;gap:9px;
+}
+.fbtn{
+  flex:1;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;gap:7px;
+  font-size:15px;font-weight:700;letter-spacing:.6px;transition:transform .14s,opacity .2s,background .2s;
+}
+.fbtn:active{transform:scale(.98)}
+.fbtn.pri{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 8px 18px -8px var(--c1)}
+.fbtn.gh{background:rgba(27,36,34,.06);color:var(--ink2);flex:0 0 88px}
+.fbtn[disabled]{opacity:.38;box-shadow:none}
+.fbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ 答题卡 / 弹层 ============ */
+.mask{
+  position:fixed;inset:0;z-index:40;background:rgba(18,26,24,.42);
+  opacity:0;pointer-events:none;transition:opacity .26s;backdrop-filter:blur(2px);
+}
+.mask.on{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:41;max-width:720px;margin:0 auto;
+  background:var(--card);border-radius:22px 22px 0 0;
+  transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.85,.3,1);
+  padding-bottom:env(safe-area-inset-bottom);max-height:82vh;display:flex;flex-direction:column;
+}
+.sheet.on{transform:none}
+.shead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px;flex:0 0 auto}
+.shead h3{font-size:15px;font-weight:700;letter-spacing:.6px}
+.shead .cbtn{font-size:12.5px;color:var(--mut);padding:5px 9px;border-radius:8px}
+.sfilters{display:flex;gap:7px;padding:0 18px 12px;flex:0 0 auto}
+.sf{font-size:12px;padding:6px 12px;border-radius:8px;background:rgba(27,36,34,.05);color:var(--ink2);transition:background .16s,color .16s}
+.sf.on{background:var(--c1);color:#fff}
+.grid{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:8px;
+  padding:4px 18px 22px;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;
+}
+.gi{
+  aspect-ratio:1;border-radius:9px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:700;color:var(--ink2);
+  background:rgba(27,36,34,.055);transition:transform .12s,background .16s;font-variant-numeric:tabular-nums;
+}
+.gi:active{transform:scale(.9)}
+.gi.ok{background:var(--okbg);color:var(--ok)}
+.gi.no{background:var(--nobg);color:var(--no)}
+.gi.did{background:color-mix(in srgb,var(--c1) 12%,transparent);color:var(--c1)}
+.gi.cur{box-shadow:0 0 0 2px var(--c1);color:var(--c1);font-weight:800}
+.gi.none{opacity:.35;pointer-events:none}
+.legend{display:flex;gap:14px;padding:0 18px 16px;font-size:11px;color:var(--mut);flex-wrap:wrap;flex:0 0 auto}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+
+/* 二维码弹层 */
+.qrmask{position:fixed;inset:0;z-index:60;background:rgba(18,26,24,.55);backdrop-filter:blur(6px);display:none;place-items:center;padding:24px}
+.qrmask.on{display:grid;animation:fade .22s}
+.qrbox{background:var(--card);border-radius:22px;padding:22px 22px 18px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);max-width:320px;width:100%;animation:up .3s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{transform:translateY(18px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.qrbox h4{font-size:15px;font-weight:700;letter-spacing:.8px;margin-bottom:3px}
+.qrbox p{font-size:11.5px;color:var(--mut);margin-bottom:14px}
+.qrbox img{width:100%;max-width:220px;border-radius:10px;display:block;margin:0 auto}
+.qrbox .url{margin-top:12px;font-size:10.5px;color:var(--mut);word-break:break-all;line-height:1.6;background:rgba(27,36,34,.04);padding:7px 9px;border-radius:8px;font-family:ui-monospace,Menlo,monospace}
+.qrbox .cbtn2{margin-top:12px;width:100%;height:42px;border-radius:11px;background:var(--c1);color:#fff;font-size:14px;font-weight:700;letter-spacing:.6px}
+.qrbox .close{margin-top:9px;font-size:12px;color:var(--mut);padding:6px}
+
+/* ============ 结果页 ============ */
+#result{padding:calc(24px + env(safe-area-inset-top)) 0 calc(40px + env(safe-area-inset-bottom))}
+.rhd{text-align:center;padding:12px 24px 4px}
+.rhd .ttl{font-size:12px;letter-spacing:2.4px;color:var(--mut);text-transform:uppercase}
+.ringwrap{position:relative;width:186px;height:186px;margin:18px auto 0}
+.ringwrap svg{transform:rotate(-90deg)}
+.ringwrap .bgc{stroke:rgba(27,36,34,.075);fill:none}
+.ringwrap .fgc{stroke:url(#rg);fill:none;stroke-linecap:round;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.3,1)}
+.ringtxt{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ringtxt b{font-size:42px;font-weight:800;letter-spacing:-1px;line-height:1;font-variant-numeric:tabular-nums}
+.ringtxt b i{font-size:16px;font-weight:600;font-style:normal;color:var(--mut);margin-left:2px}
+.ringtxt span{font-size:11.5px;color:var(--mut);letter-spacing:1.6px;margin-top:8px}
+.rsum{display:flex;justify-content:center;gap:0;margin:22px 16px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 0;box-shadow:var(--sh)}
+.rsum div{flex:1;text-align:center;position:relative}
+.rsum div+div::before{content:"";position:absolute;left:0;top:12%;height:76%;width:1px;background:var(--line)}
+.rsum b{display:block;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.rsum span{font-size:11px;color:var(--mut)}
+.rsum .g{color:var(--ok)}
+.rsum .r{color:var(--no)}
+
+.block{margin:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 15px;box-shadow:var(--sh)}
+.block h5{font-size:12.5px;font-weight:700;letter-spacing:.9px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.block h5::before{content:"";width:3px;height:12px;border-radius:2px;background:var(--c1)}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:flex;align-items:center;gap:9px;font-size:12px}
+.bar .n{width:112px;flex:0 0 auto;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .t{flex:1;height:6px;border-radius:3px;background:rgba(27,36,34,.07);overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--c2),var(--c1));width:0;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.bar .v{width:52px;text-align:right;color:var(--mut);font-variant-numeric:tabular-nums;font-size:11px;flex:0 0 auto}
+.racts{display:flex;flex-direction:column;gap:9px;margin:18px 16px 0}
+.acts{display:flex;gap:9px;margin:18px 16px 0}
+.acts .fbtn{flex:1}
+.empty{text-align:center;color:var(--mut);font-size:13px;padding:28px 0}
+
+.toast{
+  position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,12px);
+  background:rgba(24,32,30,.92);color:#fff;font-size:13px;padding:9px 16px;border-radius:10px;
+  z-index:80;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;white-space:nowrap;
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ================= 首页 ================= -->
+  <section class="screen on" id="home">
+    <div class="hero">
+      <div class="htop">
+        <div class="brandline">福建中医药大学 · 骨干西学中</div>
+        <button class="qrbtn" id="btnQR" aria-label="扫码">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><path d="M14 14h3v3h-3zM20 14v3M17 20h4"/></svg>
+        </button>
+      </div>
+      <h1 class="hname">中医基础理论<small>Zhongyi Jichu Lilun</small></h1>
+      <div class="hmeta"><span>400 题</span><i></i><span>单选 300</span><i></i><span>多选 100</span></div>
+    </div>
+
+    <div class="statcard">
+      <div class="statrow">
+        <div class="st"><b id="stDone">0</b><span>已练习</span></div>
+        <div class="st"><b id="stRate">--</b><span>正确率</span></div>
+        <div class="st"><b id="stWrong">0</b><span>错题</span></div>
+      </div>
+      <div class="pbar"><i id="stBar"></i></div>
+    </div>
+
+    <button class="cta" id="btnGo">
+      <span id="ctaMain">开始练习</span>
+      <em id="ctaSub">从第 1 题开始</em>
+      <svg class="arw" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+    </button>
+
+    <div class="sec"><h2>练习模式</h2></div>
+    <div class="modes" id="modes"></div>
+
+    <div class="sec"><h2>章节专项</h2><span class="hint" id="kpHint"></span></div>
+    <div class="chips" id="chips"></div>
+
+    <div class="foot">
+      <label class="switch"><input type="checkbox" id="autoNext"><i></i><span>答对后自动进入下一题</span></label>
+      <div class="brand">题库来源 · 福建中医药大学骨干西学中培训<br>本页数据保存在本机浏览器，无需联网</div>
+    </div>
+  </section>
+
+  <!-- ================= 答题页 ================= -->
+  <section class="screen" id="quiz">
+    <div class="tbar">
+      <button class="ibtn" id="btnBack" aria-label="返回">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="tprog">
+        <div class="t1"><span id="progTxt">1 / 400</span><span id="progSub">已答 0</span></div>
+        <div class="tline"><i id="progBar"></i></div>
+      </div>
+      <div class="timer" id="timer" style="display:none">00:00</div>
+      <button class="ibtn" id="btnCard" aria-label="答题卡">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>
+      </button>
+    </div>
+    <div class="qwrap">
+      <div class="qcard" id="qcard">
+        <div class="qhead">
+          <span class="tag" id="qtag">单选题</span>
+          <span class="kptag" id="qkp"></span>
+        </div>
+        <div class="stem" id="stem"></div>
+        <div class="opts" id="opts"></div>
+        <div class="exp" id="exp">
+          <div class="exphead">
+            <span class="lbl">正确答案</span>
+            <span class="ans" id="ansTxt"></span>
+            <span class="verd" id="verd"></span>
+          </div>
+          <div class="exptxt" id="expTxt"></div>
+          <div class="expfoot"><span id="expKp"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="qfoot" id="qfoot"></div>
+  </section>
+
+  <!-- ================= 结果页 ================= -->
+  <section class="screen" id="result">
+    <div class="rhd">
+      <div class="ttl" id="rTtl">练习完成</div>
+      <div class="ringwrap">
+        <svg width="186" height="186" viewBox="0 0 186 186">
+          <defs>
+            <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2aa593"/>
+              <stop offset="100%" stop-color="#0f6b5c"/>
+            </linearGradient>
+          </defs>
+          <circle class="bgc" cx="93" cy="93" r="80" stroke-width="12"/>
+          <circle class="fgc" id="ring" cx="93" cy="93" r="80" stroke-width="12"/>
+        </svg>
+        <div class="ringtxt"><b id="rScore">0<i>%</i></b><span id="rLabel">正确率</span></div>
+      </div>
+      <div class="rsum">
+        <div><b class="g" id="rOk">0</b><span>答对</span></div>
+        <div><b class="r" id="rNo">0</b><span>答错</span></div>
+        <div><b id="rTotal">0</b><span>总题数</span></div>
+        <div><b id="rTime">--</b><span>用时</span></div>
+      </div>
+    </div>
+    <div class="block" id="kpBlock">
+      <h5>章节掌握度</h5>
+      <div class="bars" id="kpBars"></div>
+    </div>
+    <div class="racts" id="rActs"></div>
+  </section>
+
+</div>
+
+<div class="mask" id="mask"></div>
+<div class="sheet" id="sheet">
+  <div class="shead"><h3>答题卡</h3>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="cbtn" id="sheetSubmit" style="display:none;background:var(--c1);color:#fff;font-weight:700">交卷</button>
+      <button class="cbtn" id="sheetClose">收起</button>
+    </div>
+  </div>
+  <div class="sfilters">
+    <button class="sf on" data-f="all">全部</button>
+    <button class="sf" data-f="undone">未答</button>
+    <button class="sf" data-f="wrong">做错</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="legend">
+    <span><i style="background:var(--okbg)"></i>正确</span>
+    <span><i style="background:var(--nobg)"></i>错误</span>
+    <span><i style="background:rgba(27,36,34,.055)"></i>未答</span>
+    <span><i style="background:color-mix(in srgb,var(--c1) 12%,transparent)"></i>交卷待判</span>
+  </div>
+</div>
+
+<div class="qrmask" id="qrmask">
+  <div class="qrbox">
+    <h4>中医基础理论</h4>
+    <p>微信／相机扫码，手机直接答题</p>
+    <img id="qrImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFN0lEQVR42u3dQYpUSxCG0b/ELTgV3P+iBKcu4roCkSsZNyKqzhm/13SV/ZEJQWa+rusK8KwvvgIQHggPEB4IDxAeCA8QHggPEB4ID4QHCA+EBwgPtvl693/49uP7ig/2++ev0s916udP+zl3P2/X97b9782KB7aaIDxAeCA8QHggPCCH53g5NMc45dSc59Scastc9O7nnTaH3P73ZsUDW00QHiA8EB4gPBAekIfmeGmas3X9PtXzqC3zw+rzeNv/3qx4YKsJwgOEB8IDhAfCAzJ0jrfFqXNld+d7XfO0rvOKp+afVjxAeCA8QHggPBAeIDyIOR55/r24rnfwTs3fzOuseCA8QHggPBAeIDwQHpDRc7wtc5uueyy3vC9X/W7ep/29WfFAeCA8QHggPEB4IDwgD83xqudgGXa+btp/3zVv7LpXc/vfmxUPhAfCA4QHwgOEB8ID/uF1XddHfeCuOVLXubtpPwcrHggPhAcID4QHCA+EB6Rkjjft/FiK52bTzvV1/T7Tvrft93Na8cBWE4QHCA+EBwgPhAfk8L2a1fONLfdPVs/HttyrWf09TJsHnvpcVjyw1QThAcID4QHCA+EBOTzHq75Psno+03X+bdo7dVveu6v+OV1/z1Y8sNUE4QHCA+EBwgPhAWl+H+/UXOXT3q/r+j2r54Fb7vlM8fzWige2miA8QHggPEB4IDwgD72PlyX3Ina9s1d9n+S7zs265qLV81UrHthqgvAA4YHwAOGB8IAMneN1vavWdX/m9vnnlnsys+S+TSse2GqC8ADhgfAA4YHwgBx+Hy/L36/b8l5cmt4t/NvPufu5quecXd+z9/HAVhMQHggPEB4ID4QHZNkcL0vut0zTea003Z857fNWf29b5oFWPLDVBOEBwgPhAcID4QE5fK9mPuwcWvW5rGnfw7S53LveF2rFA1tNEB4gPBAeIDwQHpDmOV6G3Wc47Z207XOz6ncOp81pzfHAVhMQHggPEB4ID4QHZOgcr2sesuX81bQ5Ydfv7xymFQ9sNQHhgfBAeIDwQHhAHn0fr+s+yWn3WKbpHGD13GzLe4AZdo7Rige2moDwQHggPEB4IDwgzXO8rnN0XecAp821us7Rdd1r6n08wFYThAcID4QHCA+EBzHHyzu9O7flfsgsOTfY9Y5c9b9L17+7FQ9sNUF4gPBAeIDwQHhAHprjdc1V7s6dps0bu2z5PtM0n6ye71nxwFYThAcID4QHCA+EB+ShOV6a5iHT7l2s/h667s+snr9VzxW77i+14oGtJggPEB4IDxAeCA/4T6/ruuL+zGTaucSuey/TNC/NsHOJ3scDW01AeCA8QHggPEB4kGXn8e7OK6rnWtt//rTzbFvmaVn+LqIVD2w1QXiA8EB4gPBAeEAOz/G2z4XuznOq50LTzgdO+/ftmrN5Hw9sNQHhgfAA4YHwAOFB3uR9vK5za9Xvp506f9h1TmzL+3hd5/S8jwe2moDwQHiA8EB4gPAgbz7HS/H5ri33W2b5u21d88lpc8Lq38eKB7aaIDxAeCA8QHggPCDNc7ztqu/JfNd7O7vmt9O+Hyse2GqC8ADhgfAA4YHwgJjj5RPmUfmwd+S67kG14oGtJiA8EB4gPBAeIDxo9rquKxvmRVt+ny33jnadWzv186e9Q2jFA1tNQHggPBAeIDwQHpCh5/G67ifsuiezei60/X286r+T6u+5+vu04oGtJggPEB4IDxAeCA/I4fN4gBUPhAcID4QHCA+EB8IDhAfCA4QHwgOEB8IDhAfCgw/0B1HPGHiMF8EwAAAAAElFTkSuQmCC" alt="答题二维码">
+    <div class="url" id="qrUrl"></div>
+    <button class="cbtn2" id="qrCopy">复制链接</button>
+    <button class="close" id="qrClose">关闭</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+
+var BANK = {"slug":"jichu","name":"中医基础理论","py":"Zhongyi Jichu Lilun","c1":"#0f6b5c","c2":"#2aa593","questions":[{"t":1,"s":"以下属于\"证\"的是（  ）","o":["痢疾","角弓反张","心脉痹阻","恶寒发热","脉象沉迟"],"a":"C","e":"此题产生错误的原因是没有真正理解\"证\"的内涵。对疾病、症状和证候的概念模糊不清。痢疾是中医病名，角弓反张、恶寒发热、脉象沉迟属于症，心脉痹阻属于证。故正确答案为C。","k":"绪论"},{"t":1,"s":"\"旦慧、昼安、夕加、夜甚\"反映的是（  ）","o":["人体自身的完整性","自然环境对人的生理影响","社会环境对人的生理影响","自然环境对人的疾病影响","社会环境对人的疾病影响"],"a":"D","e":"此题产生错误的原因是没有弄清原文的意思。\"旦慧、昼安、夕加、夜甚\"是指昼夜晨昏的变化对人体疾病的影响，而不是对人体生理的影响。故正确答案为D。","k":"绪论"},{"t":2,"s":"中医学的整体观念，主要体现于（  ）","o":["人体自身的整体性","人与自然环境的统一性","人与社会环境的统一性","人与精神情志的统一性","人体是一个不断运动的整体"],"a":"ABC","e":"产生错误的原因：人与精神情志的统一性不是中医学整体观念的体现，故D项是干扰答案，应注意排除。中医学的整体观念主要体现于三个方面，即人体自身、人与自然、人与社会环境的统一性。也可以概括为三个一体，即五脏一体、形神一体、天人一体。故正确答案为ABC。","k":"绪论"},{"t":2,"s":"下列各项，体现人与自然环境的统一性的是（  ）","o":["脉象随季节出现\"春弦、夏洪、秋毛、冬石\"的规律性变化","阳气者，一日而主外，平旦人气生，日中而阳气隆，日西而阳气已虚，气门乃闭","夫百病者，多以旦慧、昼安、夕加、夜甚","春夏养阳，秋冬养阴","冬病夏治，夏病冬治"],"a":"ABCDE","e":"中医学认为人与自然环境息息相关，其统一性可体现在自然环境对人体的生理、病理、疾病防治等各个方面。脉象随季节出现的\"春弦、夏洪、秋毛、冬石\"的规律性变化反映了四季气候对人体生理的影响；\"阳气者，一日而主外，平旦人气生，日中而阳气隆，日西而阳气已虚，气门乃闭\"反映的是昼夜阴阳二气对人体生理的影响；\"夫百病者，多以旦慧、昼安、夕加、夜甚\"反映的是昼夜晨昏的变化对人体疾病病情的影响；\"春夏养阳，秋冬养阴\"说的是人体应顺应自然界阴阳的变化来养生防病；\"冬病夏治，夏病冬治\"说的是在治疗疾病时应根据季节气候的变化。故ABCDE均为正确答案。","k":"绪论"},{"t":2,"s":"相同的疾病而治疗不同，主要是依据（  ）","o":["发病的时间不同","发病的地域不同","疾病的阶段不同","医生的习惯不同","病人的体质不同"],"a":"ABCE","e":"产生错误的原因：对同病异治的理解不到位。中医学诊治疾病的特点是辨证论治，其主要着眼点是\"证\"，不是\"病\"。对于相同的疾病，如果发病的时间、地域不同，或疾病的阶段或类型不同，或病人的体质不同，就会反映出不同的\"证\"，本着\"证同则治同，证异则治异\"的原则，所以治疗也就不同，这与医生的治疗习惯无关。故正确答案为ABCE。","k":"绪论"},{"t":1,"s":"言人体脏腑之阴阳，则心为（  ）","o":["阳中之阳","阳中之阴","阴中之阴","阴中之阳","阴中之至阴"],"a":"A","e":"产生错误的原因在于对心与肺的阴阳属性混淆。心与肺的阴阳属性是依据其部位和生理特性而划分的。心肺居于上，均为阳脏。但心五行属火，主温通，故为阳中之阳。相对而言，肺五行属金，生理特性主肃降，属阴，故为阳中之阴。故正确答案为A。","k":"中医学的哲学基础"},{"t":1,"s":"言人体脏腑之阴阳，则肝为（  ）","o":["阳中之阳","阳中之阴","阴中之阴","阴中之阳","阴中之至阴"],"a":"D","e":"肝脾肾三脏的阴阳属性是记忆的难点，也是考试中最常出现的考点。肝脾肾三脏在部位上居于下，均为阴脏。肝属木，主升发，故为阴中之阳脏；肾属水，主闭藏，故为阴中之阴脏；脾属土，居中焦，故为阴中之至阴。故正确答案为D。","k":"中医学的哲学基础"},{"t":1,"s":"一天中属于阴中之阴的时间是（  ）","o":["上午","下午","前半夜","后半夜","中午"],"a":"C","e":"对于时间的阴阳属性划分是考试中最容易出现的考点。昼为阳，夜为阴。前半夜为阴中之阴，后半夜为阴中之阳。故正确答案为C。","k":"中医学的哲学基础"},{"t":1,"s":"\"阴胜则阳病，阳胜则阴病\"说明了阴阳之间的哪种关系（  ）","o":["阴阳交感","对立制约","互根互用","消长平衡","相互转化"],"a":"B","e":"阴阳之间的对立制约关系失调，有两种情况：一是制约太过，一是制约不及。制约太过是指阴阳双方中的一方过于亢盛，则过度制约另一方而致其不足。阴偏盛则可导致阳不足，阳偏盛则导致阴不足，即《素问·阴阳应象大论》中所谓\"阴胜则阳病，阳胜则阴病\"。故正确答案为B。","k":"中医学的哲学基础"},{"t":1,"s":"阴损及阳，阳损及阴，说明了阴阳之间的哪种关系（  ）","o":["阴阳对立制约","阴阳互根互用","阴阳相互转化","阴阳消长平衡","阴阳自和与平衡"],"a":"B","e":"此题考核的是对阴阳互根互用关系的掌握。在正常情况下，阴阳之间存在着相互依存、相互资生的关系，即《素问·阴阳应象大论》所描述的\"阴在内，阳之守也；阳在外，阴之使也\"。若当阴阳偏衰到一定程度的时候，就会出现阴损及阳、阳损及阴的阴阳互损的情况。故正确答案为B。","k":"中医学的哲学基础"},{"t":1,"s":"阴阳交感是指（  ）","o":["阴阳二气的运动","阴阳二气的和谐状态","阴阳二气相互对立的状态","阴阳二气相互感应","阴阳二气在运动中相互感应而交合的相互作用"],"a":"E","e":"此题考核的是阴阳交感的概念，是阴阳二气在运动中相互感应而交合的过程。记忆此概念的三个关键词是运动、感应、交合。选项A、B、C、D都是不完整的，故正确答案为E。","k":"中医学的哲学基础"},{"t":1,"s":"下列不符合五行生克规律的是（  ）","o":["木为水之子","水为火之所不胜","火为土之母","金为木之所胜","金为土之子"],"a":"D","e":"此题考点在于对五行之间相生、相克关系，尤其是相克关系的理解与掌握，是学习的难点，也是最常出现的考点。五行之间的相生关系比喻为母子关系，生我者为母，我生者为子。如水生木，故水为木之母，木为水之子；土生金，故土为金之母，金为土之子。五行之间的相克关系比喻为所胜、所不胜的关系，克我者为我所不胜，我克者为我所胜。水克火，故水为火之所不胜，火为水之所胜；金克木，故金为木之所不胜，木为金之所胜。故正确答案为D。","k":"中医学的哲学基础"},{"t":1,"s":"下列归属于五行之\"土\"的是（  ）","o":["目","舌","口","鼻","耳"],"a":"C","e":"此题重点考查的是五脏对应五官的五行归属。五官是五脏之官窍，其五行的归类是与五脏的五行归类一致的。学习中首先要掌握五脏的五行配属，肝属木，心属火，脾属土，肺属金，肾属水；其次要掌握五脏与五官的对应关系，肝之官窍是目，心之官窍是舌，脾之官窍是口，肺之官窍是鼻，肾之官窍是耳及二阴。故正确答案为C。","k":"中医学的哲学基础"},{"t":1,"s":"\"长夏\"应归属于五行中的（  ）","o":["木","火","土","金","水"],"a":"C","e":"此题重点考查的是五季的五行归属，尤其要特别注意长夏与夏季的区别。长夏是指夏至以后、立秋之前，这段时间的特点是气温高，雨水多，空气湿度大，农作物灌浆，符合土爰稼穑的特性，故长夏属于土行。而夏季在五行属火。故正确答案为C。","k":"中医学的哲学基础"},{"t":1,"s":"下列归属于五行之\"水\"的是（  ）","o":["恐","喜","怒","思","忧"],"a":"A","e":"此题重点考查的是人的情志与五行的配属，是学习的重点和考点。人的精神情志是五脏功能的外现，与五脏有对应的关系，即：心藏神，其志为喜；肝藏魂，其志为怒；脾藏意，其志为思；肺藏魄，其志为悲（忧）；肾藏志，其志为恐（惊）。简单的记忆为：五神是神魂魄意志；五志为怒喜思悲恐。故正确答案为A。","k":"中医学的哲学基础"},{"t":1,"s":"\"见肝之病，知肝传脾\"，从五行之间的关系看，其所指内容是（  ）","o":["木疏土","木克土","木乘土","土侮木","木胜土"],"a":"C","e":"此题重点考查的是肝与脾的五行关系，注意审题。肝属木，脾属土，所以在正常情况下肝脾之间是木克土；但本题的题干是肝病传脾，关键词是病，故在病理情况下，异常的相克是指相乘和相侮。而肝病传脾是指由于肝的功能过亢而对脾产生了过度制约，这是相乘，即木旺乘土。故正确答案为C。","k":"中医学的哲学基础"},{"t":2,"s":"症见寒象的患者，其病机可以是（  ）","o":["阳虚","阴虚","阳盛","阴盛","阴阳俱虚"],"a":"ADE","e":"产生寒的病机有二：一是阳虚可以生寒，此是虚寒；二是阴盛可以生寒，此谓实寒。应注意阴虚所产生的是热象，即虚热。多选或错选均不正确。","k":"中医学的哲学基础"},{"t":2,"s":"药物五味中属阳的是（  ）","o":["辛味","酸味","甘味","苦味","咸味"],"a":"AC","e":"此题考查的是对药物、食物五味阴阳属性的划分。辛味可行、可散；甘味可补、可缓，属性均为阳；酸味能收，苦味能降，咸味能泻，属性均为阴。","k":"中医学的哲学基础"},{"t":2,"s":"根据事物阴阳属性划分原则，属阳者为（  ）","o":["外","表","腹","背","五脏"],"a":"ABD","e":"此题考查的是人体部位的阴阳属性划分。对人体的部位而言，凡是在上的、在外的、在表的都属于阳，这个比较容易理解。容易出错的是对腹背的阴阳划分，腹为阴，背为阳。可借助\"面朝黄土背朝天\"理解与掌握此知识点。","k":"中医学的哲学基础"},{"t":2,"s":"下列各项中，属于阴阳相互转化的是（  ）","o":["寒极生热","热甚则寒","阴损及阳","阳损及阴","重阳必阴"],"a":"ABE","e":"阴阳相互转化是指事物的总体属性在一定条件下可以向其相反的方向转化。这个条件是事物发展的\"物极\"阶段，通常用重或极或甚等字表达。\"寒极生热\"\"热甚则寒\"\"重阴必阳\"都是事物发展到极点而发生的相互转化。","k":"中医学的哲学基础"},{"t":2,"s":"在五行关系中，木气有余可以导致（  ）","o":["克土","乘土","生火","侮金","侮水"],"a":"BD","e":"此题干中\"木气有余\"是指在异常情况下产生的表现，或乘或侮，不能用克来表达。木气有余可以导致对所胜行\"土\"的过度克制，即木旺乘土；也可以导致对所不胜行\"金\"的反克即所谓\"木反侮金\"。","k":"中医学的哲学基础"},{"t":1,"s":"形象思维主要采用的方法是（  ）","o":["观察法","判断法","推理法","演绎法","比较法"],"a":"A","e":"形象思维主要是通过对客观事物的直接接触而获得的感性认识，常常是人们在实践中对客观事物直接生动的直觉反应。因此，主要采用的方法是观察法。故正确答案为A。","k":"中医学的主要思维方式"},{"t":1,"s":"中医学以十二条主要河流和八个湖泽，合于人体的十二经脉和奇经八脉，其主要采用的思维方式是（  ）","o":["意象思维","应象思维","形象思维","系统思维","变易思维"],"a":"B","e":"此题主要考查的是对应象思维的理解。应象思维主要是以取象比类为基本方法，中医学常以天地阴阳消长，万物变化之象与人体生命活动之相相参相应，来探求人与自然之间共同的、本质的特征。中医学认为人的生命活动效法天地，以应象思维来解释天、地、人其象相应。故正确答案为B。","k":"中医学的主要思维方式"},{"t":1,"s":"《素问·阴阳应象大论》中\"清阳上天，浊阴归地。是故天地之动静，神明为之纲纪，故能以生长收藏，终而复始\"体现的思维方式是（  ）","o":["意象思维","系统思维","形象思维","变易思维","应象思维"],"a":"D","e":"此题重点考查的是对变易思维中动静相召的理解。在《素问·阴阳应象大论》的这句话中，体现的是天地之动静变化，其实质在于阴阳消长变化，是天地万物生化的根本，因此属于变易思维的范畴。故正确答案为D。","k":"中医学的主要思维方式"},{"t":2,"s":"下列各项中，体现系统思维的有（  ）","o":["阴阳学说","五行学说","天人合一","形神合一","气一元论"],"a":"ABCDE","e":"此题重点考查的是对系统思维的理解。系统思维是综合地、全面地考察认识对象的整体性思维，是中医学的一大特点，其中中国古代哲学的\"气一元论\"\"阴阳学说\"\"五行学说\"以及衍生的八卦、六十四卦等整体结构模式，以及中医学中的天人合一、形神合一等都是整体思维的具体体现。故正确答案为ABCDE。","k":"中医学的主要思维方式"},{"t":1,"s":"五脏的生理功能特点是（　）","o":["传化物而不藏，实而不能满","藏精气而不泻，实而不能满","传化物而不藏，满而不能实","藏精气而不泻，满而不能实","虚实交替，泻而不藏"],"a":"D","e":"五脏的生理功能特点是化生贮藏精气，精气对人体起到重要作用，故宜藏不宜泻；五脏所藏精气宜充满、不宜呆实，精气不断运作，才能维持五脏正常生理功能。六腑的生理功能特点是传导和消化饮食物，故宜虚实交替，实而不满。可简单记忆“脏藏满，腑传泻”。","k":"藏象"},{"t":1,"s":"下列各项中，哪一项最确切地说明了脏与腑的区别（　）","o":["实质性器官与空腔性器官","实而不满与满而不实","化生贮藏精气与受盛传化水谷","与水谷直接接触与不直接接触","经络属表、属阳与属里、属阴"],"a":"C","e":"五脏、六腑的区别体现在两点：一是体现在形态结构上，五脏的形态结构以实体性居多，六腑的形态结构以空腔性为主；二是体现在功能特点上，化生贮藏精气是五脏的功能特点，受盛传化水谷是六腑的功能特点。但中医学区分五脏、六腑最主要的依据是二者不同的功能特点。","k":"藏象"},{"t":1,"s":"心主神明最主要的物质基础是（　）","o":["津液","血","精","宗气","营气"],"a":"B","e":"心藏神的功能建立在心主血脉的基础之上，因为血是神志活动的主要物质基础。精虽然也可以化神，但对于心主神志这一功能来讲，不是其最主要的物质基础。","k":"藏象"},{"t":1,"s":"将肺称为“娇脏”的主要依据是（　）","o":["肺主一身之气","肺外合皮毛","肺气通于天，不耐寒热","肺为水之上源","肺朝百脉"],"a":"C","e":"肺之所以被称为“娇脏”，主要是由于肺通过口鼻与外界大气直接相通，寒邪、热邪、燥邪等自然界外邪，可通过口鼻侵犯人体直接伤肺，从而引发各种病证。","k":"藏象"},{"t":1,"s":"肺的行水功能主要依赖于（　）","o":["肺主一身之气","肺司呼吸","肺输精于皮毛","肺朝百脉","肺主宣发肃降"],"a":"E","e":"肺的行水功能，主要是依赖于肺气的宣发、肃降运动，将津液向上向外、向内向下布散全身。通过肺气的宣发，可将津液上输头面诸窍，外达皮毛肌腠，成为汗液，排出体外；通过肺气的肃降，可将津液内至脏腑，并将脏腑代谢后的浊液向下输送于膀胱，称为尿之源。","k":"藏象"},{"t":1,"s":"肺吸入清气主要依靠下列哪项功能（　）","o":["宣发","肃降","疏通","调节","朝百脉"],"a":"B","e":"肺的主要功能之一是司呼吸。肺气的宣发、肃降运动完成了人体内外气体的交换，其中肺的肃降主要关系到吸入自然界清气，宣发运动主要体现在呼出体内的浊气。宣发与肃降运动的升降平衡，保证了呼吸运动的协调有序。","k":"藏象"},{"t":1,"s":"脾统血的主要作用机制是（　）","o":["控制血液的流速","控制内脏的血液容量","控制外周血液容量","控制血液在脉道内的运行","控制血液上荣头目"],"a":"D","e":"脾主统血是指脾气具有统摄、控制血液在脉中正常运行而不逸出脉外的功能。","k":"藏象"},{"t":1,"s":"与胃下垂、子宫脱垂、脱肛等关系密切的病机是（　）","o":["脾不统血","脾失健运","脾气下陷","湿邪困脾","脾阳虚衰"],"a":"C","e":"脾气上升，以升为健，维持内脏位置的相对恒定，防止内脏下垂。若脾气虚弱，无力升举，反而下陷，可导致内脏下垂。","k":"藏象"},{"t":1,"s":"具有化湿而恶湿特点的脏腑是（　）","o":["心","脾","肺","肝","肾"],"a":"B","e":"脾主运化水饮，通过脾气的作用，可以把水饮化为津液，并将其吸收、转输到全身脏腑。脾气健运，运化水饮功能正常，水精四布，自然无痰饮水湿停聚。若脾气虚衰，运化水饮功能障碍，痰饮水湿内生；各种外湿也可侵入人体，从而困遏脾气，致使脾气不升，影响正常功能的发挥，故脾欲求干燥清爽，即所谓“脾喜燥而恶湿”。","k":"藏象"},{"t":1,"s":"脾虚可致下列哪一项血行异常（　）","o":["出血","血瘀","血行加速","血行迟缓","血脱"],"a":"A","e":"脾气具有统摄、控制血在脉中正常运行而不逸出脉外的功能。若脾虚，气生无源，气虚而固摄作用减退，血失去统摄则逸出脉外而导致出血。","k":"藏象"},{"t":1,"s":"气血亏虚的基本机制是（　）","o":["脾失健运","脾不统血","脾不升清","肝失疏泄","肾失封藏"],"a":"A","e":"脾的主要功能之一是主运化，为气血生化之源。通过脾气的运动，将水谷转化为精气血津液等精微物质，然后在脾气的作用下，将精微物质转输到全身。所以脾失健运，气血化生不足导致气血亏虚。","k":"藏象"},{"t":1,"s":"四肢肌肉的壮实主要取决于（　）","o":["心主血脉的功能","肾主骨的功能","脾主运化的功能","肺主气的功能","肝主筋的功能"],"a":"C","e":"脾在体合肉，主四肢。全身肌肉依赖脾胃运化的水谷精微的营养滋润，才能壮实丰满，并发挥其运动功能。","k":"藏象"},{"t":1,"s":"男子精液的正常排泄是哪两脏合作的结果（　）","o":["肝肺","心肺","肝肾","肝脾","脾肾"],"a":"C","e":"肾主藏精，肝主疏泄，二者之间相互制约、相互为用。男子精液的正常排泄是依赖肾气的封藏作用与肝气的疏泄作用协调的结果。","k":"藏象"},{"t":1,"s":"胆汁的分泌与排泄取决于（　）","o":["肝主疏泄的功能","胆贮藏胆汁的功能","肾封藏精的功能","脾主运化的功能","小肠泌别清浊的功能"],"a":"A","e":"胆汁由肝之精气汇聚而成，贮存于胆，在肝气的疏泄调节下排泄进入小肠。","k":"藏象"},{"t":1,"s":"下列哪一项与肝的疏泄功能关系最不密切（　）","o":["情志的舒畅","脾胃的运纳","血液的循行","津液的输布","呼吸的运动"],"a":"E","e":"肝的疏泄功能是指肝疏通、畅达全身气机，进而促进精血津液的运行输布、脾胃之气的升降、胆汁的分泌排泄以及情志的舒畅、男子的排精、女子的排卵等作用。肝的疏泄功能可简单记忆为津血、消化、情志、生殖四个方面。","k":"藏象"},{"t":1,"s":"在肝主疏泄的各种功能表现中，最根本的是（　）","o":["调畅情志","调畅气机","调节血量","疏通水道","促进运化"],"a":"B","e":"肝主疏泄的功能体现在多个方面：体内津液的输布、血的运行，情志的调畅、胆汁的分泌排泄、脾胃的运化功能以及男子的排精、女子的排卵等生殖功能，均依赖于肝的气机畅达。","k":"藏象"},{"t":1,"s":"维持呼吸深度需哪脏的功能（　）","o":["肝","肺","心","肾","脾"],"a":"D","e":"呼吸运动的维持依赖于肺与肾的生理功能共同完成。肺主呼吸，肾主纳气，肺吸入的自然界清气下达到肾封藏摄纳，以维持呼吸的深度。即“肺为气之主，肾为气之根”。","k":"藏象"},{"t":1,"s":"毛发的荣枯主要与体内哪两种物质的盛衰有关（　）","o":["精与气","精与液","精与血","津与气","气与血"],"a":"C","e":"毛发的生长，依赖血的濡养。肾藏精，精生血，精血旺盛，则毛发粗壮、浓密而润泽。","k":"藏象"},{"t":1,"s":"与脑髓充盈关系最密切的脏是（　）","o":["心","肺","肝","脾","肾"],"a":"E","e":"脑为髓汇聚而成，髓由肾精所化生。肾精充足，髓海得养，则思维敏捷、精力充沛；反之，肾精亏虚，髓海失养，则思维迟钝、记忆力减退。","k":"藏象"},{"t":1,"s":"下列说法中错误的是（　）","o":["脑为元神之府","脉为血之府","腰为肾之府","肺为气之府","胆为中精之腑"],"a":"D","e":"肺为气之主，是相傅之官，不能描述为气之府。","k":"藏象"},{"t":1,"s":"“利小便即所以实大便”治法的依据是（　）","o":["小肠主液","脾主运水液","肺主行水","大肠主津","肾主水液"],"a":"A","e":"临床上用“利小便即所以实大便”的方法治疗泄泻，是基于小肠主液的理论。小肠主液是小肠在吸收谷精的同时，吸收了大量津液。小肠吸收的津液与谷精合为水谷之精，由脾气转输到全身，其中部分津液下渗到膀胱，成为尿之源。若小肠功能失调，不能吸收津液，清浊不分，则可出现便溏、泄泻。","k":"藏象"},{"t":1,"s":"脏腑气机升降之“枢”是指（　）","o":["肺主呼气，肾主纳气","心火下降，肾水上升","脾主升清，肺主肃降","脾气主升，胃气主降","肝主升发，肺主肃降"],"a":"D","e":"人体脏腑之气的运动规律，体现了脏腑生理活动的特性。心肺位置居上，其气宜降；肝肾位置在下，其气宜升；脾胃属土，居中央，脾气升，胃气降，为脏腑气机升降的枢纽。","k":"藏象"},{"t":1,"s":"心与肺的关系主要体现在（　）","o":["呼吸运动","精神调节","气机升降","气血为用","食物运化"],"a":"D","e":"心主一身之血，肺主一身之气，两者相互协调，从而保证气血的正常运行。","k":"藏象"},{"t":1,"s":"与“气虚”关系最密切的脏是（　）","o":["肺与脾","脾与胃","心与肾","肝与肺","肝与脾"],"a":"A","e":"肺吸入的自然界清气与脾化生的水谷精气相互结合，聚于胸中，形成宗气。若肺、脾的功能失常，影响宗气的生成，从而导致一身之气的不足，出现气虚的表现。","k":"藏象"},{"t":1,"s":"与机体阳气不足关系最密切的脏是（　）","o":["心与脾","脾与肝","脾与肾","心与肺","肝与肾"],"a":"C","e":"临床阳气不足最常见的是脾阳虚和肾阳虚。脾阳虚表现出腹冷痛、喜温喜按，形寒肢冷，口淡不渴，下利清谷，或尿少水肿；或妇女带下清稀量多色白，舌淡胖，苔白滑等。肾阳虚主要表现是腰膝酸软冷痛，形寒肢冷，面色㿠白或黧黑，男子阳痿早泄，女子宫寒不孕，五更泄，或小便清长，夜尿频多。","k":"藏象"},{"t":1,"s":"心火宜（　）","o":["升","降","聚","散","入"],"a":"B","e":"因心位于人体上部，心阳气升已而降下行以温肾阳。","k":"藏象"},{"t":1,"s":"下列不属于肺气宣发的生理作用的是（　）","o":["排出体内浊气","宣散卫气","将津液输布全身，外达皮毛","将代谢后的津液化为汗液排出体外","使全身的血液会聚于肺"],"a":"E","e":"肺气的宣发作用，主要体现在三个方面：①呼出体内浊气；②将脾所转输来的津液和部分水谷精微上输头面诸窍，外达于全身皮毛肌腠；③宣发卫气于皮毛肌腠，以温分肉、充皮肤、肥腠理、司开阖，将代谢后的津化为汗液，并控制和调节其排泄。全身的血液会聚于肺是肺朝百脉生理功能的体现。","k":"藏象"},{"t":1,"s":"“主治节”的脏是（　）","o":["脾","肝","肺","肾","心"],"a":"C","e":"因肺具有治理调节肺之呼吸及全身之气、血、水的作用，故将其生理功能概括为主治节。","k":"藏象"},{"t":1,"s":"脾统血是通过下列哪项实现的（　）","o":["气的固摄作用","气的温煦作用","气的气化作用","气的卫外作用","气的防御作用"],"a":"A","e":"脾主统血是通过脾气的统摄作用，从而控制血液在脉中正常运行而不逸出脉外的功能。若脾气虚，则可出现便血、尿血、崩漏、肌衄等出血表现。","k":"藏象"},{"t":1,"s":"藏象学说中可以概括整个消化系统功能活动的是（　）","o":["胃的通降","脾的运化","胃的受纳","脾升胃降","小肠的泌别清浊"],"a":"D","e":"脾胃之气的升降运动协调，脾升则健，胃降则和，共同促进饮食物的消化吸收，故藏象学说中通常用脾升胃降来概括整个消化系统的功能活动。","k":"藏象"},{"t":1,"s":"脾的生理特性是（　）","o":["喜通降","喜清肃","喜燥恶湿","喜润恶燥","喜条达"],"a":"C","e":"脾为太阴湿土，性喜燥恶湿，脾燥则可升清；胃为阳明燥土，性喜润恶燥，胃中津液充足才可保证食物的受纳和腐熟。除此以外，胃性喜通降，以降为顺，从而促进食物的消化和糟粕的排泄。肺的生理特性亦是喜润恶燥，或者可表达为性喜清肃，易被燥邪所伤；肝的生理特性是喜条达恶抑郁，五行属木，具有疏通和调畅气机的作用。","k":"藏象"},{"t":1,"s":"患者，老年女性，尿血时间3年余，时轻时重，并伴有倦怠乏力、面色萎黄等症状，其病机多属于（　）","o":["脾气虚弱","肝火亢盛","肝气虚弱","肝阴亏虚","脾阳虚衰"],"a":"A","e":"脾不统血的机制是由于脾气虚，无力固摄血液，血逸出脉外而为出血，其临床表现特点：一是多见人体下部的出血或皮下肌肉出血，如尿血、便血、崩漏、肌衄；二是出血时间长，色淡质稀；三是伴有脾气虚表现，如食欲不振、倦怠乏力、面色萎黄、脘腹胀闷等症。题干中的患者是老年女性，老年人体质多虚；伴有的倦怠乏力、面色萎黄是气虚的表现，且尿血是下部出血，其病机属脾气虚弱。","k":"藏象"},{"t":1,"s":"肝在志为（　）","o":["魂","怒","喜","悲","恐"],"a":"B","e":"肝在志为怒，心在志为喜，脾在志为思，肺在志为悲，肾在志为恐。魂属于五神范畴，肝主魂。","k":"藏象"},{"t":1,"s":"大怒主要影响机体的（　）","o":["呼吸功能","疏泄功能","藏精功能","气化功能","运化功能"],"a":"B","e":"大怒作为一种情志失调的表现，主要影响的是肝的疏泄功能，使气机上逆，甚至血随气逆，并走于上，表现为面红目赤、头胀头痛、呕血，甚则昏厥卒倒。","k":"藏象"},{"t":1,"s":"患者，中年女性，常情志抑郁，喜太息，伴头晕目眩，两胁虚闷，脉弦细。其病机是（　）","o":["脾失健运","肝失疏泄","肾精不足","肝血亏虚","脾阳虚衰"],"a":"B","e":"肝失疏泄的病机多与肝气郁结、肝气上逆、肝气虚弱有关。此题干的患者为中年女性，情志抑郁，喜太息，伴头晕目眩，两胁虚闷，脉弦细等症是肝气虚弱，疏泄无力，升发无力，从而表现在情志、头目、两胁等异常表现。","k":"藏象"},{"t":1,"s":"“五脏之贼”是指（　）","o":["肺","脾","肾","肝","心"],"a":"D","e":"肝为刚脏，肝气易亢易逆，故肝之有病，常可延及其他脏腑，导致五脏六腑的病变，故称“五脏之贼”。","k":"藏象"},{"t":1,"s":"为五脏阴阳之根本的脏是（　）","o":["心","肝","肾","脾","肺"],"a":"C","e":"肾藏先天之精，为先天之本，肾精化肾气，肾气分阴阳，肾阴为脏腑阴液之源，“五脏之阴气，非此不能滋”；肾阳为脏腑阳气之本，“五脏之阳气，非此不能发”，肾中阴阳能资助、协调五脏之阴阳，故肾为五脏阴阳之根本。","k":"藏象"},{"t":1,"s":"“天癸”的产生取决于（　）","o":["先天禀赋的强弱","体表卫气的充沛","肾阴肾阳的协调","肾中精气的充盈","水谷之精的充养"],"a":"D","e":"天癸是肾中精气充盈到一定阶段产生的一种精微物质，具有促进人体生殖功能发育成熟和维持人体生育功能的作用。天癸的至与竭取决于肾中精气的盛衰。","k":"藏象"},{"t":1,"s":"下列不属于“肾气不固”临床表现的是（　）","o":["浮肿","遗精","小便失禁","早泄","带下量多"],"a":"A","e":"肾为封藏之本，其生理功能主要表现为藏精、纳气、主生殖、主二便等。若肾气虚，封藏失职，则可出现喘息、遗尿、小便失禁、大便滑脱不禁、多汗以及男子遗精、滑精、早泄、女子带下量多、崩漏、滑胎等病症。浮肿的出现多与脾肾阳虚有关。","k":"藏象"},{"t":1,"s":"下列说法错误的是（　）","o":["心在液为汗","肝在液为泪","脾在液为涎","肺在液为涕","肾在液为尿"],"a":"E","e":"五液是指人体正常的分泌物，包括泪、汗、涎、涕、唾。五液与五脏的关系是：肝在液为泪、心在液为汗、脾在液为涎、肺在液为涕、肾在液为唾。肾主水，开窍于二阴，对尿的生成和排泄具有重要的调节作用，但尿不是肾之液。","k":"藏象"},{"t":1,"s":"“孤府”所指的是（　）","o":["胃","胆","膀胱","小肠","三焦"],"a":"E","e":"《灵枢·本输》曰：“三焦者，中渎之府也，水道出焉，属膀胱，孤之府也。”孤者，大也，之所以称三焦为孤府，是指三焦是包容胸腹腔中五脏六腑的一个“大府”，因其大而称之为“孤府”。","k":"藏象"},{"t":1,"s":"“中精之腑”是指（　）","o":["胃","胆","膀胱","小肠","三焦"],"a":"B","e":"胆、胃、大肠、小肠、膀胱、三焦六腑中，只有胆既为六腑，又为奇恒之腑，贮藏胆汁。古人认为胆汁是精纯、清净的精微物质，把胆汁称之为“精汁”，故胆有“中精之腑”“清净之腑”“中清之腑”三个不同的称谓。","k":"藏象"},{"t":1,"s":"下列属于胃的生理特性的是（　）","o":["喜燥","喜满","喜润","喜运","喜升"],"a":"C","e":"胃的生理特性是喜润，主通降。脾的生理特性是喜燥，主升。喜润也是肺的生理特性之一。学习中应注意相关知识的比较与联系记忆，尤其是脾与胃、肺与胃之间生理特性的异同。","k":"藏象"},{"t":1,"s":"“中焦如沤”是描述（　）","o":["胃的受纳功能","脾的散精功能","小肠的泌别清浊功能","脾、胃、肝、胆等脏腑的消化饮食物的作用","心、肺输布气血的作用"],"a":"D","e":"《灵枢·营卫生会》中把三焦的生理特点分别概括为“上焦如雾，中焦如沤，下焦如渎”。上焦如雾，是喻指心、肺输布气血的生理功能如雾露般宣发和升散；中焦如沤，是喻指脾、胃、肝、胆等脏腑对饮食物的消化、吸收并输布其水谷精微和化生血液的生理作用；下焦如渎，是对肾、膀胱、大肠、小肠、女子胞等脏腑具有排泄糟粕、小便、经血等功能的概括。","k":"藏象"},{"t":1,"s":"“泌别清浊”属于（　）","o":["胃的功能","小肠的功能","三焦的功能","膀胱的功能","胆的功能"],"a":"B","e":"小肠的生理功能有：①受盛化物；②泌别清浊；③主液。小肠的泌别清浊功能正常，则水液和糟粕各走其道而二便正常。","k":"藏象"},{"t":1,"s":"大肠功能失常，最直接影响（　）","o":["肾失气化","肝失疏泄","肺失肃降","脾失健运","脾失升清"],"a":"C","e":"肺与大肠在经络上相互络属，构成了表里关系，大肠传导功能正常有利于肺气之肃降，反之，若大肠传导糟粕功能失常，则可直接影响肺气的肃降。当然，大肠的传导功能正常与否，与脾气的运化、肾气的蒸腾与气化、肝气的疏泄作用也有一定的关系，但最直接影响的是肺的肃降。","k":"藏象"},{"t":1,"s":"具有“通行诸气和运行水液”生理功能的腑是（　）","o":["胆","膀胱","胃","三焦","小肠"],"a":"D","e":"三焦的生理功能：①通行元气。肾藏先天之精化生的元气，自下而上布散；肺吸入的自然界清气与脾胃运化的水谷精气相互结合，聚于胸中形成的宗气，自上而下运行，皆以三焦为通路。②运行津液。全身水液的运行、输布和排泄，也都是在肺、脾、肾等脏腑的作用下，以三焦为通路，完成了水液的升降出入运动。","k":"藏象"},{"t":1,"s":"脏与脏之间主要表现为阴阳水火互济互制关系的是（　）","o":["心与肺","心与肾","肾与肝","脾与肾","心与肝"],"a":"B","e":"心在上为阳，五行属火；肾在下为阴，五行属水。心火下降于肾，使肾水不寒，肾水上济于心，使心火不亢。心与肾之间的阴阳水火升降互济，保持了两脏之间的生理功能的平衡协调。","k":"藏象"},{"t":1,"s":"脏与脏之间主要是先后天相互资生关系的是（　）","o":["心与肾","心与脾","心与肺","脾与肾","肝与脾"],"a":"D","e":"脾主运化水谷精微，化生气血为后天之本；肾主封藏先天之精，是生命的本原，为先天之本。脾的运化水谷功能，有赖于肾气及肾阴、肾阳的资助和促进，才能健旺；肾所藏先天之精及化生的元气，也有赖于脾气运化的水谷之精微地不断充养和培育，方能充盛。先天与后天，相互资生，相互促进。先天温养激发后天，后天补充培育先天。","k":"藏象"},{"t":1,"s":"精血互生主要反映哪两脏之间的关系（　）","o":["心与肾","肝与脾","肺与心","肝与肾","心与脾"],"a":"D","e":"肝主藏血，肾主藏精，精血均是由水谷之精微化生和充养，精能化血，血能生精，两者之间能相互资生，称为精血同源。","k":"藏象"},{"t":1,"s":"肝肺之间的关系主要表现在（　）","o":["气机的调节","血液的运行","津液的输布","气的生成","血的生成"],"a":"A","e":"肺主肃降，肝主升发，肝肺之间的关系主要表现在气机的调节方面。肝气从左升发，肺气从右肃降，肝升肺降，升降协调，对全身气机的调畅具有重要的调节作用，古人也称为“龙虎回环”。","k":"藏象"},{"t":1,"s":"“肾为气之根”主要是指（　）","o":["肾阳","肾为先天之本","肾藏精","肾主纳气","肾主水液"],"a":"D","e":"这句话出自清代医家林珮琴著的《类证治裁·喘证》，言“肺为气之主，肾为气之根。肺主出气，肾主纳气”。肾主纳气，是指由肺吸入的自然界清气下达到肾，经过肾的摄纳潜藏，才能保持吸气的深度。","k":"藏象"},{"t":1,"s":"内脏下垂主要是因为（　）","o":["宗气虚","胃气虚","脾气虚","肾气虚","肝气虚"],"a":"C","e":"脾气主升，不仅将水谷精微上输于心、肺等脏，而且脾气上升还对维持内脏位置的相对稳定、防止内脏下垂具有作用，故临床上内脏下垂的病变，多与脾气虚无力升举有关。","k":"藏象"},{"t":1,"s":"与情志抑郁关系密切的是（　）","o":["肝气郁结","肺气郁滞","肝气亢逆","脾气郁滞","心气涣散"],"a":"A","e":"肝主疏泄的生理功能，其表现之一即是对情志的调畅。若肝气的疏泄功能失常，一是肝气郁结，表现为情志抑郁、闷闷不乐、悲忧欲哭等；二是肝气亢逆，表现为急躁易怒、面红目赤等。","k":"藏象"},{"t":1,"s":"下列各项与二便的排泄均有密切关系的是（　）","o":["膀胱","胆","肺","肾","大肠"],"a":"D","e":"肾开窍于二阴，主二便。膀胱虽有贮藏和排泄尿的功能，但尿的生成与排泄必须依赖于肾气的蒸腾气化和固摄作用实现；大肠虽传导糟粕，但粪便的排泄也与肾气的推动和固摄作用有关。所以，在临床上，如果肾的功能失常，则可以出现尿频、遗尿、尿少、尿失禁等小便异常，或者便秘、泄泻等病证。","k":"藏象"},{"t":1,"s":"肾精、肾气、肾阴、肾阳之间的关系是（　）","o":["肾精即肾阴，肾气即肾阳","肾精化生肾气，肾气分为肾阴和肾阳","肾精包括肾气，肾精分为肾阴和肾阳","肾气包括肾精，肾气分为肾阴和肾阳","肾气即肾精，肾气分为肾阴和肾阳"],"a":"B","e":"五脏的精气阴阳理论体系，是用来解释和说明各脏腑生理功能和病理变化的理论模型。其理论的核心是精化气，气分阴阳。故对肾而言，当然是肾精化生肾气，肾气分为肾阴和肾阳。","k":"藏象"},{"t":1,"s":"与机体的阴气不足关系最为密切的是（　）","o":["心阴","胃阴","肾阴","肺阴","肝阴"],"a":"C","e":"肾阴为五脏之阴的根本，五脏之阴气，非此不能滋。因此，若肾阴不足，则可导致五脏之阴的不足；反之，若其他脏腑之阴亏虚，最终也可累及肾阴，导致肾阴亏虚，即“久病及肾”。","k":"藏象"},{"t":2,"s":"下列脏腑中属于奇恒之腑的有（　）","o":["三焦","胆","脑","女子胞","髓"],"a":"BCDE","e":"奇恒之腑是指脑、髓、骨、脉、胆、女子胞的总称。三焦是六腑之一，不属于奇恒之腑。","k":"藏象"},{"t":2,"s":"与血的运行关系密切的有（　）","o":["心主血脉","肝主疏泄","肾主气化","肺朝百脉","脾主统血"],"a":"ABDE","e":"心主血脉，心气推动和调控血在脉中运行全身；肺朝百脉，肺气辅助心气推动血的运行；肝主疏泄，调畅气机，是保证血行通畅的一个重要环节；脾主统血，脾气健旺能统摄血在脉中运行，防止溢出脉外。因此，心、肺、肝、脾生理功能的相互协调与配合，共同保证了血的正常运行。肾的气化主要是对精血化生、小便的生成和排泄的作用，与血的运行没有直接关系。","k":"藏象"},{"t":2,"s":"肾精不足可出现（　）","o":["小儿囟门迟闭","小儿骨软无力","牙齿松动脱落","老年人骨质脆弱","脑转耳鸣"],"a":"ABCDE","e":"肾主藏精，主骨生髓，与人体的生长、发育、生殖有密切的关系，其生理功能主要表现在齿、骨、发。①骨的生长发育，要依赖于肾精的充足才能化生骨髓营养骨，齿为骨之余，同样由肾精充养。生理情况下，肾精充足，骨髓化生有源，骨骼坚固有力；反之，若肾精不足，对小儿来讲，可以出现囟门迟闭、骨软无力、齿迟等表现，对老年人来讲，可以出现骨质脆弱、容易骨折等表现。②脑髓的充盈与肾精的盛衰有密切的关系。脑为髓之海，脑由髓聚而成。肾精充足，髓海得养，脑功能健全，则思维敏捷、精力充沛；反之，若肾精不足，髓海亏虚，脑失所养，则可表现为脑转耳鸣、腰膝酸软无力、头目眩晕、目无所见、懈怠安卧、牙齿松动脱落等。肾藏精，精化血，精血旺盛，荣养头发，则毛发粗壮、浓密、有光泽；若肾精不足，则可出现年少白发、枯萎、早脱等。","k":"藏象"},{"t":2,"s":"脾气主升，主要表现在（　）","o":["配合胃腐熟水谷","上输水谷精气于心肺、头目","在体合肉，主四肢","维系脏器位置的恒定","运化水液"],"a":"BD","e":"脾主升，主要包括两个方面：①升清，将水谷精微等物质通过脾气的上升运动输送到心肺、头目，以濡养全身；②升举内脏，通过脾气的升举，维持内脏位置的相对稳定、防止内脏下垂。","k":"藏象"},{"t":2,"s":"肺主一身之气主要体现于（　）","o":["宗气的生成","宣发津液","通调水道","朝百脉","调节全身气机"],"a":"AE","e":"肺主气，包括主呼吸之气和主一身之气。肺主一身之气的生理功能包括两个方面：①肺主一身之气的生成，特别是宗气的生成，是由肺吸入的自然界清气和脾胃运化的水谷精气相互结合产生的；②肺主一身之气的运行，肺有节律地一呼一吸，调节着全身之气的升降出入运动。","k":"藏象"},{"t":2,"s":"肝藏血的生理意义包括（　）","o":["贮藏血液于肝内","调节人体各部分血量分配","调节水液代谢平衡","防止出血","魂神有所依舍"],"a":"ABD","e":"肝主藏血，主要包括三个方面：①贮藏血于肝，所以肝也称为“血海”；②调节血量，通过肝气的疏泄作用将血向外周输布；③防止出血，肝气的固摄作用发挥凝血作用，因此，肝也称为“凝血之本”。此知识点可简单记忆为“藏血、调量、凝血”六个字。","k":"藏象"},{"t":2,"s":"有防止出血功能的脏有（　）","o":["肝","心","脾","肺","肾"],"a":"AC","e":"脾主统血，脾气具有固摄血在脉内运行、防止逸出脉外的功能；肝主藏血，肝气、肝阴具有固摄和凝血的作用。","k":"藏象"},{"t":2,"s":"补肾以治脱发的理论依据有（　）","o":["发为血之余","精血互生","发之生机在肾","肾主纳气","滋水涵木"],"a":"ABC","e":"肾藏精，精化血，发为血之余。肾精的盛衰，与毛发的生长、润泽等有关。精血旺盛，荣养头发，则毛发粗壮、浓密、有光泽；若肾精不足，则可出现年少白发、枯萎、早脱等。临床上可以通过补肾精、养血治疗脱发。","k":"藏象"},{"t":2,"s":"心主神明的含义包括（　）","o":["主宰五脏六腑的生理活动","主宰形体官窍的生理活动","主宰人体的精神意识思维活动","推动血液在脉中运行","总司气化功能"],"a":"ABC","e":"神有广义和狭义之分，广义之神是指整个人体生命活动的外在表现和主宰；狭义之神是指人的精神、意识、思维、情志等。心主藏神明包括两个方面：①心具有统帅全身脏腑、经络、形体、官窍等生理活动的功能，因此也称“心为五脏六腑之大主”；②心可主宰人的精神、意识、思维、情志等活动。","k":"藏象"},{"t":2,"s":"肾主闭藏与肝主疏泄之间的关系，主要体现于（　）","o":["人体的生长发育","女子的月经来潮","男子的排精","精血之间的相互化生","津液的正常输布"],"a":"BC","e":"肾主闭藏，藏精充足，为女子的月经、男子的精溢提供前提；肝主疏泄，主调畅气机，为女子月经的按时而至和男子的排精提供动力。肝气疏泄可促使肾气封藏有度，肾气闭藏可防肝气疏泄太过。因此，肾之封藏与肝之疏泄之间存在着既相互为用，又相互制约的关系，相反相成，从而调节着生殖功能。","k":"藏象"},{"t":2,"s":"肝气郁结后可导致的病理变化有（　）","o":["胸胁胀痛","胃脘胀痛","纳呆","腹泻","癥积"],"a":"ABCDE","e":"“肝气郁结”，其病理表现：①从经脉的循行部位分析，足厥阴肝经主要分布于胸胁、少腹、乳房、头目等部位，若肝气郁结，则可出现上述部位的胀满疼痛不舒。②肝属木，肝气郁结容易乘脾犯胃，可致脾胃升降失常，脾不升清或胃不降浊，脾不升清可出现头目眩晕、腹泻、肠鸣等；胃不降浊则可出现纳呆、脘腹部胀满疼痛等。③肝失疏泄，不能调畅情志，可见情志悲忧、闷闷不乐等。④肝气郁结，气机不利，可影响血行瘀滞停积，日久成癥积；也可影响水液津液的运行，出现水肿、痰核等。","k":"藏象"},{"t":2,"s":"心的生理特性为（　）","o":["主血脉","心火宜降","主通明","心气上升","主行水"],"a":"BC","e":"此题考核的是心的生理特性，不是心的生理功能。主血脉是心的生理功能；主行水是肺的生理功能。心的生理特性有三个：①阳脏，五行属火；②主通明，心脉畅通，心神清明；③心火宜降。","k":"藏象"},{"t":2,"s":"下列哪些属于以五脏为中心的藏象特点（　）","o":["五脏的形态结构","五脏与形体诸窍联结成一个整体","五脏的生理功能与情志密切相关","五脏生理功能之间的协调平衡","五脏外应五时"],"a":"BCDE","e":"藏象学说的特点是以五脏为中心的整体观，主要体现在：①人体自身的整体性，包括五脏与外在的形态官窍与情志活动以及五脏之间的生理功能的协调平衡；②五脏与外界环境的统一性，包括五脏外应五时、五方、五色、五气、五化等。脏腑的形态结构不是藏象学说的主要内容，不能体现其以五脏为中心的特点。","k":"藏象"},{"t":2,"s":"心主血脉的正常运行，最基本的前提条件有（　）","o":["心气充沛","血液充盈","脉道通利","肺津充足","肾精充足"],"a":"ABC","e":"心主血脉的功能，其要素有三：①心气充沛，才能推动血在脉中运行；②血液充盈，才能在心气的推动下输布全身；③脉道通利，是保证血流行全身的重要保障。可简单记忆为气、血、脉三个要素。","k":"藏象"},{"t":2,"s":"肾主闭藏的生理特性主要体现在（　）","o":["藏精","主骨","纳气","生髓","通脑"],"a":"AC","e":"肾主闭藏，主要体现在四个方面：①藏精，推动人体的生长、发育、生殖；②藏气，是指肾具有摄纳肺吸入之清气以保持呼吸的深度；③藏水，即肾的蒸腾与气化对尿的生成与排泄具有重要的主宰作用，防止尿频、遗尿、尿失禁等；④藏胎，肾气固护胎儿、防止滑胎等。主骨生髓是肾所藏之精对骨的发育、髓的化生的体现，并不是肾主闭藏的特性。","k":"藏象"},{"t":2,"s":"膀胱的生理功能为（　）","o":["化生尿液","贮存尿液","排泄尿液","吸收水分","蒸化尿液"],"a":"BC","e":"膀胱为州都之官，其生理功能是贮尿和排尿。尿的生成则由肾的蒸腾气化实现。","k":"藏象"},{"t":2,"s":"肝气上逆的临床表现主要有（　）","o":["面红目赤","头目胀痛","两胁窜痛","吐血咯血","心情抑郁"],"a":"ABCD","e":"肝失疏泄，升发太过，上逆头目胸胁，出现面红目赤、头目胀痛、两胁窜痛；情志可出现烦躁易怒；血随气逆可出现吐血咯血。","k":"藏象"},{"t":2,"s":"心的阳气过亢的病理反应有（　）","o":["烦躁","脉数","嗜睡","失眠","胸闷"],"a":"ABD","e":"心为阳脏，若心阳过亢，扰乱心神可致烦躁、失眠；阳亢使脉流薄疾则脉数。嗜睡多与阳气不振有关；胸闷多与气机不利有关。","k":"藏象"},{"t":1,"s":"人体中活力很强的运行不息的极细微物质是","o":["精","气","血","津","液"],"a":"B","e":"产生错误的原因在于对精、气、血、津液概念模糊不清。精、气、血、津液概念的共同特点：均是构成和维持人体生命活动的基本物质，但各自的特性有所不同。气是人体中活力很强的运行不息的极细微物质，关键词是运行不息，故气主动；精概念的关键词是生命本原；血概念的关键词行于脉内和红色；津液概念的关键词是一切正常水液。精、血、津液均属阴，主静，其运行全身必须依赖于气的推动。","k":"精气血津液神"},{"t":1,"s":"一身之气的生成与哪组脏腑的关系最为密切","o":["心肝脾","心肺肾","脾肺肾","肝脾肾","心脾肾"],"a":"C","e":"一身之气的生成与肺脾肾关系最密切。肺为气之主，脾为生气之源，肾为生气之根。","k":"精气血津液神"},{"t":1,"s":"维持人体相对恒定的体温，属于气的哪项功能","o":["推动","温煦","凉润","防御","中介"],"a":"B","e":"产生错误的原因在于对气的功能没有理解。以上5个备选答案都是气的功能，但题干是\"维持人体相对恒定的体温\"，当然是气的温煦功能的体现。","k":"精气血津液神"},{"t":1,"s":"人体中最根本、最重要的气是","o":["元气","宗气","营气","卫气","脏腑之气"],"a":"A","e":"产生错误的原因在于对人体之气的分类及其概念混淆不清。人体之气按生成来源可分为先天之气（元气）和后天之气（宗气）；按分布部位可分为行于脉内的营气和行于脉外的卫气，分布于脏腑的为脏腑之气。元气、宗气、营气、卫气、脏腑之气对人体而言都很重要，但相比较而言，元气是由先天之精化生，是人体生命活动的原动力，人体的生长发育、生殖，脏腑、经络、形体、官窍的生理活动等一切生命活动都是在元气的推动和激发下实现的，因此是人体中最根本、最重要的气。","k":"精气血津液神"},{"t":1,"s":"对血运和呼吸运动均有推动作用的是","o":["心气","宗气","脾气","卫气","营气"],"a":"B","e":"产生错误的原因在于对宗气的生理功能掌握不牢。心气的主要功能是推动血行；脾气的主要功能是促进食物的运化与统摄血；卫气的主要功能是温煦、保卫、调控腠理；营气的主要功能是营养和化血。宗气聚于胸中，其主要功能有三个：①上走息道助呼吸；②下注丹田资元气；③横贯心脉促血运。","k":"精气血津液神"},{"t":1,"s":"称为\"水谷之悍气\"的是","o":["谷气","清气","宗气","营气","卫气"],"a":"E","e":"产生错误的原因在于对题干\"悍气\"理解不清。\"悍气\"是指水谷精微中具有慓悍、滑利特点的卫气，不能入于脉内；与之相对而言的是水谷之\"精气\"——营气，其特点是精专清纯，故能入于脉，循脉上下，贯五脏络六腑。谷气是泛指水谷之气。清气一般指清纯的有营养的气，如自然界清气、脾气的升举清气。","k":"精气血津液神"},{"t":1,"s":"布散于体表，渗入血脉之内，起滋润作用的是","o":["气","水","精","津","液"],"a":"D","e":"产生错误的原因在于对\"津\"和\"液\"概念的混淆。\"津\"和\"液\"都是机体一切正常水液的总称，但质地、分布、功能各有不同。\"津\"质地清稀，流动性较大，主要分布在体表皮肤、肌肉、孔窍，渗入血脉之内，起滋润作用；相对而言，\"液\"质地浓稠，流动性较小，主要分布在骨节、脏腑、脑髓等，起濡养作用。中医学中\"水\"的概念一般是指病理之水；精在体内虽然呈液态分布，是人体的精华物质，主要分布在脏腑中。","k":"精气血津液神"},{"t":1,"s":"\"吐下之余，定无完气\"说明的是哪一项病理变化","o":["气血两虚","气随血脱","气不化水","气不摄血","气随津脱"],"a":"E","e":"产生错误的原因在于对\"吐下之余，定无完气\"不理解。这句话出自清代尤在泾之《金匮要略心典》，表达了津液和气之间的密切关系。在正常生理情况下，津液是气的载体之一，但在剧烈呕吐、泄泻之后，机体在丢失大量津液的同时，人体之气也会随之耗损，称为气随津脱。","k":"精气血津液神"},{"t":1,"s":"\"夺汗者无血，夺血者无汗\"说明哪两者之间的密切关系","o":["气与津液","气与血","血液与精","血液与津液","以上都不是"],"a":"D","e":"产生错误的原因在于对\"夺汗者无血，夺血者无汗\"不理解。中医学中\"夺\"\"脱\"\"亡\"等字，均是描述大量丢失的内涵；\"无\"通勿。也就是说，当患者出现大量出汗的情况时，应慎用放血、破血的方法治疗，或当患者出现大量出血的情况时，应慎用发汗的治疗方法。其原因在于汗是津液所化，而津液与血都是由饮食水谷精微所化生，二者之间可以互相滋生、互相转化，津液与血的这种关系被称为\"津血同源\"。","k":"精气血津液神"},{"t":1,"s":"\"亡血家不可发汗\"的告诫，是哪一项理论的实际应用","o":["精血同源","气血互用","肝肾同源","津血同源","精气相关"],"a":"D","e":"产生错误的原因在于对血汗关系不理解。\"亡血家不可发汗\"是指大失血的患者应慎用发汗的治疗方法。津液与血之间互相滋生、互相转化，被称为\"津血同源\"；而汗是津液所化，由此又衍生了血汗同源的理论。","k":"精气血津液神"},{"t":2,"s":"人体之精的功能有","o":["抗邪","化血","化气","化神","统摄"],"a":"ABCD","e":"人体之精的功能可简化成13个字记忆：繁衍、发育、濡养、化生气血神、抗邪。统摄是人体之气的功能。","k":"精气血津液神"},{"t":2,"s":"人体之气的生成充足与哪些脏腑的生理功能密切相关","o":["心","脾","肺","肾","胃"],"a":"BCDE","e":"一身之气的生成与肺、脾胃、肾关系密切。肺为生气之主，主宗气的生成；脾胃为生气之源，脾主运化，胃主受纳，化生的水谷精微可化为气；肾为生气之根，肾藏先天之精，先天之精所化生的先天之气，是人体之气的根本。","k":"精气血津液神"},{"t":2,"s":"气机失调的表现有","o":["气滞","气逆","气陷","气闭","气脱"],"a":"ABCDE","e":"\"气机失调\"是指气的运动出现异常变化，升降出入之间失去协调平衡，表现形式包括：①气机不畅：气的运行受阻不畅通；②气滞：受阻较甚，局部阻滞不通；③气逆：气的上升太过或下降不及；④气陷：气的上升不及或下降太过；⑤气脱：气的外出太过不能内守；⑥气闭：气不能外达而郁结闭塞于内。","k":"精气血津液神"},{"t":2,"s":"与宗气生理功能相关的方面有","o":["呼吸","语言","发声","心律","生殖"],"a":"ABCD","e":"宗气是由自然界之清气与水谷之精气相合，聚于胸中的气。通过上出息道，贯心脉及沿三焦下行布散全身。其功能之一是上走息道，推动肺的呼吸，故语言、呼吸、发声皆与宗气有关。宗气充盛，则呼吸徐缓而均匀、语言清晰、声音洪亮。若宗气不足，呼吸短促微弱、语声低微。其功能之二是贯注心脉，促进心气推动血的运行。故血液运行、心的搏动、节律与宗气有关。宗气充足，脉搏徐缓、节律一致而有力；宗气不足，则脉来急躁、节律不规则，或微弱无力。因此，语言、呼吸、发声、心律与宗气的功能相关。而生殖功能与元气的盛衰相关。","k":"精气血津液神"},{"t":2,"s":"卫气的生理功能有","o":["防御","营养","温养","调节腠理","化生血液"],"a":"ACD","e":"产生错误的原因在于营养与温养功能的混淆。卫气是行于脉外而具有保卫作用的气，其生理功能主要有3个方面：①卫护肌表，防御外邪的入侵；②温养脏腑肢体，维持人体体温的相对恒定；③调节腠理的开阖，促使汗液有节制的排泄。一定要注意的是选项C温养和选项B营养的区别。营养和化生血液是营气的生理功能，注意仔细审题，有所区别。","k":"精气血津液神"},{"t":2,"s":"与津液的输布密切相关的脏腑是","o":["肝","心","脾","肺","肾"],"a":"ACDE","e":"产生错误的原因在于没有认真审题。津液的输布与肝、脾、肺、肾、三焦等脏腑的生理功能密切相关。肝主疏泄，调畅气机，气行则水行，促进了津液输布的畅通；脾气运化水液，一则脾气将津液上输于肺，通过肺的宣发肃降，再将津液布散全身；二则脾气也可直接将津液向四周布散到全身各脏腑；肺主宣发肃降，通调水道，为水之上源；肾为水之下源，肾气对津液输布代谢具有推动和调控作用；三焦为水液运行之道路。因此，津液在体内的输布主要与肾气的蒸腾气化、脾气的运化、肺气的宣发肃降、肝气的疏泄、三焦的通利密切相关。其中，尤以肺、脾、肾三脏的功能最重要。若题干改为\"与津液的输布最密切相关的脏腑是\"，答案就应是肺脾肾。","k":"精气血津液神"},{"t":2,"s":"\"气为血之帅\"包括的内容有","o":["气能生血","气能养血","气能行血","气能载血","气能摄血"],"a":"ACE","e":"产生错误的原因在于对生血和养血的混淆。气为血之帅的内容包括生血、行血、摄血3个方面。气能生血是指气（营气）是血化生的物质基础，同时也是血生成的动力。因此，气的充盛则血的化生充足，气虚则化生血的功能就减弱。所以临床上治疗血虚，常以补气药配合补血药使用，就是气能生血理论的应用。","k":"精气血津液神"},{"t":2,"s":"气的固摄作用减弱，可以出现","o":["小便失禁","呕吐清水","容易感冒","四肢不温","滑精"],"a":"ABE","e":"产生错误的原因在于对气固摄作用的理解与应用。气的固摄作用是指气对体内血、津液、精等液态物质的固护、统摄作用，防止这些物质的无故流失。气的固摄作用减弱，常见的表现有：气不摄血的各种出血；气不摄津，可致自汗、多尿、小便失禁、流涎、呕吐清水、泄泻、滑脱等；气不固精，可致遗精、滑精、早泄等。容易感冒是由于气的防御作用减弱所致；四肢不温是由于气的温煦作用减弱所致。","k":"精气血津液神"},{"t":2,"s":"人体之精的生成来源有","o":["先天之精","肾精","脏腑之精","后天之精","生殖之精"],"a":"AD","e":"产生错误的原因在于对精的概念及分类模糊不清。中医学中精有多种内涵，生殖之精属于狭义之精的范畴；广义之精包含了人体内一切精华物质，如血、津液、髓、水谷之精、脏腑之精、肾精等。而从精的生成来源而言，只有先天之精和后天之精两个方面。","k":"精气血津液神"},{"t":1,"s":"经络系统中，与脏腑有直接络属关系的是","o":["奇经八脉","十二经别","别络","十二正经","十二经筋"],"a":"D","e":"此题考核的是对十二经脉特点的掌握，尤其是与奇经八脉、十二经别、别络、十二经筋的比较。经络系统中，只有十二正经与脏腑有直接的络属关系；奇经八脉只在其经脉循行过程中与脑、髓、女子胞等奇恒之腑以及肾等有较密切的关系，但不是直接的络属关系；别络、十二经别、十二经筋是十二经脉的分支，与脏腑均没有直接络属关系。","k":"经络"},{"t":1,"s":"行于上肢内侧后缘的经脉是","o":["心经","肺经","心包经","脾经","肝经"],"a":"A","e":"此题考核的是十二经脉在四肢的分布规律。为方便记忆，把十二经脉在四肢的分布规律概括为4点：上为手，下为足；内为阴，外为阳；脏为阴，腑为阳；内侧前中后，太阴厥少阴，外侧前中后，阳明少太阳。答题的思路是：①根据\"上为手，下为足\"的分布规律，可知循行于上肢的是手经；②根据\"内为阴，外为阳\"的分布规律，可此分析出上肢内侧的是阴经；③根据\"内侧前中后，太阴厥少阴\"的分布规律，可知在上肢内侧后缘的是手少阴经；④根据脏腑与经脉的络属规律\"脏为阴，腑为阳\"，可知手少阴的经脉是心经。","k":"经络"},{"t":1,"s":"足、手阴经交接于","o":["头","胸","腹","手","足"],"a":"B","e":"此题考核的是十二经脉的交接规律，尤其要注意选项C的干扰。足、手阴经共有3对，足太阴脾经与手少阴心经交接于心中；足少阴肾经与手厥阴心包经交接于胸中；足厥阴肝经与手太阴肺经交接于肺中。因此，3对阴经的交接部位均在胸部内脏。","k":"经络"},{"t":1,"s":"十二经脉中，行于躯干胸腹面的阳经是","o":["手太阳经","足少阳经","足太阳经","手阳明经","足阳明经"],"a":"E","e":"十二经脉中，行于胸腹面的共有4条经脉，有足三条阴经和足阳明经。足少阳经行于人体侧面，足太阳经行于人体后面（背部），手太阳经、手阳明经和手少阳经行于肩部和肩胛部。","k":"经络"},{"t":1,"s":"按十二经脉流注次序，小肠经下接","o":["膀胱经","大肠经","心经","肾经","三焦经"],"a":"A","e":"此题答题的思路和技巧是：一要熟记十二经脉流注次序的规律，二是提醒做此类题时需在草稿纸上画一下其上下相邻的两经则更清楚。十二经脉流注次序的规律是：①从肺经开始，至肝经结束；②从肺→表里经→同名经→再到表里经；③经过三中，心中、胸中、肺中。因此，手太阳小肠经下接同名经，即足太阳膀胱经。","k":"经络"},{"t":1,"s":"绕阴器，至小腹的经脉是","o":["足少阴经","足太阳经","足太阴经","足厥阴经","足少阳经"],"a":"D","e":"此题考核的是十二经脉的具体循行路线，虽不要求全部背过，但应掌握每条经脉其主要的循行要点，包括十二经脉的起点、止点，其在循行过程中经过的主要部位及络属和联系的脏腑。足厥阴肝经起于足大趾爪甲后丛毛之际，在内踝上八寸处交出足太阴脾经后，循大腿内侧中线上行入阴毛中，绕阴器，至小腹，布胁肋部，上连目系，直达颠顶。","k":"经络"},{"t":1,"s":"十二正经中，联系脏腑最多的经脉是","o":["足厥阴肝经","足少阴肾经","足太阴脾经","足阳明胃经","足太阳膀胱经"],"a":"B","e":"足少阴肾经在经脉循行过程中联系了5个脏腑，分别是：属肾、络膀胱、贯肝、入肺、络心；足厥阴肝经在经脉循行过程中联系了4个脏腑，分别是：属肝、络胆、夹胃、注肺中；足太阴脾经在经脉循行过程中联系了3个脏腑，分别是：属脾、络胃、注入心中；足阳明胃经在经脉循行过程中联系了2个脏腑，分别是：属胃、络脾；足太阳膀胱经在经脉循行过程中联系了2个脏腑，分别是：属膀胱、络肾。","k":"经络"},{"t":1,"s":"按分经诊断，下牙痛多在","o":["足阳明胃经","手阳明大肠经","手太阳小肠经","足少阳胆经","手少阳三焦经"],"a":"B","e":"此题最容易混淆的是选项A。手阳明大肠经的经脉入下齿中，而足阳明胃经的经脉入上齿中。","k":"经络"},{"t":1,"s":"手太阴肺经的起点在","o":["肺中","中焦","胃中","膻中","手拇指桡侧端"],"a":"B","e":"手太阴肺经的起点是考试中经常涉及的考点，一定要记清楚肺经的起点在中焦，不是肺中。","k":"经络"},{"t":1,"s":"具有加强十二经脉表里两经在体内联系作用的是","o":["别络","经别","皮部","奇经八脉","经筋"],"a":"B","e":"别络和经别都有加强表里两经联系的作用，但要注意经别与别络的区别，不要混淆。其区别主要有4点：①别络从四肢肘膝关节以下分出，大多分布于体表；而经别多从四肢肘膝关节以上分出，循行多深入体腔内部，尔后浅出体表。②别络主要加强表里两经在体表的联系体；而经别则能密切表里经在体内的联系。③别络和经别联系表里经的方式也不同，经别是借阴经经别会合于阳经经别，以阴经归并于阳经的方式进行联系，突出了阳经的统率作用；别络则是阴经与阳经相互交通而联络的。④经别没有所属穴位，也没有所主病症；别络有络穴，并有所主病症，在针刺选穴上有特殊意义。","k":"经络"},{"t":1,"s":"按循经诊断，在胸前\"虚里\"处疼痛，痛连左手臂及小指，应考虑","o":["心脏疾病","肺脏疾病","肝胆疾病","脾胃疾病","肾脏疾病"],"a":"A","e":"\"虚里\"所指有二：一是胃之大络名，出于《素问·平人气象论》\"胃之大络，名曰虚里\"；二是推拿穴位名，出于《厘正按摩要术》\"虚里，在左乳下三寸\"。本题的题干胸前\"虚里\"处，显然是指虚里穴；痛连左手臂及小指是手少阴心经所过之处，故应考虑真心痛等心脏疾病，而不是脾胃病变。","k":"经络"},{"t":1,"s":"奇经八脉中，与足少阴经相并，夹脐上行的经脉是","o":["任脉","督脉","冲脉","阴维脉","阴跷脉"],"a":"C","e":"冲脉起于胞中，下出会阴，从气街部起与足少阴经相并，夹脐上行；任脉起于胞中，下出会阴，经阴阜，沿腹部和胸部正中线上行，与冲脉相并。并注意两经循行路线的联系与区别，不要混淆。","k":"经络"},{"t":1,"s":"循行于\"乳中线\"的经脉是","o":["肝经","胃经","胆经","脾经","肾经"],"a":"B","e":"足阳明胃经的直行分支从缺盆出体表，沿乳中线下行；而足厥阴肝经主要是分布于胁肋部，不行于乳中线。","k":"经络"},{"t":1,"s":"循行于足跟部的经脉有","o":["足太阴经","足厥阴经","冲脉","足少阴经","足少阳经"],"a":"D","e":"这5条经脉虽然在循行过程中均经过了足部，但只有足少阴肾经的经脉进入足跟部。足太阴脾经的经脉沿足内侧赤白肉际上行过内踝的前缘；足厥阴肝经的经脉从足大趾爪甲后丛毛处向上沿足背至内踝；足少阳胆经的经脉在循行过程中出外踝之前，沿足背下行，出于足第四趾外侧端；冲脉的经脉分支沿胫骨内缘，下行到足底。","k":"经络"},{"t":1,"s":"主司妇女带下的经脉是","o":["冲脉","任脉","带脉","督脉","以上均非"],"a":"C","e":"督脉、冲脉、任脉、带脉均与女性的生理有密切的关系，但唯有带脉主司妇女带下；督脉、冲脉和任脉虽均起于胞中，与生殖功能有密切的联系，但不主司带下。","k":"经络"},{"t":1,"s":"称为\"十二经脉之海\"的经脉是","o":["督脉","任脉","冲脉","胃经","肾经"],"a":"C","e":"冲脉在体内可以调节十二经脉及五脏六腑之气血，具有重要的作用，故有\"十二经脉之海\"\"五脏六腑之海\"和\"血海\"之称；而足阳明胃经是一条多气多血之经，但不能调节十二经脉的气血；督脉可调节阳经气血，为\"阳脉之海\"；任脉可调节阴经气血，为\"阴脉之海\"。","k":"经络"},{"t":1,"s":"循行经过寸口的经脉是","o":["手少阴经","手太阳经","手厥阴经","手阳明经","手太阴经"],"a":"E","e":"寸口，又称\"气口\"或\"脉口\"，是指两手桡骨头内侧桡动脉的诊脉部位，是手太阴肺经所过之处。","k":"经络"},{"t":1,"s":"足三阳经的走向规律是","o":["从手走头","从足走头","从头走足","从脏走手","从内走外"],"a":"C","e":"此题考核的重点是对十二经脉走向规律的掌握，应记熟记准，这个知识点是最常涉及的考点之一。十二经脉的走向规律是\"手之三阴，从脏走手；手之三阳，从手走头；足之三阳，从头走足；足之三阴，从足走腹（胸）\"。","k":"经络"},{"t":1,"s":"在内踝尖上八寸以下，循行于内侧前缘的经脉是","o":["脾经","肝经","肾经","胃经","心包经"],"a":"B","e":"此题出题的陷阱是\"内踝尖上八寸以下\"的经脉分布情况，一定要注意，看清楚题干是八寸以上还是八寸以下。十二经脉在四肢分布的一般规律是：阴经行于内侧面，阳经行于外侧面。内侧是太阴在前，厥阴在中，少阴在后；但是在下肢内侧，内踝尖上八寸以下是厥阴在前，太阴在中；内踝尖上八寸以上则太阴在前，厥阴在中。特殊的问题需要特殊去记忆，不要混淆。","k":"经络"},{"t":1,"s":"患者产后子宫脱垂，腰脊绕腹而痛，带下增多，属于下列哪经的病变","o":["冲脉","督脉","带脉","任脉","以上均非"],"a":"C","e":"此题考核的重点是带脉的基本功能和主治病证。\"带\"，有束带之意，指带脉循行，绕身一周，\"束带而前垂\"的特点。带脉的主要生理功能有二：①约束纵行诸经；②主司妇女带下。因此，带脉亏虚，不能约束诸经，而致子宫脱垂、腰脊绕腹而痛、带下增多等症状。","k":"经络"},{"t":1,"s":"以下不具有表里经关系的是","o":["阳跷脉与阴跷脉","手太阴肺经与手阳明大肠经","足阳明胃经与足太阴脾经","足厥阴肝经与足少阳胆经","手少阳三焦经与手厥阴心包经"],"a":"A","e":"奇经八脉之所以称为\"奇经\"，就是因为其与十二正经有3点不同：①分布不如十二经脉那样有规律；②与五脏六腑没有直接的属络联系；③相互之间也没有表里关系。因此，尽管阳跷脉与阴跷脉在人体的分布虽然左右对称，他们之间也不是表里关系。","k":"经络"},{"t":1,"s":"经与络的区别主要在于","o":["经脉深而不见，络脉浮而常见","经脉较粗大，络脉较细小","经脉纵行，络脉纵横交错","经为主干，络为分支","以上都不是"],"a":"D","e":"对于经脉和络脉的区别，古今存在几种不同的认识。如在《灵枢·经脉》中有\"经脉十二者，伏行分肉之间，深而不见……诸脉之浮而常见者，皆络脉也\"之论；又如在《灵枢·脉度》中有\"经脉为里，支而横者为络，络之别者为孙\"之说。据此，后世医家多认为经脉与络脉的区别是：经脉多深而不见，行于分肉之间，络脉多浮而常见，行于体表较浅部位；经脉较粗大，络脉较细小；经脉以纵行为主，络脉则纵横交错，网络全身。但实际上，经脉虽然多\"伏行于分肉之间\"，也常显露于体表；络脉虽有\"浮而常见\"者，而更多的则是分布于脏腑组织之中，难以见到，如《灵枢·百病始生》所说的\"阴络伤则血内溢\"中的\"阴络\"即是。此外，经脉也有横行者，如带脉；络脉呈网络状，纵横交错，必然也有纵行者。因此，经脉与络脉的区别，当以\"经为主干，络为分支\"为准则。","k":"经络"},{"t":1,"s":"具有约束骨骼，主司关节运动功能的是","o":["皮部","维脉","经筋","别络","督脉"],"a":"C","e":"经筋，多附于骨和关节，具有约束骨骼、主司关节运动的功能，是十二经脉之气结、聚、散、络于筋肉、关节的体系。皮部，是十二经脉之气在体表皮肤一定部位的反映区；别络，也是从经脉分出的支脉，大多分布于体表；督脉，总督一身之阳经；维脉维系一身之经脉。","k":"经络"},{"t":1,"s":"有\"司眼睑开合\"功能的经脉是","o":["跷脉","维脉","冲脉","任脉","督脉"],"a":"A","e":"阴跷脉与阳跷脉交会于目内眦，《灵枢·寒热病》中记载\"阴跷、阳跷，阴阳相交……交于目锐眦，阳气盛则瞋目，阴气盛则瞑目\"。所以跷脉有司眼睑开合的作用，跷脉有病则目不合。任脉的循行只行至目眶下。","k":"经络"},{"t":1,"s":"起于目外眦的经脉是","o":["三焦经","小肠经","胆经","胃经","大肠经"],"a":"C","e":"此题考核的是经脉的起点，这是重要的知识点，也是考试经常涉及的考点之一。足少阳胆经起于目外眦；手少阳三焦经起于无名指尺侧端；手太阳小肠经起于小指尺侧端；足阳明胃经起于鼻翼旁；手阳明大肠经起于食指桡侧端。","k":"经络"},{"t":1,"s":"十二正经中，\"络脑\"的经脉是","o":["心经","肾经","肝经","膀胱经","胆经"],"a":"D","e":"足太阳膀胱经的直行分支从头顶部分出，向后行至枕骨处，进入颅腔，络脑。肾虽然在生理上主骨生髓，但其经脉足少阴肾经自足走腹，至舌根两旁，并没有络脑。","k":"经络"},{"t":2,"s":"足厥阴肝经循行过程中，联系的脏腑有","o":["心","肺","胃","胆","肝"],"a":"BCDE","e":"足厥阴肝经循行过程中联系的脏腑较多，应熟记。足厥阴肝经夹胃两旁，属肝，络胆，上注入肺。","k":"经络"},{"t":2,"s":"环绕口唇的经脉有","o":["任脉","胃经","冲脉","大肠经","肝经"],"a":"ABCDE","e":"环绕口唇的经脉共有5条：手阳明大肠经、足阳明胃经、足厥阴肝经及冲任二脉。任脉起于胞中，沿腹部和胸部正中线上行至下颌部，环绕口唇，沿面颊，分行至目眶下。冲脉起于胞中，夹脐上行，散布于胸中，经喉，环绕口唇，到目眶下。足阳明胃经起于鼻翼旁，夹鼻上行，左右交会于鼻根部，入上齿中，出而夹口两旁，环绕口唇，在颏唇沟承浆穴处左右相交。手阳明大肠经的分支从锁骨上窝上行，经颈部至面颊，入下齿中，回出夹口两旁，左右交叉于人中。足厥阴肝经的分支从目系分出，下行颊里，环绕口唇的里边。","k":"经络"},{"t":2,"s":"下列与牙齿有联系的经脉是","o":["肾经","大肠经","脾经","胃经","肝经"],"a":"BD","e":"足阳明胃经入上齿中，手阳明大肠经入下齿中。肾藏象虽然在生理上主齿、骨、发，但其经脉并未经过牙齿。","k":"经络"},{"t":2,"s":"头痛在颠顶者，病属","o":["足太阳经","足少阳经","足阳明经","足太阴经","足厥阴经"],"a":"AE","e":"会于颠顶的经脉有3条，分别是督脉、足太阳膀胱经、足厥阴肝经。故头痛的病变主要考虑这3条经脉的异常。","k":"经络"},{"t":2,"s":"任脉的主要功能是","o":["调节阴经气血，为阴脉之海","主一身左右之阳","约束诸脉","主胞胎","濡养眼目，司眼睑开合"],"a":"AD","e":"任脉的主要功能有二：①调节阴经气血，为阴脉之海；②主胞胎，与女子月经来潮及妊养、生殖功能有关。任脉虽分行至目眶下，但不具有濡养眼目、司眼睑开合的作用。","k":"经络"},{"t":2,"s":"经络的生理功能有","o":["调节作用","沟通联系作用","运行气血作用","感应作用","传导作用"],"a":"ABCDE","e":"经络具有沟通联系、感应传导及运输、调节等基本生理功能。尤其是感应传导，是指经络系统具有感应及传导针灸或其他刺激等各种信息的作用，是通过运行于经络之中的经气对信息的感受负载作用而实现的。","k":"经络"},{"t":2,"s":"与经络学说形成有关的因素是","o":["古人长期医疗经验总结","古人在导引行气时的自我体悟","阴阳五行学说的影响","经络针灸教材的编写","古人对穴位主治功用的归纳"],"a":"ABCE","e":"经络学说是古人长期医疗经验的总结，是古人在对针灸、导引、推拿等所出现经络现象及病理情况下所出现的经络病症的观察过程中，以及对穴位主治作用的归纳中，积累丰富经验，并依据当时解剖知识，加之古代哲学阴阳五行的渗透影响，逐渐形成经络学说。","k":"经络"},{"t":1,"s":"体质是指人体的","o":["身体素质","心理素质","身心特性","遗传特质","形态结构"],"a":"C","e":"此题考核的是对体质概念的理解与掌握。体质是由先天性因素和后天性因素所决定的表现在形态结构、生理功能以及心理活动方面综合的相对稳定的特性。体质不仅包括身体素质，也包括心理素质，是贯穿生命始终的一种综合的特性。","k":"体质"},{"t":1,"s":"健康人的理想体质类型应是","o":["肥胖质","偏阳质","偏阴质","阴阳平和质","瘦小质"],"a":"D","e":"此题考核的是体质的分型。阴阳平和质是健康人的理想体质类型。阴阳平和质是指机体的脏腑、精气、阴阳等生理功能处于相对平衡的状态，表现为机体各部分的功能较为协调稳定。","k":"体质"},{"t":1,"s":"嗜食肥甘厚味，易形成","o":["火旺体质","痰湿体质","气虚体质","肝郁体质","血瘀体质"],"a":"B","e":"此题考核的是饮食因素与体质类型的关系。长期嗜食肥甘厚味，往往助湿生痰，形成痰湿体质；长期情志抑郁则容易形成肝郁体质；长期嗜食辛辣刺激性食物，容易形成火旺体质。","k":"体质"},{"t":1,"s":"先天禀赋决定着体质的相对","o":["可变性","连续性","复杂性","普遍性","稳定性"],"a":"E","e":"此题考核的是先天因素在体质形成过程中的作用。先天禀赋是体质形成的基础，是体质强弱的前提条件，决定着体质的稳定性。","k":"体质"},{"t":1,"s":"下列哪项不属于体质的特点","o":["先天遗传性","形神一体性","相对稳定性","不可预测性","动态可变性"],"a":"D","e":"体质具有先天遗传性、形神一体性、相对稳定性、动态可变性和连续可测性的特点。每个人的体质特征具有固有的发展演变规律，具有可预测性。","k":"体质"},{"t":1,"s":"小儿的体质特点是","o":["气血郁滞","代谢缓慢","稚阴稚阳","脏腑衰退","阴阳失调"],"a":"C","e":"小儿的精气阴阳还没有充分成熟，因此描述为稚阴稚阳；小儿处于生长发育的快速时期，生机旺盛，故又称之为纯阳之体；小儿的体质可概括为脏腑娇嫩，形气未充，易虚易实，易寒易热。","k":"体质"},{"t":1,"s":"素体津亏血耗者，易致邪从","o":["寒化","实化","虚化","湿化","燥化"],"a":"E","e":"从化的一般规律是：素体阴虚阳亢者，受邪后多从热化；素体阳虚阴盛者，受邪多从寒化；津亏血耗之人易使邪从燥化；气虚湿盛之人受邪多从湿化。","k":"体质"},{"t":2,"s":"影响体质形成的后天因素有","o":["性别","饮食","劳逸","情志","地理"],"a":"BCDE","e":"体质的形成禀赋于先天，受后天各种因素的影响，包括年龄、饮食、劳逸、情志、地理、疾病针药等。性别差异属于先天因素。","k":"体质"},{"t":2,"s":"老年人的体质特点为","o":["精气神充足","脏腑功能亢进","代谢缓慢","气血瘀滞","阴阳失调"],"a":"CDE","e":"老年人由于脏腑功能活动的生理学衰退，其体质多表现出精气神渐衰、代谢缓慢、气血瘀滞、阴阳失调等特点。可归纳为慢、瘀、失、衰4个字。","k":"体质"},{"t":2,"s":"偏阳质者","o":["易感风、暑、热邪","易感寒湿之邪","耐寒","耐热","发病后多表现为热证、实证"],"a":"ACE","e":"偏阳质者易感受风、暑、热阳邪，耐寒不耐热，发病后多表现为实证、热证等阳证；偏阴质者易感受寒湿阴邪，耐热不耐寒，发病后多表现为寒证、湿证等阴证。","k":"体质"},{"t":2,"s":"下列属于偏阴质特征的有","o":["形体偏瘦","性格内向","喜静少动","急躁易怒","精力旺盛"],"a":"BC","e":"阴主静，主寒，主抑制，偏阴质者在神的特征方面表现为性格内向，喜静少动；形体特征多适中或偏胖。偏阳质之人则性格外向，喜动少静，精力旺盛，急躁易怒，形体多偏瘦。","k":"体质"},{"t":1,"s":"常兼他邪合而伤人，为外感致病之先导的邪气是","o":["热邪","风邪","疠气","寒邪","湿邪"],"a":"B","e":"风邪四季皆有，其性善动、开泄，凡寒、湿、暑、燥、热诸邪，常依附于风而侵犯人体，从而形成外感风寒、风湿、风热、风燥等证，为外感致病之先导。","k":"病因"},{"t":1,"s":"易袭阳位，具有轻扬升散的邪气是","o":["暑邪","燥邪","风邪","火邪","寒邪"],"a":"C","e":"风邪具有轻扬、升发、向上、向外的特性，故属于阳邪。阳邪易袭阳位，故风邪侵袭，常伤及人体的上部（头、面）、阳经和肌表。","k":"病因"},{"t":1,"s":"风邪伤人，病变部位不固定是由于","o":["风性数变","风性善行","风为阳邪","风性轻扬","风性开泄"],"a":"B","e":"因风性善动不居，游移不定，故其致病具有病位游移、行无定处的特征。这是风性善行的特点。风性数变是风邪致病变幻无常，发病迅速。","k":"病因"},{"t":1,"s":"感受寒邪症见恶寒，是由于","o":["寒为阴邪，病起于下","寒性凝滞，气血阻滞不通","寒伤肌表，卫阳被遏","寒性收引，经脉拘急","寒性黏滞，气机不畅"],"a":"C","e":"寒邪侵入人体后，机体的阳气奋起抵抗。外寒侵袭肌表，卫阳被遏，可见恶寒、发热、无汗、鼻塞、流清涕。","k":"病因"},{"t":1,"s":"寒邪的性质和致病特征是","o":["为阴邪，易阻气机","其性重浊，可致周身酸痛","易伤肺，出现咳嗽痰少症状","其性黏滞，病难速愈","其性凝滞，易发疼痛"],"a":"E","e":"寒为阴邪，具有凝滞之性，侵入人体后易使气血津液凝结、经脉阻滞导致疼痛。湿性重浊、黏滞是湿邪的特点；易伤肺是燥邪的特点。","k":"病因"},{"t":1,"s":"常引起筋脉拘挛、屈伸不利、腠理闭塞、气机收敛的邪气是","o":["风邪","寒邪","湿邪","瘀血","痰饮"],"a":"B","e":"因寒性收引，故易使气机收敛，腠理闭塞。寒客经络关节，则经脉收缩拘急，甚则挛急作痛，屈伸不利。","k":"病因"},{"t":1,"s":"寒邪致病出现各种疼痛症状，其机制是","o":["气机收敛，腠理闭塞","经脉气血凝结阻滞","损伤人体阳气","耗气伤津，不能濡养","为有形之邪，阻滞气机"],"a":"B","e":"因寒性凝滞、收引，故致病易使气血凝滞，经脉收缩、牵引而作痛。","k":"病因"},{"t":1,"s":"下列属于风邪性质和致病特征的是","o":["为阳邪，其性炎热","为阳邪，其性开泄","为阳邪，伤津耗气","为阳邪，易生风动血","为阳邪，其性炎上"],"a":"B","e":"风为阳邪，其性开泄。炎热是暑邪的特点；生风动血是火热邪的特点；伤津耗气是火热邪和暑邪的特点。","k":"病因"},{"t":1,"s":"感受寒邪而致的中寒是指","o":["寒邪伤于肌表","寒邪入中经脉","寒邪自内而生","寒邪直中脏腑","寒邪侵及血分"],"a":"D","e":"寒邪侵入所致病证，称为外寒病证。寒客肌表，郁遏卫阳者，称为伤寒；寒邪直中于里，伤及脏腑阳气者，称为中寒。","k":"病因"},{"t":1,"s":"湿邪、寒邪的共同致病特征是","o":["易伤阳气","阻遏气机","黏腻重浊","凝滞收引","易袭阳位"],"a":"A","e":"阻遏气机、黏腻重浊是湿邪的特点；凝滞收引是寒邪的特点。均为阴邪、易伤人阳气为其共同致病特点。","k":"病因"},{"t":1,"s":"湿邪致病可见水肿、湿疹等，症多见于下肢的主要原因是","o":["湿性趋下","湿性重浊","湿为阴邪","湿性黏滞","湿性缠绵"],"a":"A","e":"湿邪为重浊有质之邪，类水属阴而有趋下之势，人体下部亦属阴，同类相求，故湿邪为病，易伤及人体下部。水肿、湿疹等病以下肢较为多见。","k":"病因"},{"t":1,"s":"致病可出现各种秽浊不清症状的邪气是","o":["风邪","寒邪","火邪","湿邪","燥邪"],"a":"D","e":"湿性重浊，湿邪为患，易呈现分泌物和排泄物秽浊不清的症状，如面垢、眵多，小便浑浊，妇女白带过多，大便下痢脓血等。","k":"病因"},{"t":1,"s":"侵犯人体可引起关节疼痛重着症状的邪气是","o":["风邪","寒邪","暑邪","湿邪","燥邪"],"a":"D","e":"湿邪致病，常出现以沉重感为特征的临床表现。湿邪阻滞经络关节，阳气不得布达，则可见肌肤不仁、关节疼痛重着等，称之为湿痹或着痹。","k":"病因"},{"t":1,"s":"湿邪致病缠绵难愈的主要原因是","o":["湿为阴邪，易阻遏气机","湿邪伤阳困脾","湿性黏滞，胶着难解","湿性重浊，留滞体内","湿性趋下，易袭阴位"],"a":"C","e":"湿性黏滞，易阻气机，气不行则湿不化，胶着难解，故湿邪为病，起病隐缓，病程较长，反复发作，或缠绵难愈。","k":"病因"},{"t":1,"s":"其性干涩，易伤津液的病邪是","o":["风邪","燥邪","火邪","暑邪","疠气"],"a":"B","e":"燥邪为干涩之病邪，侵犯人体，最易损伤津液，出现各种干燥、涩滞的症状。","k":"病因"},{"t":1,"s":"易于伤肺，导致干咳少痰，或痰黏难咯等症的邪气是","o":["风邪","寒邪","暑邪","湿邪","燥邪"],"a":"E","e":"肺为娇脏，喜清润而恶燥。肺主气司呼吸，开窍于鼻，燥邪多从口鼻而入，故最易损伤肺津，从而影响肺气之宣降，出现干咳少痰，或痰黏难咯，或痰中带血。","k":"病因"},{"t":1,"s":"六淫中最易导致出血的是","o":["寒邪","湿邪","暑邪","火邪","燥邪"],"a":"D","e":"火热之邪侵犯血脉，轻则加速血行，甚则可灼伤脉络，迫血妄行，引起各种出血证。","k":"病因"},{"t":1,"s":"可致目赤肿痛、咽喉红肿、唇舌糜烂等症的是病因病机","o":["热邪侵扰心神","热邪伤津耗气","热邪易生风","热邪易致动血","火热之邪燔灼趋上"],"a":"E","e":"火热之性燔灼、升腾，故为阳邪。火热之邪易侵害人体上部，尤以头面部为多见。如目赤肿痛、咽喉肿痛、口舌生疮糜烂、牙龈肿痛等。","k":"病因"},{"t":1,"s":"常引起心烦失眠、狂躁妄动等症状的邪气是","o":["风邪","寒邪","燥邪","湿邪","火邪"],"a":"E","e":"火热与心相通应，故火热之邪入于营血，尤易影响心神，轻者心神不宁而心烦、失眠；重者可扰乱心神，出现狂躁不安，或神昏、谵语等症。","k":"病因"},{"t":1,"s":"下列属火邪、燥邪、暑邪共同致病特征的是","o":["上炎","耗气","伤津","动血","生风"],"a":"C","e":"火（热）、燥、暑均为阳邪，侵人易伤津液而见多汗及干燥失润之症。","k":"病因"},{"t":1,"s":"具有升散而又挟湿特性的邪气是","o":["湿邪","燥邪","热邪","暑邪","寒邪"],"a":"D","e":"暑乃夏季之主气，夏至至立秋，气候炎热，常多雨而潮湿，热蒸湿动，水气弥漫，故暑邪致病，多挟湿邪为患。","k":"病因"},{"t":1,"s":"患者高热2天，突然出现四肢抽搐、神昏谵语、舌红、苔黄燥、脉洪数有力等症，其病因病机是","o":["火邪生风","暑邪伤津","寒邪凝滞","燥邪伤肺","风邪数变"],"a":"A","e":"火热之邪侵犯人体，燔灼肝经，耗劫津液，筋脉失养失润，易引起肝风内动的病证。由于此肝风为热甚引起，故又称热极生风。临床表现为高热神昏、四肢抽搐、两目上视、角弓反张等。","k":"病因"},{"t":1,"s":"异气是指","o":["六淫邪气","异常气候","情志变化","气机失常","乖戾之气"],"a":"E","e":"疠气，指一类具有强烈致病性和传染性的外感病邪。在中医文献中，疠气又称为疫毒、疫气、异气、戾气、毒气、乖戾之气等。","k":"病因"},{"t":1,"s":"下列选项与疠气流行关系不密切的是","o":["气候反常","环境因素","预防措施不当","社会因素","精神因素"],"a":"E","e":"影响疠气产生的因素有多种，主要有气候因素、环境因素、预防措施和社会因素等。精神因素不是影响疠气的因素。","k":"病因"},{"t":1,"s":"大怒主要损伤的脏腑是","o":["肝","心","脾","肺","肾"],"a":"A","e":"心在志为喜为惊，过喜或过惊则伤心；肝在志为怒，过怒则伤肝；脾在志为思，过度思虑则伤脾；肺在志为悲为忧，过悲则伤肺；肾在志为恐，过恐则伤肾。","k":"病因"},{"t":1,"s":"七情内伤致病多损伤的脏是","o":["心、肝、脾","心、肺、脾","心、肝、肾","心、肺、肝","肺、脾、肾"],"a":"A","e":"由于心肝脾三脏在人体生理活动和心理活动中发挥着重要作用，心藏神，肝调节情志，脾为气机枢纽。情志内伤，最易损伤心肝脾三脏。","k":"病因"},{"t":1,"s":"七情内伤首先影响","o":["肝魂","心神","脾意","肺魄","肾志"],"a":"B","e":"心神为人体生命活动的主宰，情志活动属于心神的范畴，故情志所伤，首先影响心神，次及相应脏腑。","k":"病因"},{"t":1,"s":"七情内伤可影响脏腑气机，其中恐则","o":["气上","气下","气缓","气结","气消"],"a":"B","e":"恐惧不解可致肾气不固，出现失精及二便失禁。故《素问·举痛论》说：恐则气下。","k":"病因"},{"t":1,"s":"导致心无所倚，神无所归，虑无所定的是","o":["过度愤怒","过度喜乐","过度悲忧","突然受惊","思虑过度"],"a":"D","e":"猝然受惊伤心，会导致心神不定、气机逆乱的病机变化。临床可见惊悸不安，慌乱失措，甚则神志错乱。","k":"病因"},{"t":1,"s":"饮食因素致病，易致聚湿、化热、生痰的是","o":["饮食过饥","饮食过饱","饮食不洁","五味偏嗜","寒热偏嗜"],"a":"B","e":"饮食过饱可导致积食，积食停滞日久，可进一步损伤脾胃功能，致使运化功能久不得复，还可聚湿、化热、生痰而引起其他病变发生。","k":"病因"},{"t":1,"s":"易致人体阴阳失调的饮食因素是","o":["饮食过饥","饮食过饱","五味偏嗜","寒热偏嗜","饮食不洁"],"a":"D","e":"阴阳失调往往伴有寒热的表现，若过分偏嗜寒热饮食，也可导致人体阴阳失调而发生某些病变。","k":"病因"},{"t":1,"s":"劳力过度，易损伤的脏腑是","o":["心肺","心脾","脾肺","脾肾","肝肾"],"a":"C","e":"脾为生气之源，肺为主气之脏，劳则气耗，故劳力过度易损伤脾肺之气。常见少气懒言、体倦神疲、喘息汗出等症。","k":"病因"},{"t":1,"s":"劳神过度，易损伤的脏腑是","o":["心肺","心脾","脾肺","脾肾","肝肾"],"a":"B","e":"由于心藏神，脾主思，血是神志活动的重要物质基础，故用神过度，长思久虑，则易耗伤心血，损伤脾气。","k":"病因"},{"t":1,"s":"与痰饮形成密切相关的脏腑是","o":["心脾肝肾","心肺脾肾","肝胆脾肾","肺脾肝肾","心肝肺肾"],"a":"D","e":"脾、肺、肾、肝及三焦等在人体水液代谢过程中起着重要作用。因此，肺、脾、肾、肝等脏腑功能失调易致痰饮形成。","k":"病因"},{"t":1,"s":"下列易蒙蔽心神的病因是","o":["瘀血","痰饮","结石","积食","血瘀"],"a":"B","e":"痰饮为浊物，而心神性清净。故痰浊为病，随气上逆，尤易蒙蔽清窍，扰乱心神，使心神活动失常，出现头晕目眩、精神不振等症。","k":"病因"},{"t":1,"s":"痰浊为病，随气上逆尤易","o":["阻滞肺气，失于宣降","留滞脏腑，升降失常","蒙蔽清窍，扰乱心神","流注经络，气机阻滞","停滞胃腑，失于和降"],"a":"C","e":"痰浊随气上逆，尤易蒙蔽清窍，扰乱心神。","k":"病因"},{"t":1,"s":"瘀血所致的病症特点是","o":["影响新血生成","易于阻滞气机","病位固定不移","刺痛","影响血脉运行"],"a":"D","e":"易于阻滞气机、影响血脉运行、影响新血生成、病位固定均是瘀血的致病特点。刺痛是瘀血所致的病症特点。","k":"病因"},{"t":1,"s":"下列不属于瘀血致病特点的是","o":["易于阻滞气机","影响新血生成","影响血脉运行","病位较为固定","易于蒙蔽神明"],"a":"E","e":"瘀血的致病特点是易于阻滞气机，影响血脉运行，影响新血生成，病位固定、病证繁多。蒙蔽心神是痰饮的致病特点。","k":"病因"},{"t":1,"s":"百病多由痰作祟之说的原因是","o":["致病广泛，变幻多端","易于蒙蔽心神","影响水液代谢","阻滞气机运行","导致瘀血"],"a":"A","e":"痰饮随气流行，内而五脏六腑，外而四肢百骸、肌肤腠理，可停滞而致多种疾病。由于其致病面广，发病部位不一，且又易于兼邪致病，因而在临床上形成的病证繁多。","k":"病因"},{"t":2,"s":"六淫致病的共同特点有","o":["外感性","季节性","地域性","相兼性","传变性"],"a":"ABCD","e":"六淫致病具有外感性、季节性、地域性、相兼性的共同特点。","k":"病因"},{"t":2,"s":"易耗伤津液的病邪有","o":["风邪","燥邪","暑邪","火热之邪","寒邪"],"a":"BCD","e":"燥邪干涩、易耗伤津液；暑邪升散，易耗伤津液；火热之邪侵人，热淫于内，可迫津外泄致津亏，同时可直接消灼煎熬津液。","k":"病因"},{"t":2,"s":"疠气的致病特点有","o":["发病急骤","病情危笃","症状相似","传染性强","易于流行"],"a":"ABCDE","e":"疠气致病特点是：发病急骤，病情危笃；传染性强，易于流行；一气一病，症状相似。","k":"病因"},{"t":2,"s":"风邪的性质和致病特征有","o":["轻扬开泄","善行数变","主动","易耗气伤津","为百病之长"],"a":"ABCE","e":"风为阳邪，轻扬开泄，易袭阳位；风性善行数变；风性主动；风为百病之长。风不具有耗气伤津的特点。","k":"病因"},{"t":2,"s":"寒邪的性质和致病特征有","o":["主动","收引","凝滞","重浊","为阴邪"],"a":"BCE","e":"寒性收引，凝滞，为阴邪、易伤人阳气。主动是风邪的特点，重浊是湿邪的特点。","k":"病因"},{"t":2,"s":"湿邪的性质和致病特征有","o":["为百病之长","易耗气伤津","其性黏滞","其性重浊","阻滞气机"],"a":"CDE","e":"湿性黏滞；湿性重浊；湿为阴邪，易阻滞气机，损伤阳气。风为百病之长，暑邪易耗气伤津。","k":"病因"},{"t":2,"s":"燥邪的性质和致病特征有","o":["性干涩","性开泄","易伤肺","性炎上","易伤津"],"a":"ACE","e":"燥性干涩，易伤津液，燥易伤肺。","k":"病因"},{"t":2,"s":"火热之邪的性质和致病特征有","o":["性干涩","为阳邪","易扰心神","易生风动血","善行数变"],"a":"BCD","e":"火热为阳邪，其性趋上，易扰心神，易生风动血，易致疮痈。","k":"病因"},{"t":2,"s":"暑邪的性质和致病特征有","o":["为阳邪","性升散","多挟湿","易伤津","性重浊"],"a":"ABCD","e":"暑为阳邪，其性炎热，暑性升散，易伤津耗气，暑多挟湿。重浊属于湿邪的特点。","k":"病因"},{"t":2,"s":"易导致发病病程较长的病因有","o":["湿邪","水湿痰饮","瘀血","七情内伤","结石"],"a":"ABDE","e":"湿性黏滞，痰饮亦为湿聚而成，病程较长且易反复发作；七情内伤大多为长期情志刺激致病；结石多为湿热久蕴煎熬蕴结而成，病程均较长。","k":"病因"},{"t":2,"s":"火热邪、暑邪的共同致病特征有","o":["均为阳邪","均易致疮痈","耗气伤津","均挟湿邪","均可见高热"],"a":"ACE","e":"火（热）、暑之邪均为阳邪，伤人易致高热、口渴喜饮、面赤、脉洪大等症，且易伤津耗气。","k":"病因"},{"t":2,"s":"瘀血的致病特点包括","o":["易于阻滞气机","影响血脉运行","影响新血生成","病位固定","病证繁多"],"a":"ABCDE","e":"瘀血致病的特点包括：易于阻滞气机；影响血脉运行；影响新血生成；病位固定，病证繁多。","k":"病因"},{"t":2,"s":"瘀血形成的因素包括","o":["气脱","气滞","血寒","血热","气虚"],"a":"BCDE","e":"瘀血形成的因素主要包括：血出致瘀，气滞致瘀，因虚（气虚等）致瘀，血寒致瘀，血热致瘀。","k":"病因"},{"t":2,"s":"痰饮的致病特点有","o":["阻滞气血运行","影响水液代谢","易于蒙蔽心神","致病广泛","变幻多端"],"a":"ABCDE","e":"痰饮致病的特点包括：阻滞气血运行，影响水液代谢，易于蒙蔽心神，致病广泛，变化多端。","k":"病因"},{"t":2,"s":"结石形成的因素包括","o":["饮食不当","情志内伤","用药不当","体质差异","饮水过多"],"a":"ABCD","e":"结石形成的因素主要包括：饮食不当，情志内伤，用药不当，体质差异。饮水过多不易形成结石。","k":"病因"},{"t":1,"s":"疾病发生的内在因素是（ ）","o":["邪气偏盛","邪盛正衰","正气不足","正胜邪衰","正虚邪恋"],"a":"C","e":"发病的机制，在于正气与邪气的相互作用。正气是决定发病的主导因素，邪气是发病的重要条件。选项B、D、E都属于病机，而不是发病原理。","k":"病机"},{"t":1,"s":"疾病发生的重要条件是（ ）","o":["正气不足","邪气侵害","邪胜正负","饮食不良","地域因素"],"a":"B","e":"中医学认为发病原理在于邪正相搏，正气不足是疾病发生的内在因素，邪气是发病的重要条件。饮食失宜是病因，地域因素是影响发病的因素。邪胜正负是病机。","k":"病机"},{"t":1,"s":"发病与否取决于（ ）","o":["感受邪气","正气不足","邪正相搏","情志因素","体质因素"],"a":"C","e":"邪正相搏是指正气与邪气的交争。邪正相搏的胜负，决定发病与否。正胜邪却则不发病，邪胜正负则发病。","k":"病机"},{"t":1,"s":"下列哪项不是正气的作用（ ）","o":["防御","调节","修复","祛邪","营养"],"a":"E","e":"正气具有防御、祛邪、调节、康复自愈能力修复等作用。","k":"病机"},{"t":1,"s":"各种致病因素又可称为（ ）","o":["疠气","邪气","六淫","虚邪","正邪"],"a":"B","e":"邪气泛指各种致病因素，包括存在于外界或由人体内产生的各种致病因素。六淫、疠气都属于邪气。","k":"病机"},{"t":1,"s":"下列哪项不是正气的防御作用（ ）","o":["抵御外邪的入侵","祛除病邪","调节汗孔开合","修复调节能力","维持脏腑经络功能的协调"],"a":"C","e":"正气的防御作用具体表现在以下4个方面：①抵御外邪的入侵；②祛除病邪；③修复调节能力；④维持脏腑经络功能的协调。","k":"病机"},{"t":1,"s":"下列哪项不是邪气的侵害作用（ ）","o":["导致阴阳失调","导致脏腑功能紊乱","损伤皮肉筋骨","导致自愈能力下降","改变体质类型"],"a":"D","e":"邪气的侵害作用主要体现在导致生理功能失常，造成脏腑、组织的形质损害，改变体质类型。自愈能力下降属于正气的作用减退，不是邪气的侵害作用。","k":"病机"},{"t":1,"s":"下列哪项不属于感邪即发（ ）","o":["感邪较盛","情志剧变","思虑过度","毒物所伤","急性外伤"],"a":"C","e":"感邪即发是指感邪后立即发病、发病迅速之意。思虑过度属于情志内伤发病，起病缓慢，属于徐发。","k":"病机"},{"t":1,"s":"《素问·生气通天论》说：“冬伤于寒，春必温病。”此发病类型属于（ ）","o":["感邪即发","徐发","伏而后发","复发","继发"],"a":"C","e":"“冬伤于寒，春必温病”是冬天感受寒邪，到春天再发病。也就是指感受邪气后，病邪在机体内潜伏一段时间，或在诱因的作用下，过时而发病。这种发病形式称为伏而后发。","k":"病机"},{"t":1,"s":"决定对某种病邪的易感性，与下列哪项关系最为密切（ ）","o":["情志因素","体质因素","邪气种类","地域因素","正气强弱"],"a":"B","e":"体质因素决定对某种病邪的易感性。感受同种病邪，因体质不同，可表现出不同的证候类型；感受不同的病邪，体质相同，又可表现出相同的证候类型。","k":"病机"},{"t":1,"s":"引起疾病复发的机制是（ ）","o":["新感病邪","余邪未尽","饮食不慎","过于劳累","精神因素"],"a":"B","e":"复发，是指疾病初愈或疾病的缓解阶段，在某些诱因的作用下，引起疾病再度发作或反复发作的一种发病形式。引起复发的机制是余邪未尽，正虚未复，同时有诱因的作用。饮食不慎、用药不当、过度劳累、复感新邪等，均可致余邪复炽。","k":"病机"},{"t":1,"s":"肝气郁结日久所致的“癥积”，此发病类型为（ ）","o":["感邪即发","复发","继发","徐发","伏而后发"],"a":"C","e":"继发，是指在原发疾病的基础上，继而发生新的疾病。就是说，继发病首先有原发疾病，并且所产生的新的疾病与原发病在病理上有密切联系。","k":"病机"},{"t":1,"s":"外感疾病的恢复期，若因饮食不慎致疾病复发者，此复发的类型为（ ）","o":["疾病少愈即复发","休止与复发交替","过时而发病","急发与缓解交替","重感外邪致复发"],"a":"A","e":"由于余邪未尽，正气已虚，在饮食不慎、用药不当、劳累过度等诱因的作用下，可致余邪复燃，正气更虚，引起复发。这是疾病少愈即复发，多见于较重的外感疾病的恢复期。","k":"病机"},{"t":1,"s":"体质因素与精神状态主要能影响人体的（ ）","o":["正气盛衰","禀赋强弱","感邪性质","感邪轻重","受邪部位"],"a":"A","e":"体质强，精神状态好，气血调和，则正气盛；体质弱，情志不舒，气血不调，则正气弱。","k":"病机"},{"t":1,"s":"下列属于疾病基本病机的是（ ）","o":["经络病机","脏腑病机","六淫病机","阴阳失调病机","内生五邪病机"],"a":"D","e":"基本病机是指机体对于致病因素侵袭所产生的最基本的病变反应，是病机变化的一般规律。三大基本病机是指邪正盛衰、阴阳失调和精气血津液失常。所以不包括脏腑病机和经络病机。","k":"病机"},{"t":1,"s":"决定病证虚实变化的主要病机是（ ）","o":["脏腑功能的盛衰","阴精阳气的盛衰","气血的盛衰","正邪的盛衰","邪气的有无"],"a":"D","e":"在疾病过程中，正气和邪气处于不断的斗争过程中，发生着消长盛衰变化。随着体内邪正的消长盛衰变化，形成了疾病的虚实病机变化。","k":"病机"},{"t":1,"s":"“大实有羸状”是指（ ）","o":["阳盛阴虚","阴盛阳虚","阴阳两虚","真实假虚","真虚假实"],"a":"D","e":"“大实有羸状”是指病机的本质为“实”，但表现出“虚”的临床假象。一般是由于邪气亢盛，结聚体内，阻滞经络，气血不能外达所致，也就是真实假虚证。真虚假实证又称为“至虚有盛候”。","k":"病机"},{"t":1,"s":"“实”的病机最根本是指（ ）","o":["体质壮实","正气旺盛","邪气亢盛","病邪内生","外邪侵袭"],"a":"C","e":"所谓实，是指邪气盛，是以邪气亢盛为矛盾主要方面的病机变化。","k":"病机"},{"t":1,"s":"下列选项属实证临床表现的是（ ）","o":["二便不通","神疲体倦","五心烦热","面容憔悴","自汗盗汗"],"a":"A","e":"实证主要矛盾是邪气强盛，而此时正气的抗病能力未衰，能积极与邪抗争，故正邪相搏，斗争激烈，反应明显，往往出现一系列病理性反应比较剧烈的、有余的证候。以上证候只有二便不通属于实证，其余表现多见于虚证。","k":"病机"},{"t":1,"s":"证候虚实的“虚”是指（ ）","o":["体质虚弱","气血虚","正气不足","邪留伤正","精气虚"],"a":"C","e":"所谓虚，是指正气不足，是以正气虚损为矛盾主要方面的病机变化。正气不足是判断虚证的关键。","k":"病机"},{"t":1,"s":"下列选项属虚证临床表现的是（ ）","o":["面红目赤","精神亢奋","烦躁不宁","二便失禁","疼痛剧烈"],"a":"D","e":"虚证是以正气虚损为矛盾主要方面的一种病理状态，对于致病邪气的斗争无力，常表现一系列虚弱、衰退和不足的证候。选项A、B、C、E都属于反应剧烈的表现，多见于实证。","k":"病机"},{"t":1,"s":"邪气亢盛，结聚于内，阻滞经络，气血不能外达所形成的病机是（ ）","o":["真实假虚","由实转虚","实中夹虚","真虚假实","因虚致实"],"a":"A","e":"“邪气亢盛，结聚于内”说明疾病的实质是实证，“气血不能外达”就会出现不足的表现，因此病机为真实假虚。","k":"病机"},{"t":1,"s":"正气虚弱，脏腑经络之气不足，推动、激发功能减退所形成瘀血、痰饮等闭塞不通的病机是（ ）","o":["真实假虚","由寒转热","热中夹寒","真虚假实","因实致虚"],"a":"D","e":"“正气虚弱，脏腑经络之气不足”之证应为虚证，“推动、激发功能减退”就会导致病理产物的聚集。这种病证本质为“虚”，但表现出“实”的临床假象，因此为真虚假实。","k":"病机"},{"t":1,"s":"疾病后期，或遗留某些后遗症的病机是（ ）","o":["正盛邪退","邪去正虚","邪盛正虚","邪正交争","正虚邪恋"],"a":"E","e":"若正气大虚、余邪未尽，致使疾病处于缠绵难愈的病理过程，称为正虚邪恋。一般多见于疾病后期，且是多种疾病由急性转为慢性，或慢性病久治不愈，或遗留某些后遗症的主要原因之一。","k":"病机"},{"t":1,"s":"阳偏胜的主要病机是（ ）","o":["脏腑功能障碍","病理性代谢产物积聚","功能亢奋，热量过剩","阴不制阳，阳相对偏亢","阴液不足，火热内生"],"a":"C","e":"阳偏胜是指机体在疾病过程中所出现的阳气病理性偏盛、功能亢奋、机体反应性增强、热量过剩的病理状态。","k":"病机"},{"t":1,"s":"“阴盛则寒”的证候性质是（ ）","o":["假热证","假寒证","虚寒证","实寒证","阴盛伤阳证"],"a":"D","e":"阴盛是阴气的绝对亢盛，其病机特点多表现为阴盛而阳未虚的实寒证。","k":"病机"},{"t":1,"s":"阳气不足，可发于五脏六腑，其最重要的是（ ）","o":["肾阳虚","心阳虚","肺阳虚","肝阳虚","脾阳虚"],"a":"A","e":"阳气不足，可发于五脏六腑，但一般以肾阳虚衰最为重要。因为肾阳为诸阳之本，“五脏之阳气，非此不能发”，所以肾阳虚衰（命门之火不足）在阳气偏衰的病机中占有极其重要的地位。","k":"病机"},{"t":1,"s":"阴偏衰的主要病机是（ ）","o":["阳气亢盛，阴气相对不足","阳热盛极，格阴于外","阳气亢盛，耗伤精血津液","人体阴气不足，功能虚性亢奋","阴液亏损，阳气化生亦不足"],"a":"D","e":"阴偏衰，是指机体阴气不足，凉润、宁静、抑制等功能减退，出现代谢相对增快，功能虚性亢奋，产热相对增多的病理状态。选项E属于阴阳互损。","k":"病机"},{"t":1,"s":"阴气不足，可见于五脏六腑，其最主要的是（ ）","o":["心阴虚","脾阴虚","肾阴虚","胃阴虚","肝阴虚"],"a":"C","e":"阴气不足，可见于五脏六腑，但一般以肾阴亏虚为主。肾阴为诸阴之本，“五脏之阴气，非此不能滋”，所以肾阴不足在阴偏衰的病机中占有极其重要的地位。","k":"病机"},{"t":1,"s":"阴损及阳是指（ ）","o":["阴虚不能制约阳气","阴盛于内，格阳于外","阴气亏虚，阳无以化生，阳亦亏虚","阴盛伤阳，阳气受损","阴气盛极，阳气浮越于外"],"a":"C","e":"阴损及阳，是指由于阴气亏损，累及阳气生化不足，从而在阴虚的基础上又导致了阳虚，形成了以阴虚为主的阴阳两虚的病理状态。","k":"病机"},{"t":1,"s":"容易发生阴阳互损的脏是（ ）","o":["心","肝","肾","脾","肺"],"a":"C","e":"由于肾为五脏阴阳之本，故无论阴虚或阳虚，多在损及肾之阴阳及肾本身阴阳失调的情况下，才易于发生阴阳互损的病理变化。","k":"病机"},{"t":1,"s":"阴阳不相维系，可出现（ ）","o":["阳胜则热，阴胜则寒","阳虚则寒，阴虚则热","阴盛格阳，阳盛格阴","阴损及阳，阳损及阴","阴虚阳亢，阳虚阴盛"],"a":"C","e":"阴阳不相维系的原因在于阴阳双方的对立排斥，即阴或阳的一方偏盛或偏衰至极，壅遏于内，将另一方排斥格拒于外，从而出现真寒假热或真热假寒的复杂病变。","k":"病机"},{"t":1,"s":"邪热内伏，反见四肢厥冷的病机是（ ）","o":["阳盛则阴病","阴盛则寒","阳虚则寒","阴损及阳","阳盛格阴"],"a":"E","e":"阳盛于内是疾病的本质，但由于格阴于外，故可在原有壮热、面红、气粗、烦躁、舌红、脉数大有力等邪热内盛表现的基础上，又现四肢厥冷、脉象沉伏等假寒之象。","k":"病机"},{"t":1,"s":"阴寒之邪壅盛于内，逼迫阳气浮越于外的病机变化是（ ）","o":["阴盛格阳","阴损及阳","阳盛格阴","阳损及阴","阴盛耗阴"],"a":"A","e":"寒盛于内是疾病的本质，由于排斥阳气于外，可在原有面色苍白、四肢逆冷、精神萎靡、畏寒蜷卧、脉微欲绝等寒盛于内表现的基础上，又出现面红、烦热、口渴、脉大无根等假热之象。","k":"病机"},{"t":1,"s":"大出血时突然出现面色苍白，大汗淋漓，四肢厥冷，晕厥，脉微欲绝，为（ ）","o":["气虚失血","气随血脱","气血两虚","亡阳","亡阴"],"a":"D","e":"大出血时出现面色苍白、大汗淋漓、四肢厥冷、晕厥、脉微欲绝，当属阳气大量脱失的亡阳。气随血脱也会出现气的脱失，但程度较轻，也没有寒热的表现。","k":"病机"},{"t":1,"s":"精虚最主要的病变是（ ）","o":["先天之精不足","水谷之精不足","脏腑之精不足","生殖之精不足","肾精不足"],"a":"E","e":"肾是藏精的主要脏腑，肾所藏之精，以禀受于父母的先天之精为主体，加之部分后天水谷之精的充养而形成，所以精虚以肾精亏虚最为重要。","k":"病机"},{"t":1,"s":"下列各项偏于宗气虚表现的是（ ）","o":["倦怠乏力","精神委顿","面色㿠白","动则心悸，呼吸气短","生长发育迟缓"],"a":"D","e":"宗气可贯心脉行气血，走息道行呼吸，宗气虚可见心肺功能异常，出现动则心悸、呼吸气短等症。","k":"病机"},{"t":1,"s":"以下哪项一般不属于气机失调的病机内容（ ）","o":["气滞","气逆","气陷","气虚","气脱"],"a":"D","e":"气的失常，主要包括两个方面：①气的生化不足或耗散太过，形成气虚的病理状态；②气的运动失常，出现气滞、气逆、气陷、气闭或气脱等气机失调的病理变化。气虚不属于气机失调。","k":"病机"},{"t":1,"s":"气陷常见于（ ）","o":["脾气虚","肺气虚","肾气虚","心气虚","肝气虚"],"a":"A","e":"气陷尤与脾气的关系密切，若素体虚弱，或病久耗伤，致脾气虚损，清阳不升，中气下陷，从而形成气虚下陷的病变。","k":"病机"},{"t":1,"s":"脏腑气滞病变多发生于（ ）","o":["肺、脾胃、肾","心、脾胃、肝","肝、脾胃、肾","肺、脾胃、肝","肝胆、肺、肾"],"a":"D","e":"由于肝升肺降、脾升胃降，在调整全身气机中起着极其重要的作用，故脏腑气滞以肺、肝、脾胃为多见。","k":"病机"},{"t":1,"s":"气逆最常发作的脏腑是（ ）","o":["肺、胃、肾","心、胃、肝","肝、胃、肾","肺、胃、肝","肝、肺、肾"],"a":"D","e":"由于胃气和肺气以降为主，病理易见气逆，肝气主升主动，容易产生肝气上逆。故气逆最常见于肺、胃和肝。心气虽有心火上炎，但不属于气机逆上。","k":"病机"},{"t":1,"s":"“上气不足”属于下列何种病变（ ）","o":["气滞","气逆","气陷","气闭","气脱"],"a":"C","e":"气陷的病理变化，主要有“上气不足”与“中气下陷”两个方面。","k":"病机"},{"t":1,"s":"五脏中最常见血虚证的是（ ）","o":["心、肝","心、脾","脾、肾","肝、肾","心、肺"],"a":"A","e":"心主血，肝藏血，血虚证以心、肝血虚最为常见。心脾多见心血虚和脾气虚。","k":"病机"},{"t":1,"s":"下列哪一项不是血虚的临床表现（ ）","o":["惊悸怔忡、失眠多梦、健忘","两目干涩、视物昏花","手足麻木、关节屈伸不利","妇女经少、月经愆期、闭经","肌肤甲错、面色黧黑"],"a":"E","e":"全身各脏腑、经络等组织器官，都依赖于血的濡养而维持其正常的生理功能，所以血虚就会出现全身或局部的失荣失养、功能活动逐渐衰退等虚弱证候。肌肤甲错、面色黧黑等，是血液瘀滞的征象。","k":"病机"},{"t":1,"s":"多与气滞血瘀发病密切相关的脏腑是（ ）","o":["肝","心","脾","肺","肾"],"a":"A","e":"气滞血瘀多因情志内伤、抑郁不遂、气机阻滞，而致血瘀。肝主疏泄而藏血，肝气的疏泄作用在气机调畅中起着关键作用，因而气滞血瘀多与肝失疏泄密切相关。","k":"病机"},{"t":1,"s":"多与气虚血瘀发病密切相关的脏腑是（ ）","o":["肝","心","脾","肺","肾"],"a":"B","e":"心主行血，是推动血行的主要动力，所以气虚血瘀，较多见于心气不足。","k":"病机"},{"t":1,"s":"一般认为以下哪项不是导致出血的病机（ ）","o":["血瘀","血热","气虚","肝不藏血","血寒"],"a":"E","e":"选项A、B、C、D四项均可导致出血。血寒多致血脉瘀阻不畅，而非导致出血。","k":"病机"},{"t":1,"s":"以下哪项不属于气与血关系失常的病理变化（ ）","o":["气滞血瘀","气不摄血","气随血脱","气虚血热","气虚血瘀"],"a":"D","e":"气血关系的失调，主要有气滞血瘀、气虚血瘀、气不摄血、气随血脱以及气血两虚等方面。气虚、气滞一般不兼血热，而血热常与阳盛或阴虚有关。","k":"病机"},{"t":1,"s":"以下哪项不属于导致津液不足的原因（ ）","o":["热盛","大汗","多尿","脏腑气化功能减退","气滞"],"a":"E","e":"导致津液不足的原因主要有3个方面：①热邪伤津；②丢失过多；③生成不足。气滞多致津液停聚而生痰饮，但不引起津液不足。","k":"病机"},{"t":1,"s":"津亏血瘀的病机是（ ）","o":["津少不能化血","血瘀不能化津","血脉瘀阻，津液停聚","津液枯涸，燥热内生","津液亏耗，脉失濡润"],"a":"E","e":"津亏血瘀，主要指津液耗损导致血行郁滞不畅的病理状态。津液大量亏耗，则血量减少，血液循行滞涩不畅，从而发生血瘀之病变。","k":"病机"},{"t":1,"s":"“内生五邪”理论属于是（ ）","o":["病因","发病","病机","治则","预防"],"a":"C","e":"内生“五邪”由脏腑及精气血津液功能失常而产生，属内伤病的病机。外感六淫由自然界的气候变化失常而产生，属于外感病的病因。","k":"病机"},{"t":1,"s":"《临证指南医案》说“内风”产生的机制是（ ）","o":["体内气机之逆乱","身中阳气之变动","体内阴血之不足","体内筋脉之失养","体表络脉之失濡"],"a":"B","e":"内风，是指疾病发展过程中，主要因为阳盛，或阴虚不能制阳，阳升无制，出现动摇、眩晕、抽搐、震颤等类似风动的病理状态。体内筋脉的变动属于内风的表现。","k":"病机"},{"t":1,"s":"临床见肢体麻木不仁、筋肉跳动，其病机是（ ）","o":["肝阳化风","血虚生风","寒从中生","湿浊内生","热极生风"],"a":"B","e":"血虚生风多因生血不足或失血过多，或久病耗伤精血，致筋脉失养，可见筋肉跳动、肢体麻木不仁等表现。","k":"病机"},{"t":1,"s":"阴虚风动的病因是（ ）","o":["生血不足或失血过多","久病耗血或年老精亏","产后恶露日久不净","热病后期，阴津亏损","水不涵木，浮阳不潜"],"a":"D","e":"阴虚风动，多见于热病后期，津液和阴气大量亏损，或由于久病耗伤，津液及阴气亏虚所致。","k":"病机"},{"t":1,"s":"下列哪项不属于“寒从中生”的病理表现（ ）","o":["面色淡白","畏寒喜热","口咽干燥","手足不温","舌苔白滑"],"a":"C","e":"寒从中生是指机体的阳气虚衰，温煦气化功能减退，虚寒内生，或阴寒之气弥漫的病理状态，其临床表现以畏寒肢冷、精神萎靡不振、水湿痰饮积聚，或人体的分泌物、排泄物质稀、色白等，如痰、涕、唾等稀薄清冷。可简单记忆成“寒、静、湿、稀、白”5个字。口咽干燥多是体内津液耗伤而干燥失润的表现，病机多为燥。","k":"病机"},{"t":1,"s":"湿浊内生主要责之何脏功能障碍（ ）","o":["心","肝","脾","肺","肾"],"a":"C","e":"湿浊内生是指由于脾的运化水液功能障碍而引起湿浊蓄积停滞的病理状态。由于内生之湿多因脾虚，故又称之为脾虚生湿。","k":"病机"},{"t":1,"s":"外燥和内燥皆常见于何脏（ ）","o":["心","肝","脾","肺","肾"],"a":"D","e":"燥邪为干涩之病邪，最易损伤津液。肺为娇脏，喜润恶燥。故燥邪外受或内生皆易损伤肺津。","k":"病机"},{"t":1,"s":"下列哪项不属于内火（ ）","o":["寒郁化火","五志化火","阴虚火旺","热陷心包","阳亢化火"],"a":"D","e":"火热内生的病机主要有：阳气过盛化火、邪郁化火、五志过极化火和阴虚火旺。热陷心包是外感热邪内陷心包，不属火热内生。","k":"病机"},{"t":1,"s":"外感病的基本传变形式是（ ）","o":["六经传变","三焦传变","卫气营血传变","表里传变","脏腑传变"],"a":"D","e":"外感病发于表，其病位主要是自表入里、由浅而深或向相反方向传变。所以说，外感病的基本传变形式是表里之间的传变。","k":"病机"},{"t":2,"s":"复发的诱因主要有（ ）","o":["食复","劳复","药复","重感致复","情志致复"],"a":"ABCDE","e":"复发诱因常见的有感受外邪致复、饮食不节致复、过劳致复、药物调理失当致复、情志因素致复。","k":"病机"},{"t":2,"s":"发病类型主要包括（ ）","o":["继发","伏而后发","感邪即发","复发","徐发"],"a":"ABCDE","e":"发病类型主要包括感邪即发、徐发、伏而后发、继发、复发。","k":"病机"},{"t":2,"s":"下列哪些可以称为邪气（ ）","o":["六淫、疠气","痰饮、瘀血","情志活动","饮食失宜","寄生虫"],"a":"ABDE","e":"邪气包括六淫疠气、痰饮瘀血、饮食失宜、寄生虫等。情志失常使人致病为邪气，正常的情志活动不能称为邪气。","k":"病机"},{"t":2,"s":"正气的作用表现为（ ）","o":["抗邪入侵","祛邪外出","修复能力","调节能力","宁静与推动"],"a":"ABCD","e":"题目是关于防御作用，所以就不包括选项E，正气的防御作用表现为抵御外邪的入侵、祛邪外出、修复调节能力、维持脏腑经络功能的协调。","k":"病机"},{"t":2,"s":"感邪即发多见于（ ）","o":["感受疠气","情志剧变","毒物所伤","新感外邪","外伤"],"a":"ABCDE","e":"感受疠气、情志剧变、毒物所伤、新感外邪、外伤等因素致病，易迅速导致人体的阴阳失调、脏腑组织损伤、生理功能失常或心理活动障碍而立即发病。","k":"病机"},{"t":2,"s":"邪正盛衰可以说明疾病（ ）","o":["阴阳转化的机制","转归预后的机制","虚实变化的机制","疾病发生的机制","阴阳格拒的机制"],"a":"BCD","e":"邪正的消长盛衰，可以产生比较单纯的虚或实病理，邪正双方的斗争变化还对疾病转归起着决定性的作用。邪正盛衰还关系着疾病的发生机制。","k":"病机"},{"t":2,"s":"疾病的转归，取决于邪正的盛衰，其病理变化包括（ ）","o":["正胜邪退","邪胜正衰","邪正相持","正虚邪恋","邪去正衰"],"a":"ABCDE","e":"正胜邪退，疾病趋向于好转和痊愈；邪胜正衰，则疾病趋向于恶化，甚则导致死亡；若邪正力量相持不下，则疾病趋向慢性化；若正气大虚，余邪未尽，致使疾病处于缠绵难愈的病理过程。正气虽能胜邪，但受损较重，亦可见邪去正衰的转归。","k":"病机"},{"t":2,"s":"下列属于虚实错杂病机的有（ ）","o":["虚中夹实","实中夹虚","上实下虚","下实上虚","表寒里热"],"a":"ABCD","e":"虚实错杂有虚中夹实和实中夹虚两种情况，如果从病位来分析虚实错杂的病机，又有表里、上下等虚实不同的错杂证候，如表实里虚、里实表虚、上实下虚、下实上虚等。表寒里热属寒热错杂，不属于虚实错杂。","k":"病机"},{"t":2,"s":"下列符合阴偏胜病机特点的是（ ）","o":["阴气病理性偏盛","常伴阳气不足","功能抑制","阳不制阴，寒从内生","属实寒证"],"a":"ABCE","e":"阴偏胜是指机体在疾病过程中所出现的一种阴气病理性偏盛、功能抑制、热量耗伤过多的病理状态。其病机特点多表现为阴盛而阳未虚的实寒证。","k":"病机"},{"t":2,"s":"下列属于阴偏衰病机特点的有（ ）","o":["阴气不足","凉润、宁静功能减退","阳气相对亢盛","虚热证","功能虚性亢奋"],"a":"ABCDE","e":"阴偏衰，是指机体阴气不足，凉润、宁静的功能减退，阴不制阳，导致阳相对偏盛，从而出现虚热、干燥及虚性兴奋的症状。其病机特点多表现为阴气不足，阴不制阳，阳气相对偏盛的虚热证。","k":"病机"},{"t":2,"s":"形成亡阳的因素有（ ）","o":["过用汗法或汗出过多","邪盛正衰，正不敌邪","亡阴","寒湿伤表","慢性消耗疾病，长期大量耗散阳气"],"a":"ABCE","e":"亡阳可因汗出过多，吐、利无度，津液过耗，阳气外脱；或由于素体阳虚，正气不足，劳伤过度，阳气消耗过多所致。亦可因慢性消耗疾病，长期大量耗散阳气，终至阳气亏损殆尽，而出现亡阳。亡阴则阴阳互损也可致亡阳。寒湿伤表，多影响卫阳，不会形成亡阳。","k":"病机"},{"t":2,"s":"气机失调可以出现（ ）","o":["血行迟缓","昏厥","津液停滞","血上溢","形成瘀血、痰饮"],"a":"ABCDE","e":"气滞可引起血瘀、水停形成痰饮、瘀血；气逆则可导致血随气逆则血上溢。气闭可导致昏厥。","k":"病机"},{"t":2,"s":"气的运动上升太过或上升不及，是指（ ）","o":["气闭","气陷","气滞","气逆","气脱"],"a":"BD","e":"气的上升不足是指气陷，以气虚升举无力而下陷为特征的一种病理状态。气逆，指气上升太过的病理状态。气闭和气脱属于气机出入异常。","k":"病机"},{"t":2,"s":"血虚证可见（ ）","o":["面色不华","爪甲色淡","头目眩晕","手足麻木","口唇青紫"],"a":"ABCD","e":"血虚者气亦弱，故血虚除见失于滋荣的征象外，多伴气虚症状，常见面色淡白或萎黄、唇舌爪甲色淡无华、神疲乏力、头目眩晕、心悸不宁、脉细等临床表现。口唇青紫则多是血瘀证的征象。","k":"病机"},{"t":2,"s":"属于津液不足的症状有（ ）","o":["口鼻干燥","皮肤燥裂","毛发枯槁","手足震颤","形体消瘦"],"a":"ABCDE","e":"食伤中而致呕吐、泄泻或吐泻交作，损失大量津液者，可见口干舌燥、皮肤干涩而失去弹性，属于伤津；热病后期或久病伤阴，所见到的形瘦骨立，肌肤毛发枯槁，或手足震颤、肌肉瞤动、舌光红无苔或少苔，则属于脱液的临床表现。","k":"病机"},{"t":2,"s":"下列属于津液输布和排泄障碍的有（ ）","o":["湿浊困阻","痰饮凝聚","水液潴留","少汗或无汗","尿少或无尿"],"a":"ABCDE","e":"津液的输布障碍，可导致津液在体内运行迟缓，或在体内某一局部发生滞留，因而津液不化，水湿内生，酿痰成饮。津液的排泄障碍，主要是指津液转化为汗液和尿液的功能减退，可导致少汗或无汗、尿少或无尿。","k":"病机"},{"t":2,"s":"形成肝阳化风的原因包括（ ）","o":["邪热炽盛","肝肾阴虚","肝血不足","感受风邪","肝阳元盛"],"a":"BE","e":"肝阳化风主要因为肝阳元盛，或肝肾阴虚，阴虚不能制阳，阳升无制而形成动风的病机变化。感受风邪属外风，脾土虚败虽可致风气内动但不属肝阳化风。","k":"病机"},{"t":2,"s":"下列属于内风病机的有（ ）","o":["肝阳化风","血虚生风","阴虚风动","热极生风","血燥生风"],"a":"ABCDE","e":"内风主要有肝阳化风、热极生风、阴虚风动、血虚生风等，此外，尚有血燥生风。","k":"病机"},{"t":2,"s":"内寒主要与下列哪些脏腑的阳虚有关（ ）","o":["脾","肾","肺","肝","心"],"a":"AB","e":"脾为气血生化之源，脾阳能达于肌肉四肢。肾阳为人身阳气之根，能温煦全身脏腑组织。故脾肾阳气虚衰，则温煦失职，最易表现出虚寒之象，而尤以肾阳虚衰为关键。","k":"病机"},{"t":2,"s":"内燥病变常发生的脏腑有（ ）","o":["心","肺","胃","肝","大肠"],"a":"BCE","e":"内燥病变常发生于肺、胃、大肠，临床除多见肌肤干燥不泽、口燥咽干、鼻干等症状外，若燥在肺，则多伴见干咳无痰；若燥在胃，则食少，舌光红无苔；若燥在大肠，或见便秘等症状。","k":"病机"},{"t":1,"s":"下列不属于治则内容的是（  ）","o":["正治与反治","治标与治本","扶正祛邪","调整阴阳","调理脾胃"],"a":"E","e":"此题错误的原因在于混淆了治则和治法的概念。治则是治疗疾病时指导治法的总原则，具有原则性和普遍性意义。调理脾胃是针对具体病证的治疗方法，应不属于治疗原则。故正确答案为E。","k":"养生与防治原则"},{"t":1,"s":"就病变过程中矛盾主次关系而言，其标本之划分，下列表述错误的是（  ）","o":["正气为本，邪气为标","病因为标，症状为本","先病为本，后病为标","原发病为本，继发病为标","脏腑病为本，肌表经络病为标"],"a":"B","e":"产生错误的原因是没有理解标本的概念，标本是个相对的名词。就邪正而言，正气为本，邪气为标；就病机与症状而言，病机为本，症状为标；就疾病先后言，旧病、原发病为本，新病、继发病为标；病因相对症状而言是本，症状为标。故正确答案为B。","k":"养生与防治原则"},{"t":1,"s":"素体气虚，抗病力低下，反复感冒，治以（  ）","o":["急则治其标","本急则先治其本","缓则治其本","本缓则先治其标","标本兼治"],"a":"E","e":"在复杂多变的疾病过程中，常有标本主次的不同，因而治疗上就有先后缓急之分。此题主要考查标本缓急的应用。气虚为本，外感为标，单用补气则会留邪，单用解表则会伤正，故应标本兼治。故正确答案为E。","k":"养生与防治原则"},{"t":1,"s":"下列应采用\"急则治标\"的是（  ）","o":["阴虚咳嗽","持续低热","大小便不通","慢性胃痛","下肢水肿"],"a":"C","e":"此题主要考查急则治标的临床应用。标急的情况多出现在疾病过程中出现的急重，甚或危重症状，或卒病而病情非常严重时，如腹水严重、呼吸急促、二便不利则为标急，当急则治标。故正确答案为C。","k":"养生与防治原则"},{"t":1,"s":"热性病变出现热象，用寒凉药来治疗，属于（  ）","o":["用热远热","用寒远寒","虚者补之","热者寒之","寒者热之"],"a":"D","e":"此题考查正治的内容。常见的错误在于对热者寒之、寒者热之、用热远热等概念的混淆。热性病变出现热象，用寒凉药来治疗，属于热者寒之。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"用寒远寒属于（  ）","o":["扶正祛邪","因地制宜","因人制宜","因时制宜","反治法"],"a":"D","e":"此题错误的原因是混淆了用寒远寒和寒因寒用的概念。用寒远寒中\"远\"的意思是避之；前面的\"寒\"是指药物之寒性，后面的\"寒\"是指气候之寒。即是指用寒性药时，当避其气候之寒，这是根据时令气候节律特点，来制订适宜的治疗原则，属于因时制宜。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"脾虚运化无力所引起的腹部胀满，宜选用的治法是（  ）","o":["通因通用","寒因寒用","热因热用","塞因塞用","寒者热之"],"a":"D","e":"此题主要考查反治法的应用。脾气虚弱，出现纳呆、脘腹胀满、大便不畅时，是因为脾气虚衰无力运化所致的真虚假实证，当采用健脾益气的方药治疗，使其恢复正常的运化及气机升降，则症自减。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"瘀血引起的崩漏，治疗宜选用的治法是（  ）","o":["塞因塞用","通因通用","补气摄血","清热凉血","热者寒之"],"a":"B","e":"瘀血内阻，血不循经所致的崩漏是真实假虚证，如用止血药，则瘀阻更甚而血难循其经，则出血难止，此时当用活血化瘀之类的通利药物，瘀去则血自归经而出血自止。属于反治法的通因通用。故正确答案为B。","k":"养生与防治原则"},{"t":1,"s":"热因热用，系指采用温热性质的药物来治疗（  ）","o":["热证","寒证","真热假寒证","真寒假热证","寒热错杂证"],"a":"D","e":"此题错误的原因在于没有掌握反治法中热因热用的概念。即以热治热，是指用热性药物来治疗具有假热征象的病证。它适用于阴盛格阳的真寒假热证。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"对寒因寒用的表述，下列哪项是错误的（  ）","o":["用寒性药物治疗真热假寒之证","用寒性药物治疗阳盛格阴所致的病证","用寒凉药应尽量避免在寒冷季节使用","所采用方药的性质顺从疾病的假象","实质上仍是逆其证候真象性质而治的治法"],"a":"C","e":"此题错误的原因是没有正确掌握寒因寒用的概念。前面的\"寒\"是指假寒的征象，后面的\"寒\"是指寒凉的药物，寒因寒用即是指用寒凉药物治疗具有假寒征象的治法。故正确答案为C。","k":"养生与防治原则"},{"t":1,"s":"反治法是（  ）","o":["顺从疾病的病因而治","逆着疾病的假象而治","逆其疾病的现象而治","顺从疾病的假象而治","顺从疾病的病机而治"],"a":"D","e":"此题错误的原因在于没有正确掌握反治法的概念。反治法又称为\"从治\"，是指顺从病证的外在假象而治的一种治疗原则。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"患者正虚邪实而正气不耐攻伐，此时应采取的治则是（  ）","o":["扶正","祛邪","祛邪扶正兼用","先祛邪后扶正","先扶正后祛邪"],"a":"E","e":"此题错误的原因主要是没有掌握扶正和祛邪治则的应用。由于正虚，机体不能耐受攻伐，此时兼顾祛邪反而更伤正气，故当先扶正以助正气，待正气能耐受攻伐时再予以祛邪。故正确答案为E。","k":"养生与防治原则"},{"t":1,"s":"下列不属于扶正治则指导下确定的治法（  ）","o":["发汗","滋阴","养血","益气","扶阳"],"a":"A","e":"此题错误的原因在于未分清扶正和祛邪的具体治法。扶正适用于各种虚证，益气、养血、滋阴、温阳、填精、补津都是扶正治则下确立的具体治疗方法。发汗属于祛邪治则指导下确立的治法。故正确答案为A。","k":"养生与防治原则"},{"t":1,"s":"治疗阴阳偏衰应选用（  ）","o":["温阳散寒","损益兼用","补其不足","滋阴清热","损其有余"],"a":"C","e":"此题错误的原因是没有掌握阴阳偏衰的治则。偏衰就是不足，不足者治疗当需补益，即\"虚则补之\"，适用于人体阴阳失调中任何一方虚损不足的病证。故正确答案为C。","k":"养生与防治原则"},{"t":1,"s":"\"壮水之主，以制阳光\"是指（  ）","o":["以阳中求阴之法调整阴阳偏衰","以阴中求阳之法调整阴阳偏衰","以泻热之法，调整阳的偏盛","以补阴之法，治疗阴虚阳亢之证","以补阳之法，治疗阴虚阳亢之证"],"a":"D","e":"\"壮水之主，以制阳光\"是指以补阴之法，治疗阴虚阳亢之证。\"益火之源，以消阴翳\"是指以温阳之法，治疗阳虚阴盛之证。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"治疗阴偏衰时，在滋阴剂中适当佐用扶阳药，使\"阴得阳升而泉源不竭\"，这可概括为（  ）","o":["阴阳并补","阴中求阳","阳中求阴","扶阳消阴","滋阴制阳"],"a":"C","e":"此题主要考查阴阳互济之调补阴阳的方法。即根据阴阳互根的原理，补阳时适当佐以补阴药谓之阴中求阳，补阴时适当佐以补阳药谓之阳中求阴。故正确答案为C。","k":"养生与防治原则"},{"t":1,"s":"亡阴的主要原因是机体内的阴气大量亡失，治宜采取（  ）","o":["滋阴制阳","扶阳消阴","回阳救逆","救阴固脱","阴中求阳"],"a":"D","e":"此题主要考查回阳救阴治则的内容。亡阳者，当回阳以固脱；亡阴者，当救阴以固脱。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"扶正兼祛邪适用于（  ）","o":["以邪实为主的虚实夹杂证","以邪实为主的实证","以正虚为主的虚实夹杂证","真实假虚证","真虚假实证"],"a":"C","e":"此题主要考查扶正和祛邪的应用。扶正与祛邪的同时使用，即攻补兼施，适用于虚实夹杂的病证。扶正兼祛邪，即以扶正为主，辅以祛邪，适用于以正虚为主的虚实夹杂证。故正确答案为C。","k":"养生与防治原则"},{"t":1,"s":"下列选项，不属于\"因人制宜\"原则的是（  ）","o":["因性别不同而用药各异","因居处环境不同而用药各异","因体质不同而用药各异","因年龄不同而用药各异","因老幼不同而用药各异"],"a":"B","e":"不同的患者有其不同的个体特点，应根据每个患者的年龄、性别、体质等不同的个体特点来制定适宜的治则。因居处环境而用药属于因地制宜，故正确答案为B。","k":"养生与防治原则"},{"t":1,"s":"根据五行相克规律确立的治法是（  ）","o":["培土生金","滋水涵木","金水相生","佐金平木","益火补土"],"a":"D","e":"此题考查的是根据五行相生、相克规律确立治法这一知识点的掌握。选项A、B、C、E均是根据五行相生规律确立的治法，其中益火补土法中的\"火\"不是指心，而是指命门之火，即肾阳，即通过温补肾阳以补脾阳，治疗肾阳虚所致脾阳不振的证候。虽然是指脾肾之间的关系，但此治法的核心是火生土的表达；佐金平木法是指通过滋肺平肝治疗木旺侮金，即肝火犯肺的病证。故正确答案为D。","k":"养生与防治原则"},{"t":1,"s":"泻南补北法适用于（  ）","o":["肾阴虚而相火妄动","心阴虚而心阳亢","肾阴虚而心火旺","肾阴虚而肝阳亢","肾阳虚而心火旺"],"a":"C","e":"此题考查的重点是对泻南补北法的理解与掌握。南方五行属火，对应的是心；北方五行属水，对应的是肾。正常情况下，心火（即指心阳）下降于肾，肾水（即指肾阴）上济于心，此所谓心肾相交，或称为水火既济；但在病理情况下，心火亢于上，肾水亏于下，形成心肾不交证，所以治疗中应泻心火、滋肾阴。故正确答案为C。","k":"养生与防治原则"},{"t":2,"s":"下列属于阳偏衰的治法（  ）","o":["阴病治阳","益火之源，以消阴翳","扶阳以抑阴","阴中求阳","温散阴寒"],"a":"ABCD","e":"此题主要考查阳偏衰的治法。阴病治阳、\"益火之源，以消阴翳\"、扶阳以抑阴及阴中求阳均适用于阳偏衰的治疗。温散阴寒适用于阴偏盛的实寒证。故正确答案为ABCD。","k":"养生与防治原则"},{"t":2,"s":"下述属于\"补其不足\"方法的有（  ）","o":["回阳救阴","壮水之主，以制阳光","益火之源，以消阴翳","阴阳并补","阳中求阴"],"a":"ABCDE","e":"此题主要考查补其不足的内容，对于阴阳的虚证都选择补其不足的治则，以上均属于治疗阴阳虚证的治则。故本题全选。","k":"养生与防治原则"},{"t":2,"s":"下述哪些情况应先祛邪后扶正（  ）","o":["邪盛为主","正虚为主","正虚不甚而邪势方张，正气尚能耐攻","实证","虚实皆甚而正气不耐攻伐者"],"a":"AC","e":"先祛邪后扶正，适用于邪盛为主而兼正虚，或正虚不甚而邪势方张，正气尚能耐攻者。故正确答案为AC。","k":"养生与防治原则"},{"t":2,"s":"从治适用于（  ）","o":["脾虚腹胀","肾虚尿闭","肺虚多汗","瘀血崩漏","阴盛格阳证"],"a":"ABDE","e":"从治就是反治法，包括塞因塞用、通因通用、热因热用、寒因寒用。脾虚腹胀与肾虚尿闭均可应用塞因塞用之法，瘀血崩漏应使用通因通用之法，而阴盛格阳证则应使用热因热用法，此四者均属于从治法。肺虚多汗属疾病的外在征象与内在本质一致的虚证，应采用虚者补之的正治法。故正确答案为ABDE。","k":"养生与防治原则"},{"t":2,"s":"就基本治则而言，主要包括（  ）","o":["正治与反治","治标与治本","扶正与祛邪","治病求本","三因制宜"],"a":"ABCE","e":"此题出错的原因是没有分清指导思想和治则的关系。治病求本是整体观念与辨证论治思想在治疗观中的体现，是中医学治疗疾病的主导思想。而正治与反治、治标与治本、扶正与祛邪、调整阴阳、调理精气血津液、三因制宜等，则是在治病求本的主导思想指导下的治疗原则。故正确答案为ABCE。","k":"养生与防治原则"},{"t":2,"s":"\"阴胜则阳病\"所表现的证候，在治疗上宜采取的治法有（  ）","o":["清泻阳热","温散阴寒","佐以滋阴","佐以扶阳","阴阳并补"],"a":"BD","e":"由于\"阴胜则阳病\"，每易导致阳气的不足，此时不宜单纯地温散其寒，还须兼顾阳气的不足，即在散寒的同时，配以扶阳之品。故正确答案为BD。","k":"养生与防治原则"},{"t":2,"s":"阴阳互济的调补阴阳方法，包括（  ）","o":["阳病治阴","阴病治阳","阴中求阳","阴阳并补","阳中求阴"],"a":"CE","e":"根据阴阳互根的原理，补阳时适当佐以补阴药谓之阴中求阳，补阴时适当佐以补阳药谓之阳中求阴。明代张介宾提出了阴中求阳与阳中求阴的治法就是阴阳互济的方法。选项A、B属于阴阳互制之调补阴阳。故正确答案为CE。","k":"养生与防治原则"},{"t":2,"s":"阴阳互制的调补阴阳方法，包括（  ）","o":["益火之源，以消阴翳","壮水之主，以制阳光","阳病治阴","阴病治阳","阴阳双补"],"a":"ABCD","e":"选项A、B、C、D均属于阴阳互制的调补阴阳方法，其中\"益火之源，以消阴翳\"即阴病治阳，适用于阳虚病证；\"壮水之主，以制阳光\"即阳病治阴，适用于阴虚病证。故正确答案为ABCD。","k":"养生与防治原则"},{"t":2,"s":"寒因寒用的治法适用于（  ）","o":["阳盛格阴","真寒假热","真热假寒","热厥证","阴盛格阳"],"a":"ACD","e":"此题错误的原因在于没有选择热厥证。寒因寒用是指用寒性药物来治疗具有假寒征象的病证，它适用于阳盛格阴的真热假寒证。热厥证由于里热盛极，阳气郁阻于内，不能外达于肢体起温煦作用，并格阴于外而见手足厥冷、脉沉伏之假寒之象，属于真热假寒证。故正确答案为ACD。","k":"养生与防治原则"},{"t":2,"s":"通因通用的治法适用于（  ）","o":["脾虚腹泻","食积腹泻","肾气不固所致的小便频数","瘀血引起的出血","膀胱湿热所致的尿频、尿急"],"a":"BDE","e":"通因通用是指用通利的药物来治疗具有通泻症状的实证，适用于因实邪内阻出现通泄症状的真实假虚证。食积腹泻、瘀血引起的出血以及膀胱湿热引起的尿频、尿急，均属实性病证中出现的通泻症状，故应用通因通用之法。故正确答案为BDE。","k":"养生与防治原则"},{"t":1,"s":"中国古代哲学认为构成世界的物质本原为（  ）","o":["阴阳","五行","土","气","水"],"a":"D","e":"此题考查的是对气一元论的掌握。中国古代哲学认为气是构成天地万物包括人类的共同原始物质，是构成万物的本原。故正确答案为D。","k":"模拟试卷A卷"},{"t":1,"s":"阴阳转化的前提是（  ）","o":["阴阳交感","阴阳对立","阴阳互根","阴阳消长","阴阳自和"],"a":"D","e":"此题考查的是对阴阳消长的理解和掌握。阴阳转化的前提是阴阳消长，阴阳消长是量变过程，而阴阳转化是在量变基础上的质变。故正确答案为D。","k":"模拟试卷A卷"},{"t":1,"s":"下列各项，不属于六腑的是（  ）","o":["胆","三焦","胃","肝","膀胱"],"a":"D","e":"此题考查的是对五脏和六腑分类的掌握。六腑是指胆、胃、大肠、小肠、膀胱、三焦这六个腑，肝属于五脏之一。此题的题干是选不属于六腑的选项，注意审题，即可做出正确选择。故正确答案为D。","k":"模拟试卷A卷"},{"t":1,"s":"具有“生髓化血”作用的脏腑是（  ）","o":["心","肺","胃","脾","肾"],"a":"E","e":"此题考查的是对肾生理功能的掌握。肾具有主藏精的功能，继而又有主生长发育生殖、为脏腑之本，生髓化血、抵御外邪的生理作用。故正确答案为E。","k":"模拟试卷A卷"},{"t":1,"s":"上焦的生理特点是（  ）","o":["如渎","如渠","如雾","如沤","如气"],"a":"C","e":"此题考查的是对三焦生理特点的掌握。“上焦”是指心肺，“如雾”是对心肺输布营养到全身作用的概括，如雾露之灌溉。中焦的生理特点是“如沤”，下焦的生理特点是“如渎”，这三句话是《灵枢·营卫生会》中的经典论述，应牢记清楚。故正确答案为C。","k":"模拟试卷A卷"},{"t":1,"s":"构成人体和维持人体生命活动的最基本物质是（  ）","o":["精","气","血","津","液"],"a":"A","e":"此题考查的是对精概念的掌握。精、气、血、津液均是构成人体和维持人体生命活动的基本物质，但各自的特性有所不同。精是构成人体和维持人体生命活动的最基本物质，其关键词是生命的本原。故正确答案为A。","k":"模拟试卷A卷"},{"t":1,"s":"经络系统的核心是（  ）","o":["十二经脉","奇经八脉","十五络脉","浮络","孙络"],"a":"A","e":"此题考查的是对经络系统构成的掌握。经络系统由经脉和络脉组成，其中经脉是经络系统的主干，是全身气血运行的主要通道，而十二经脉又是经络系统中的核心。故正确答案为A。","k":"模拟试卷A卷"},{"t":1,"s":"在内踝尖上八寸以上，循行于内侧前缘的经脉是（  ）","o":["脾经","肝经","肾经","胃经","心包经"],"a":"A","e":"此题考查的是对十二经脉分布规律的掌握。按正立姿势，两臂自然下垂拇指向前的体位，将上下肢的内外侧分别分成前、中、后三条线。手足阳经的分布为阳明在前、少阳在中、太阳在后；手足阴经为太阴在前、厥阴在中、少阴在后。其中足三阴经在足内踝上八寸以下为厥阴在前、太阴在中、少阴在后，至内踝上八寸以上，太阴交出于厥阴之前。故正确答案为A。","k":"模拟试卷A卷"},{"t":1,"s":"具有抑制、喜静、偏寒特征的体质是（  ）","o":["偏阳质","偏阴质","阴阳平和质","血瘀质","湿热质"],"a":"B","e":"此题考查的是对体质特征的掌握。偏阴质主要表现为功能抑制、喜热畏寒、多静少动等特点的阳虚或阴盛的体质状态，受邪后多为寒证、虚证；或多形成阴盛、阳虚之证；易发生湿滞、痰饮等证。故正确答案为B。","k":"模拟试卷A卷"},{"t":1,"s":"疠气与六淫的主要区别是（  ）","o":["多从皮毛而入","具有强烈传染性","多从口鼻而入","多与季节气候有关","多与地理环境有关"],"a":"B","e":"此题考查的是对疠气及六淫致病特点的掌握。六淫与疠气虽然均属于外感病邪，但六淫是风、寒、暑、湿、燥、火（热）六种外感病邪的总称，其所导致的疾病是普通外感性疾病。而疠气是一类具有强烈传染性和致病性的外感病邪的统称，种类繁多，其导致的疾病主要是疫病，具有强烈的致病性和传染性。故正确答案为B。","k":"模拟试卷A卷"},{"t":1,"s":"七情影响脏腑气机，怒则（  ）","o":["气缓","气下","气上","气结","气乱"],"a":"C","e":"此题考查的是对七情内伤对脏腑气机影响的掌握。《素问·举痛论》曰：“怒则气上，喜则气缓，悲则气消，恐则气下，惊则气乱，思则气结。”故正确答案为C。","k":"模拟试卷A卷"},{"t":1,"s":"过食咸可以导致的是（  ）","o":["心气偏盛","肝气偏盛","脾气偏盛","肺气偏盛","肾气偏盛"],"a":"E","e":"此题考查的是对内伤病因中饮食偏嗜的掌握。五味与五脏各有一定的亲和性，《素问·至真要大论》提出：“五味所入：酸入肝，苦入心，甘入脾，辛入肺，咸入肾。”故正确答案为E。","k":"模拟试卷A卷"},{"t":1,"s":"下列各项，属于痰饮致病特点的是（  ）","o":["影响新血生成","病位固定","影响水液代谢","多发于肝胆肾膀胱","易致神气衰弱"],"a":"C","e":"此题考查的是对痰饮致病特点的掌握。痰饮致病的特点包括：阻滞气血运行，影响水液代谢，易于蒙蔽心神，致病广泛，变化多端。故正确答案为C。","k":"模拟试卷A卷"},{"t":1,"s":"阳偏衰的病机特点是（  ）","o":["阳气不足，阳不制阴，阴相对偏亢","阴寒邪侵，伤及阳气","脏腑功能减退","阴寒病邪积聚，阳气受抑而不升","阳气虚损导致精血津液不足"],"a":"A","e":"此题考查的是对阳偏衰病机特点的掌握。阳偏衰是由于机体阳气不足，阳不制阴，阴相对偏亢的虚寒证，临床多表现为畏寒肢冷、小便清长、大便溏薄、舌胖苔白等症状。故正确答案为A。","k":"模拟试卷A卷"},{"t":1,"s":"温热病过程中，邪势亢盛，阴液被耗，适用的治则是（  ）","o":["祛邪","扶正","扶正兼祛邪","祛邪兼扶正","先扶正后祛邪"],"a":"D","e":"此题考查的是对扶正祛邪治则的运用。温热病过程中，热邪亢胜耗伤阴液，形成邪实为主的虚实夹杂证，在祛邪的同时应兼顾滋阴，应选择祛邪兼扶正的治则。故正确答案为D。","k":"模拟试卷A卷"},{"t":1,"s":"阳病治阴适用的证是（  ）","o":["虚热证","实热证","虚寒证","实寒证","真寒假热证"],"a":"A","e":"此题考查的是对阳病治阴的理解和运用。阳病治阴是指当阴虚不足以制阳而致阳气相对偏亢的虚热证时，治宜滋阴以抑阳。此题的关键就是要理解“阳病”和“阴”的所指。“阳病”，即指虚热证。“阴”就是阴虚。虚热证的病机是阴虚不能制阳而致阳气相对偏亢，故治宜滋阴以抑阳，即王冰所谓“壮水之主，以制阳光”。故正确答案为A。","k":"模拟试卷A卷"},{"t":1,"s":"患者，头晕目眩，精神疲惫，腹胀满闷，便溏，泄泻等，其病机主要是（  ）","o":["肝失疏泄","心气不足","脾不升清","胃不降浊","肾失封藏"],"a":"C","e":"患者出现腹胀满闷，脘腹部是脾胃所居之处，腹胀闷提示脾气虚，水谷运化功能失常；便溏、泄泻提示脾气虚不能升清，而致清气从下而泻；头晕目眩、精神疲惫也是脾气虚气血生化不足，头目、清窍失养的表现。故正确答案为C。","k":"模拟试卷A卷"},{"t":1,"s":"患者，心烦失眠，眩晕耳鸣，腰膝酸软，梦遗，五心烦热，潮热盗汗，舌红少苔，脉细数，其病位是（  ）","o":["心脾","心肾","心肝","脾肾","肝肾"],"a":"B","e":"患者出现心悸失眠、五心烦热提示其病位在心；出现腰膝酸软、梦遗提示其病位在肾，潮热盗汗、舌红少苔、脉细数的体征多是阴虚的表现。故综合判断患者是病位在心肾的阴虚证。因此正确答案为B。","k":"模拟试卷A卷"},{"t":1,"s":"肺藏（  ）","o":["神","魂","魄","意","志"],"a":"C","e":"此题考查的是对五神脏的掌握。《素问·宣明五气》曰：“五脏所藏，心藏神，肺藏魄，肝藏魂，脾藏意，肾藏志。”故正确答案为C。","k":"模拟试卷A卷"},{"t":1,"s":"肝藏（  ）","o":["神","魂","魄","意","志"],"a":"B","e":"此题考查的是对五神脏的掌握。《素问·宣明五气》曰：“五脏所藏，心藏神，肺藏魄，肝藏魂，脾藏意，肾藏志。”故正确答案为B。","k":"模拟试卷A卷"},{"t":1,"s":"头痛在前额分经诊断多属（  ）","o":["阳明经","少阳经","太阳经","厥阴经","少阴经"],"a":"A","e":"此题考查的是对经络循行分布的掌握。痛在前额者，多与阳明经有关；痛在两侧者，多与少阳经有关；痛在后头及项部，多为太阳经病变；痛在巅顶，主要与厥阴经有关。故正确答案为A。","k":"模拟试卷A卷"},{"t":1,"s":"头痛在两侧分经诊断多属（  ）","o":["阳明经","少阳经","太阳经","厥阴经","少阴经"],"a":"B","e":"此题考查的是对经络循行分布的掌握。痛在前额者，多与阳明经有关；痛在两侧者，多与少阳经有关；痛在后头及项部者，多为太阳经病变；痛在巅顶者，主要与厥阴经有关。故正确答案为B。","k":"模拟试卷A卷"},{"t":1,"s":"具有炎上性质的邪气是（  ）","o":["风邪","寒邪","火（热）邪","湿邪","燥邪"],"a":"C","e":"此题考查的是对六淫邪气性质的掌握。火邪为阳邪，其性炎上，湿邪为阴邪，其性趋下，易袭阴位。故正确答案为C。","k":"模拟试卷A卷"},{"t":1,"s":"具有趋下性质的邪气是（  ）","o":["风邪","寒邪","火（热）邪","湿邪","燥邪"],"a":"D","e":"此题考查的是对六淫邪气性质的掌握。火邪为阳邪，其性炎上，湿邪为阴邪，其性趋下，易袭阴位。故正确答案为D。","k":"模拟试卷A卷"},{"t":2,"s":"下列各项，肺的生理特性是（  ）","o":["华盖","娇脏","刚脏","喜润恶燥","喜燥恶湿"],"a":"ABD","e":"此题考查的是对脏腑生理特性的掌握。肺的生理特性为：华盖、娇脏、肺气宣降、喜润恶燥。刚脏是肝的生理特性，喜燥恶湿是脾的生理特性。故正确答案为ABD。","k":"模拟试卷A卷"},{"t":2,"s":"下列各项，胆的主要生理功能是（  ）","o":["主受盛化物","主决断","主贮藏胆汁","主排泄胆汁","主受纳水谷"],"a":"BCD","e":"此题考查的是对脏腑生理功能的掌握。胆的主要生理功能为贮藏和排泄胆汁、主决断。主受盛化物是小肠的生理功能，主受纳水谷是胃的生理功能。故正确答案为BCD。","k":"模拟试卷A卷"},{"t":2,"s":"下列各项，被称为“一源三歧”的是（  ）","o":["带脉","冲脉","任脉","督脉","阴维脉"],"a":"BCD","e":"此题考查的是对经脉一源三歧的掌握。一源三歧是指督脉、任脉、冲脉皆起于胞中，同出于会阴，然后分前、后、侧三条路线循行。故正确答案为BCD。","k":"模拟试卷A卷"},{"t":2,"s":"下列各项，属于“治未病”思想的是（  ）","o":["调整阴阳","未病先防","愈后防复","扶正祛邪","既病防变"],"a":"BCE","e":"此题考查的是对治未病思想的理解。治未病主要包括未病先防、既病防变和愈后防复。调整阴阳、扶正祛邪属于治则的范畴。故正确答案为BCE。","k":"模拟试卷A卷"},{"t":1,"s":"阴阳的最初含义是","o":["温度的寒热","方位的上下","日光的向背","时间的昼夜","性状的清浊"],"a":"C","e":"此题考查的是对阴阳概念形成的掌握。阴阳的概念起源于远古时期，人类对自身及自然现象的观察，特别是对人类生活、生产影响最大的太阳出没、月亮变化等明暗交替的天象观察，由此形成阴阳的最初含义，即向日为阳，背日为阴。","k":"模拟试卷B卷"},{"t":1,"s":"具有\"贯心脉行气血\"作用的气是","o":["元气","宗气","营气","卫气","正气"],"a":"B","e":"此题考查的是对宗气生理功能的掌握。宗气的生理功能主要有三：行呼吸、行气血和资先天。其中，宗气贯注于心脉，促进心脏推动血液运行，凡血液的运行、心搏的力量与节律等皆与宗气有关。宗气充盛则脉搏和缓有力，节律一致，反之，则脉来躁急，节律不规则，或微弱无力。","k":"模拟试卷B卷"},{"t":1,"s":"属\"水之上源\"的是","o":["肝","心","脾","肺","肾"],"a":"D","e":"此题考查的是对肺主通调水道知识的掌握。肺为华盖，在五脏六腑中位置最高，参与调节全身的津液代谢，故称\"肺为水之上源\"。如果肺的宣发或肃降失常，水道失于通调，均可导致津液代谢障碍，出现痰饮、尿少、浮肿等症状。","k":"模拟试卷B卷"},{"t":1,"s":"脾之液是","o":["泪","汗","涎","涕","唾"],"a":"C","e":"此题考查的是对五脏与五液的掌握。涎为口津，即唾液中较清稀的部分。由脾气布散脾精上溢于口而化生，故说\"脾在液为涎\"。唾是肾之液，泪是肝之液，汗是心之液，涕是肺之液。","k":"模拟试卷B卷"},{"t":1,"s":"先天之本的脏是","o":["肝","心","脾","肺","肾"],"a":"E","e":"此题考查的是对肾为先天之本知识的掌握。肾为先天之本，先天之精藏于肾。","k":"模拟试卷B卷"},{"t":1,"s":"《灵枢·营卫生会》提出的中焦生理特点是","o":["如雾","如沤","如渎","如火","如水"],"a":"B","e":"此题考查的是对部位之三焦的生理特点的掌握。\"中焦如沤\"是对脾胃、肝胆等脏腑消化饮食物的作用形象化的描写与概括，喻指中焦消化饮食物的过程如发酵酿造之过程。","k":"模拟试卷B卷"},{"t":1,"s":"主藏血的脏是","o":["肝","心","脾","肺","肾"],"a":"A","e":"此题考查的是对脏腑生理功能的掌握。肝主藏血，心主藏神。","k":"模拟试卷B卷"},{"t":1,"s":"具有\"离入出合\"循行规律的是","o":["十二经脉","奇经八脉","十二经别","十五别络","十六别络"],"a":"C","e":"此题考查的是对十二经别的掌握。十二经别是十二正经别行的分支，其循行规律是离入出合。","k":"模拟试卷B卷"},{"t":1,"s":"行于上肢外侧中线的经脉是","o":["手太阴肺经","手厥阴心包经","手太阳小肠经","手阳明大肠经","手少阳三焦经"],"a":"E","e":"此题考查的是对十二经脉在四肢部分布规律的掌握。根据十二经脉在四肢部的分布特点，行于上肢的是手经，上肢外侧的是阳经，外侧中线的是少阳，由此可判断是手少阳三焦经。","k":"模拟试卷B卷"},{"t":1,"s":"足太阳膀胱经下接的经脉是","o":["足少阴肾经","足阳明胃经","手太阳小肠经","手阳明大肠经","手少阳三焦经"],"a":"A","e":"此题考查的是对十二经脉气血流注次序的掌握。按照十二经脉的气血流注次序，足太阳膀胱经上接其同名经，即手太阳小肠经，下接其表里经，即足少阴肾经。","k":"模拟试卷B卷"},{"t":1,"s":"风中于头面，可突发口眼㖞斜，体现的风邪致病特点是","o":["善行","数变","轻扬","主动","开泄"],"a":"B","e":"此题考查的是对风邪致病特点的掌握。风性数变，指风邪致病变幻无常，发病迅速。以风邪为先导的外感病，一般发病急，传变也较快，多侵犯人体的阳位。","k":"模拟试卷B卷"},{"t":1,"s":"西北多燥病、东北多寒病体现的六淫致病特点是","o":["外感性","季节性","地域性","相兼性","多发性"],"a":"C","e":"此题考查的是对六淫致病特点的掌握。外感性、季节性、地域性和相兼性均是六淫致病的共同特点。西北多燥病、东北多寒病、南方多湿热病等体现了不同地区的气候环境，导致了六淫多发疾病的不同。","k":"模拟试卷B卷"},{"t":1,"s":"具有\"一气一病，症状相似\"致病特点的是","o":["六淫","疠气","痰饮","瘀血","结石"],"a":"B","e":"此题考查的是对疠气致病特点的掌握。疠气的致病特点是传染性强，易于流行；发病急骤，病情危笃；一气一病，症状相似。","k":"模拟试卷B卷"},{"t":1,"s":"\"阳中求阴\"治法的适应证是","o":["实寒证","实热证","虚寒证","虚热证","气虚证"],"a":"D","e":"此题考查的是对调补阴阳理论的理解和掌握。根据阴阳互根的原理，因阳得阴助而生化无穷，阴得阳升而泉源不竭，故治疗阴虚证时，在滋阴剂中适当佐以补阳药，即所谓\"阳中求阴\"。可简单记忆为求什么就是治什么虚，求阴就是治阴虚，阴虚的表现是虚热证。","k":"模拟试卷B卷"},{"t":1,"s":"采用与病证性质相反的方药以治疗的治疗原则是","o":["反治","正治","从治","治本","治标"],"a":"B","e":"此题考查的是对正治概念的掌握。正治，指采用与证候性质相反的方药进行治疗的原则。由于采用方药或措施的性质与证候的性质相逆，如热证用寒药，故又称\"逆治\"。反治与从治都是顺从病证的某些假象而治的原则。","k":"模拟试卷B卷"},{"t":1,"s":"患者，女，38岁。头痛反复发作日久，近日因受寒又发头痛，以头后部疼痛为主，舌淡苔薄白，脉浮紧。考虑病位是","o":["足阳明经","足太阳经","足少阳经","手少阳经","手阳明经"],"a":"B","e":"此题考查的是对经脉循行以进行分经诊断的理解和运用。足太阳经主要循行在后头及项部。足阳明经、手阳明经主要循行在前额部，足少阳经、手少阳经主要循行在侧头部。","k":"模拟试卷B卷"},{"t":1,"s":"患者，男，21岁。低热反复发作月余，现低热，五心烦热，骨蒸潮热，消瘦，盗汗，舌红少苔，脉细数。考虑病机是","o":["阳气偏盛","阴气偏盛","阴气偏衰","阳气偏衰","阴盛格阳"],"a":"C","e":"此题考查的是对阴偏衰病机特点的理解和运用。阴偏衰的病机特点为阴气不足，阴不制阳，阳气相对偏盛的虚热证，可见五心烦热、骨蒸潮热、消瘦、盗汗、舌红少苔、脉细数等临床症状。","k":"模拟试卷B卷"},{"t":1,"s":"土的特性是","o":["曲直","炎上","稼穑","从革","润下"],"a":"C","e":"此题考查的是对五行特性的掌握。土爰稼穑，多引申为凡具有承载、受纳、生化等类似性质的事物和现象，归属于土。","k":"模拟试卷B卷"},{"t":1,"s":"木的特性是","o":["曲直","炎上","稼穑","从革","润下"],"a":"A","e":"此题考查的是对五行特性的掌握。木曰曲直，多引申为凡具有生长、生发、条达、舒畅等类似性质或作用的事物和现象，归属于木。","k":"模拟试卷B卷"},{"t":1,"s":"称为\"生痰之源\"的是","o":["肝","心","脾","肺","肾"],"a":"C","e":"此题考查的是对脾在津液代谢的掌握。脾主运化水液，上输于肺，或脾气散精，使津液正常生成与输布。若脾失健运，津液停聚，可导致津液输布失常，形成痰饮、水肿等，故有\"脾为生痰之源\"之称。","k":"模拟试卷B卷"},{"t":1,"s":"称为\"贮痰之器\"的是","o":["肝","心","脾","肺","肾"],"a":"D","e":"此题考查的是对肺在津液代谢的掌握。肺气宣降主行水，使津液正常输布与排泄。若肺失宣降，水道不畅，可导致津液输布失常，形成痰饮、水肿等，故有\"肺为贮痰之器\"之称。","k":"模拟试卷B卷"},{"t":2,"s":"下列各项，属\"疾病\"的是","o":["感冒","胸痹","舌红","苔黄","痢疾"],"a":"ABE","e":"此题考查的是对病的基本概念的理解和掌握。病，即疾病的简称，指有特定的致病因素、发病规律和病机演变的一个完整的异常生命过程，其所反映的是贯穿一种疾病全过程的总体属性、特征和规律。感冒、胸痹、痢疾均属于\"病\"的范畴，舌红、苔黄属于\"症\"的范畴。","k":"模拟试卷B卷"},{"t":2,"s":"下列各项，属\"液\"布散部位的是","o":["骨节","脑","髓","血脉","脏腑"],"a":"ABCE","e":"此题考查的是对\"液\"布散部位的掌握。液的质地较稠厚，流动性较小，灌注于脏腑、骨节、脑、髓等，具有濡养作用。","k":"模拟试卷B卷"},{"t":1,"s":"五行\"金\"的特性是","o":["生化","稼穑","从革","受纳","承载"],"a":"C","e":"此题考查的是对五行特性的掌握。《尚书·洪范》曰：\"水曰润下，火曰炎上，木曰曲直，金曰从革，土爰稼穑。\"是对五行特性的经典概括。","k":"模拟试卷C卷"},{"t":1,"s":"下列症状属于阳的是","o":["色泽晦暗","语声低微","呼吸微弱","身热恶热","少言沉静"],"a":"D","e":"此题考查的是对阴阳属性分类的理解及运用。阴阳的属性具有相对性，将人体中在内的、在上的和具有外向、弥散、推动、温煦、兴奋、升举等特征的事物及现象属于阳，而将在外的、在下的和具有内守、凝聚、宁静、凉润、抑制、沉降等特征的事物和现象统属于阴。身热恶热属于阳的症状，色泽晦暗、语声低微、呼吸微弱、少言沉静属于阴的症状。","k":"模拟试卷C卷"},{"t":1,"s":"心的主要功能是","o":["主藏血","主藏精","主藏神","主行水","主统血"],"a":"C","e":"此题考查的是对脏腑主要功能的掌握。心的主要生理功能是主血脉，主藏神。主藏血是肝的主要功能，主藏精是肾的主要功能，主行水是肺的主要功能，主统血是脾的主要功能。","k":"模拟试卷C卷"},{"t":1,"s":"具有化生血液、营养全身的气是","o":["卫气","营气","宗气","元气","精气"],"a":"B","e":"此题考查的是对人体不同之气的理解和掌握。营气是行于脉中具有营养作用的气，营气的生理功能有化生血液和营养全身的作用，卫气是行于脉外而具有保卫作用的气，宗气是由谷气与自然界清气相结合而积聚于胸中的气，宗气具有行呼吸、行气血、资先天的作用，选项E精气与题意不符。","k":"模拟试卷C卷"},{"t":1,"s":"具有耐冬不耐夏特点的体质是","o":["偏阳质","偏阴质","阴阳平和质","痰湿体质","湿热体质"],"a":"A","e":"此题考查的是对体质分类的理解和运用。冬季气候寒冷，耐冬说明体内阳气旺盛能够耐受寒冷，夏季气候炎热，不耐夏说明体内阳气亢盛，不能耐受炎热的天气。","k":"模拟试卷C卷"},{"t":1,"s":"女子的体质特点是","o":["以血为本","以精为本","以气为本","以静为本","以润为本"],"a":"A","e":"此题考查的是对女子体质特点的掌握。女子的体质特点是以血为本，以肝为先天。","k":"模拟试卷C卷"},{"t":1,"s":"嗜食辛辣食物，易形成","o":["火旺体质","痰湿体质","心气虚体质","脾气虚体质","肝郁体质"],"a":"A","e":"此题考查的是对饮食与体质类型的掌握。嗜食辛辣容易化热化火，导致火旺体质。嗜食肥甘厚味易形成痰湿体质。","k":"模拟试卷C卷"},{"t":1,"s":"起于足小趾，斜行于足心的经脉是","o":["足少阳胆经","足少阴肾经","足厥阴肝经","足太阴脾经","足阳明胃经"],"a":"B","e":"此题考查的是对肾经起点的掌握。足少阴肾经起于足小趾下，斜行于足心（涌泉穴）。","k":"模拟试卷C卷"},{"t":1,"s":"可体现风邪善行致病特点的症状或体征是","o":["痛无定处","四肢抽搐","恶寒发热","头身困重","脘腹胀满"],"a":"A","e":"此题考查的是对风邪致病特点的理解和掌握。善行指风性善动不居，游走不定，故其致病具有病位游移、行无定处的特点。","k":"模拟试卷C卷"},{"t":1,"s":"属于瘀血致病的症状或体征是","o":["面色红润","面色苍白","痛无定处","舌质紫暗","下肢水肿"],"a":"D","e":"此题考查的是对瘀血致病症状特点的掌握。瘀血致病，面色多见紫暗，舌质紫暗等。","k":"模拟试卷C卷"},{"t":1,"s":"下列属于阴偏衰的临床表现是","o":["喜静蜷卧","精神萎靡","面色苍白","手足厥冷","五心烦热"],"a":"E","e":"此题考查的是对阴偏衰临床表现的理解和掌握。阴偏衰，阳相对亢盛，临床多表现为五心烦热、潮热、盗汗、舌红等虚热症状。喜静蜷卧、精神萎靡、面色苍白、手足厥冷多为阳偏衰的表现。","k":"模拟试卷C卷"},{"t":1,"s":"对慢性疾病或急性病的恢复期多采用的治则是","o":["治标","治本","治血","调阴阳","祛邪"],"a":"B","e":"此题考查的是对标本治则的理解和掌握。急则治其标，缓则治其本，对于慢性疾病或者急性疾病的恢复期当选择缓则治其本的治则。","k":"模拟试卷C卷"},{"t":1,"s":"对于真虚假实证，应采用的治则是","o":["热者寒之","热因热用","寒因寒用","塞因塞用","通因通用"],"a":"D","e":"此题考查的是对反治的理解和运用。反治适用于疾病的征象与本质不完全符合，真虚假实证，是指病机的本质是虚证，外在有闭塞不通的假象，治疗应遵循治病求本的思想，针对本虚以补益，也就是运用补益的方药治疗闭塞不通假象的真虚假实证，这就是塞因塞用。","k":"模拟试卷C卷"},{"t":1,"s":"患儿，5岁，近日出现恶风，发热，出汗，伴有打喷嚏，咽痒，咳嗽，舌苔薄白，脉浮缓。其病因属于","o":["寒邪","暑邪","湿邪","风邪","燥邪"],"a":"D","e":"此题考查的是对病因理论的运用。患儿出现恶风，出汗、咽痒、脉浮等症，表明病位在表、在上，开泄，均提示病因属于风邪。","k":"模拟试卷C卷"},{"t":1,"s":"患者，女，35岁，近日因工作不顺出现情绪郁闷不乐，伴有睡眠不安，胁肋闷痛，舌红少苔，脉弦，其病机属于","o":["肝气疏泄不及","脾气不能升清","肺气宣发不足","肺气肃降太过","心主血脉失常"],"a":"A","e":"此题考查的是对藏象理论的运用。患者出现情绪郁闷不乐、脉弦，提示肝气郁结，足厥阴肝经循行于胁肋部。","k":"模拟试卷C卷"},{"t":1,"s":"脑为","o":["元神之府","玄府","血府","孤府","中清之府"],"a":"A","e":"此题考查的是对中医学中特有称谓的掌握。脑为元神之府，脉为血府，三焦为孤府，胆为中清之府，汗孔为玄府。","k":"模拟试卷C卷"},{"t":1,"s":"具有黏滞致病特点的邪气是","o":["风邪","寒邪","暑邪","燥邪","湿邪"],"a":"E","e":"此题考查的是对湿邪致病特征的掌握。湿邪具有黏滞的致病特点，寒邪的致病特征是凝滞，暑邪的致病特征是炎热。","k":"模拟试卷C卷"},{"t":1,"s":"具有干涩致病特点的邪气是","o":["风邪","寒邪","暑邪","燥邪","湿邪"],"a":"D","e":"此题考查的是对燥邪致病特征的掌握。燥邪具有干涩致病特点。","k":"模拟试卷C卷"},{"t":1,"s":"入下牙齿中的经脉是","o":["手阳明经","足太阴经","手太阴经","足太阳经","足阳明经"],"a":"A","e":"此题考查的是对十二经脉循行所过重要部位的掌握。足阳明胃经入上牙齿中，手阳明大肠经入下牙齿中，注意两经的鉴别，不要混淆。","k":"模拟试卷C卷"},{"t":1,"s":"入寸口的经脉是","o":["手阳明经","足太阴经","手太阴经","足太阳经","足阳明经"],"a":"C","e":"此题考查的是对十二经脉循行所过重要部位的掌握。手太阴肺经入寸口。","k":"模拟试卷C卷"},{"t":2,"s":"下列属于五行中\"火\"的有","o":["黄","苦","舌","喜","怒"],"a":"BCD","e":"此题考查的是对五行归类的掌握。苦归心，心开窍于舌，心在志为喜，均属于火，选项A黄色属于土，怒为肝之志，属木。","k":"模拟试卷C卷"},{"t":2,"s":"肾的封藏作用主要体现在","o":["藏精","纳气","主水","藏神","藏胎"],"a":"ABCE","e":"此题考查的是对肾封藏之本的理解和掌握。肾的封藏作用，体现在人体的藏精、纳气、固摄冲任、固摄二便等方面。选项D藏神为心的作用。","k":"模拟试卷C卷"}]};
+var Q = BANK.questions, N = Q.length;
+var LTR = 'ABCDEFGH';
+var SK = 'xm3:' + BANK.slug;
+
+/* ---------------- 存储 ---------------- */
+function loadDB(){
+  var d = null;
+  try{ d = JSON.parse(localStorage.getItem(SK) || 'null'); }catch(e){}
+  if(!d || typeof d !== 'object') d = {};
+  d.hist = (d.hist && typeof d.hist === 'object') ? d.hist : {};
+  d.wrong = Array.isArray(d.wrong) ? d.wrong : [];
+  d.fav = Array.isArray(d.fav) ? d.fav : [];
+  d.pos = d.pos | 0;
+  if(typeof d.auto !== 'boolean') d.auto = false;
+  return d;
+}
+var DB = loadDB(), saveT = 0;
+function save(now){
+  clearTimeout(saveT);
+  var w = function(){ try{ localStorage.setItem(SK, JSON.stringify(DB)); }catch(e){} };
+  if(now) w(); else saveT = setTimeout(w, 240);
+}
+
+/* ---------------- 状态 ---------------- */
+var S = {
+  mode:'seq', list:[], pos:0,
+  ans:{}, judged:{}, res:{},
+  exam:null, review:false, chapter:null
+};
+var tick = null;
+
+/* ---------------- 工具 ---------------- */
+function $(id){ return document.getElementById(id); }
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function esc(s){ return s; }
+function toast(msg){
+  var t = $('toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove('on'); }, 1700);
+}
+function show(id){
+  closeSheet();
+  var qm = document.getElementById('qrmask'); if(qm) qm.classList.remove('on');
+  var ss = document.querySelectorAll('.screen');
+  for(var i=0;i<ss.length;i++) ss[i].classList.remove('on');
+  $(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function fmtTime(ms){
+  if(ms<0) ms=0;
+  var s = Math.floor(ms/1000), m = Math.floor(s/60), h = Math.floor(m/60);
+  if(h>0) return h + ':' + String(m%60).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+  return String(m).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+}
+function sortAns(s){ return String(s||'').split('').sort().join(''); }
+function isWrongBy(gi){
+  return S.res[gi] === 0;
+}
+
+/* ---------------- 首页 ---------------- */
+function renderHome(){
+  var done = 0, ok = 0, k;
+  for(k in DB.hist){ if(DB.hist.hasOwnProperty(k)){ done++; if(DB.hist[k]===1) ok++; } }
+  $('stDone').textContent = done;
+  $('stRate').textContent = done ? Math.round(ok/done*100) + '%' : '--';
+  $('stWrong').textContent = DB.wrong.length;
+  $('stBar').style.width = (done/N*100).toFixed(1) + '%';
+
+  var pos = Math.min(Math.max(DB.pos|0, 0), N-1);
+  var answeredThis = DB.hist[pos] !== undefined;
+  if(done > 0){
+    $('ctaMain').textContent = '继续练习';
+    $('ctaSub').textContent = '第 ' + (pos+1) + ' 题 · 已练 ' + done + '/' + N;
+  }else{
+    $('ctaMain').textContent = '开始练习';
+    $('ctaSub').textContent = '共 ' + N + ' 题，从头开始';
+  }
+  $('autoNext').checked = !!DB.auto;
+
+  // 模式
+  var modes = [
+    {m:'seq',   t:'顺序练习', d:'接着上次继续', ic:'<path d="M5 6h14M5 12h14M5 18h9"/>'},
+    {m:'rand',  t:'随机练习', d:'打乱顺序检验', ic:'<path d="M4 7h3l4 10h3M4 17h3l2.2-5.5M17 7h3M17 17h3M14 7h3M14 17h3"/>'},
+    {m:'exam',  t:'模拟考试', d:'100 题 · 90 分钟', ic:'<path d="M12 7v5l3 2M12 3a9 9 0 100 18 9 9 0 000-18z"/>'},
+    {m:'wrong', t:'错题本',   d:'答对自动移出', ic:'<path d="M12 8v5M12 16.5v.01M10.3 3.9L2.6 17a2 2 0 001.7 3h15.4a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/>'},
+    {m:'fav',   t:'收藏夹',   d:'标记重点题', ic:'<path d="M6 4h12v17l-6-4-6 4z"/>'},
+    {m:'rand',  t:'快速 20 题', d:'碎片时间刷题', ic:'<path d="M4 12h4l2-6 4 12 2-6h4"/>', n:20}
+  ];
+  var box = $('modes'); box.innerHTML = '';
+  modes.forEach(function(o){
+    var b = document.createElement('button');
+    b.className = 'mode';
+    b.innerHTML = '<span class="ic"><svg viewBox="0 0 24 24">' + o.ic + '</svg></span>' +
+                  '<span style="min-width:0"><b></b><span></span></span>';
+    b.querySelector('b').textContent = o.t;
+    b.querySelector('.ic + span > span').textContent = o.d;
+    b.addEventListener('click', function(){
+      if(o.n) startSession('rand', {limit:o.n});
+      else startSession(o.m);
+    });
+    box.appendChild(b);
+  });
+
+  // 章节
+  var kp = {}, order = [];
+  Q.forEach(function(q){ if(!kp[q.k]){ kp[q.k]=0; order.push(q.k); } kp[q.k]++; });
+  $('kpHint').textContent = order.length + ' 个章节';
+  var cb = $('chips'); cb.innerHTML = '';
+  order.forEach(function(name){
+    var b = document.createElement('button');
+    b.className = 'chip' + (name.indexOf('模拟试卷')>=0 ? '' : ' hot');
+    var t = document.createElement('span'); t.textContent = name;
+    var c = document.createElement('b'); c.textContent = kp[name];
+    b.appendChild(t); b.appendChild(c);
+    b.addEventListener('click', function(){ startSession('chapter', {kp:name}); });
+    cb.appendChild(b);
+  });
+}
+
+/* ---------------- 会话 ---------------- */
+function startSession(mode, opt){
+  opt = opt || {};
+  var all = Q.map(function(_,i){ return i; });
+  var list;
+
+  if(mode === 'seq'){
+    list = all.slice();
+    S.pos = Math.min(Math.max(DB.pos|0, 0), N-1);
+  }else if(mode === 'rand'){
+    list = shuffle(all.slice());
+    if(opt.limit) list = list.slice(0, opt.limit);
+    S.pos = 0;
+  }else if(mode === 'chapter'){
+    list = all.filter(function(i){ return Q[i].k === opt.kp; });
+    S.pos = 0;
+  }else if(mode === 'wrong'){
+    list = DB.wrong.filter(function(i){ return i>=0 && i<N; }).slice();
+    if(!list.length){ toast('错题本是空的，先去做几题'); return; }
+    S.pos = 0;
+  }else if(mode === 'fav'){
+    list = DB.fav.filter(function(i){ return i>=0 && i<N; }).slice();
+    if(!list.length){ toast('还没有收藏题目'); return; }
+    S.pos = 0;
+  }else if(mode === 'exam'){
+    var sg = all.filter(function(i){ return Q[i].t === 1; });
+    var mt = all.filter(function(i){ return Q[i].t === 2; });
+    var pick = shuffle(sg.slice()).slice(0, 60).concat(shuffle(mt.slice()).slice(0, 40));
+    list = shuffle(pick);
+    S.pos = 0;
+    S.exam = { start: Date.now(), limit: 90*60*1000 };
+  }
+
+  S.mode = mode;
+  S.chapter = opt.kp || null;
+  S.list = list;
+  S.ans = {}; S.judged = {}; S.res = {};
+  S.review = false;
+  if(mode !== 'exam') S.exam = null;
+  if(mode === 'exam') S.exam.start = Date.now();
+
+  show('quiz');
+  renderQ();
+  startTimer();
+}
+
+function startTimer(){
+  stopTimer();
+  var t = $('timer');
+  if(S.exam){
+    t.style.display = '';
+    var upd = function(){
+      var left = S.exam.limit - (Date.now() - S.exam.start);
+      t.textContent = fmtTime(left);
+      t.classList.toggle('warn', left < 5*60*1000);
+      if(left <= 0){ stopTimer(); submitExam(); }
+    };
+    upd();
+    tick = setInterval(upd, 1000);
+  }else{
+    t.style.display = 'none';
+  }
+}
+function stopTimer(){ if(tick){ clearInterval(tick); tick = null; } }
+
+/* ---------------- 渲染题目 ---------------- */
+function curQ(){ return Q[S.list[S.pos]]; }
+function curIdx(){ return S.list[S.pos]; }
+
+function renderQ(){
+  var gi = curIdx(), q = curQ();
+  var card = $('qcard');
+  card.classList.remove('cin');
+  void card.offsetWidth;
+  card.classList.add('cin');
+
+  $('qtag').textContent = q.t === 1 ? '单选题' : '多选题';
+  $('qtag').className = 'tag' + (q.t === 2 ? ' multi' : '');
+  $('qkp').textContent = q.k || '综合';
+  $('stem').textContent = q.s;
+
+  // 选项
+  var box = $('opts'); box.innerHTML = '';
+  var picked = (S.ans[gi] || '');
+  var judged = !!S.judged[gi];
+  var right = q.a;
+
+  q.o.forEach(function(text, i){
+    var L = LTR[i];
+    var b = document.createElement('button');
+    b.className = 'opt';
+    b.dataset.l = L;
+    var ob = document.createElement('span'); ob.className = 'ob'; ob.textContent = L;
+    var ot = document.createElement('span'); ot.className = 'ot'; ot.textContent = text;
+    var mk = document.createElement('span'); mk.className = 'mk'; mk.textContent = '';
+    b.appendChild(ob); b.appendChild(ot); b.appendChild(mk);
+
+    if(judged){
+      b.classList.add('lock');
+      var isR = right.indexOf(L) >= 0;
+      var isP = picked.indexOf(L) >= 0;
+      if(isR){ b.classList.add('right'); mk.textContent = '✓'; }
+      else if(isP){ b.classList.add('bad'); mk.textContent = '✗'; }
+      else b.classList.add('dim');
+      if(S.review && isP && !isR) b.classList.add('bad');
+    }else{
+      if(picked.indexOf(L) >= 0) b.classList.add('sel');
+      b.addEventListener('click', function(){ pick(L); });
+    }
+    box.appendChild(b);
+  });
+
+  // 解析
+  var exp = $('exp');
+  if(judged){
+    var ok = S.res[gi] === 1;
+    $('ansTxt').textContent = q.a.split('').join(' ');
+    var v = $('verd');
+    v.textContent = ok ? '回答正确' : '回答错误';
+    v.className = 'verd ' + (ok ? 'ok' : 'no');
+    $('expTxt').textContent = q.e || '本题暂无解析。';
+    $('expKp').textContent = '考查范围：' + (q.k || '综合') + '　·　本题为' + (q.t===1?'单选':'多选') + '题';
+    exp.classList.add('on');
+  }else{
+    exp.classList.remove('on');
+  }
+
+  renderFoot(judged, picked);
+  renderProg();
+  // 记录顺序模式位置
+  if(S.mode === 'seq' && !S.review){ DB.pos = gi; save(); }
+}
+
+function renderProg(){
+  var answered = 0;
+  S.list.forEach(function(gi){ if(S.judged[gi]) answered++; });
+  $('progTxt').textContent = (S.pos+1) + ' / ' + S.list.length;
+  $('progSub').textContent = S.exam ? ('已答 ' + Object.keys(S.ans).length) : ('已答 ' + answered);
+  var pct = S.exam ? (Object.keys(S.ans).length / S.list.length * 100)
+                   : (answered / S.list.length * 100);
+  $('progBar').style.width = pct + '%';
+}
+
+function renderFoot(judged, picked){
+  var box = $('qfoot'); box.innerHTML = '';
+  var q = curQ();
+  var gi = curIdx();
+
+  function btn(cls, label, fn, dis){
+    var b = document.createElement('button');
+    b.className = 'fbtn ' + cls;
+    b.textContent = label;
+    if(dis) b.disabled = true;
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  if(S.review){
+    var b1 = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var b2 = btn('pri', S.pos === S.list.length-1 ? '完成回顾' : '下一题', function(){
+      if(S.pos === S.list.length-1) exitToHome(); else go(1);
+    });
+    box.appendChild(b1); box.appendChild(b2);
+    return;
+  }
+
+  if(S.exam){
+    var e1 = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var e2 = btn('pri', S.pos === S.list.length-1 ? '交卷' : '下一题', function(){
+      if(S.pos === S.list.length-1) submitExam(); else go(1);
+    });
+    box.appendChild(e1); box.appendChild(e2);
+    return;
+  }
+
+  if(judged){
+    var prev = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var last = S.pos === S.list.length-1;
+    var next = btn('pri', last ? '查看结果' : '下一题', function(){
+      if(last) renderResult('practice'); else go(1);
+    });
+    box.appendChild(prev); box.appendChild(next);
+    return;
+  }
+
+  if(q.t === 2){
+    var pv = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var cf = btn('pri', '确认作答', function(){ doJudge(); }, !picked);
+    box.appendChild(pv); box.appendChild(cf);
+  }else{
+    var pv2 = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var tip = btn('pri', '请选择答案', function(){}, true);
+    box.appendChild(pv2); box.appendChild(tip);
+  }
+}
+
+function pick(L){
+  var gi = curIdx(), q = curQ();
+  if(S.judged[gi] || S.review) return;
+
+  if(q.t === 1){
+    if(S.exam){
+      S.ans[gi] = (S.ans[gi] === L) ? '' : L;
+      repaintSel();
+    }else{
+      S.ans[gi] = L;
+      doJudge();
+    }
+  }else{
+    var cur = (S.ans[gi] || '').split('').filter(Boolean);
+    var p = cur.indexOf(L);
+    if(p >= 0) cur.splice(p, 1); else cur.push(L);
+    S.ans[gi] = sortAns(cur.join(''));
+    repaintSel();
+  }
+}
+
+function repaintSel(){
+  var picked = S.ans[curIdx()] || '';
+  var opts = $('opts').children;
+  for(var i=0;i<opts.length;i++){
+    var L = opts[i].dataset.l;
+    opts[i].classList.toggle('sel', picked.indexOf(L) >= 0);
+  }
+  var q = curQ();
+  if(q.t === 2 && !S.exam && !S.judged[curIdx()]){
+    var f = $('qfoot').querySelector('.fbtn.pri');
+    if(f){ f.disabled = !picked; f.textContent = picked ? '确认作答' : '请选择答案'; }
+  }
+  renderProg();
+}
+
+function doJudge(){
+  var gi = curIdx(), q = curQ();
+  var picked = sortAns(S.ans[gi] || '');
+  if(!picked) return;
+  var ok = (picked === sortAns(q.a));
+  S.judged[gi] = true;
+  S.res[gi] = ok ? 1 : 0;
+
+  DB.hist[gi] = ok ? 1 : 0;
+  var w = DB.wrong.indexOf(gi);
+  if(ok){ if(w >= 0) DB.wrong.splice(w, 1); }
+  else { if(w < 0) DB.wrong.push(gi); }
+  save();
+
+  renderQ();   // 重绘（保留选中态）
+  if(ok && DB.auto && S.pos < S.list.length-1){
+    setTimeout(function(){ go(1); }, 720);
+  }
+}
+
+function go(d){
+  var n = S.pos + d;
+  if(n < 0 || n >= S.list.length) return;
+  S.pos = n;
+  renderQ();
+  if(S.mode === 'seq' && !S.review){ DB.pos = curIdx(); save(); }
+}
+
+function exitToHome(){
+  stopTimer();
+  renderHome();
+  show('home');
+}
+
+/* ---------------- 交卷 ---------------- */
+function submitExam(){
+  if(!S.exam) return;
+  var unanswered = 0;
+  S.list.forEach(function(gi){
+    var picked = sortAns(S.ans[gi] || '');
+    if(!picked) unanswered++;
+    var ok = picked && picked === sortAns(Q[gi].a);
+    S.judged[gi] = true;
+    S.res[gi] = ok ? 1 : 0;
+    DB.hist[gi] = ok ? 1 : 0;
+    var w = DB.wrong.indexOf(gi);
+    if(ok){ if(w >= 0) DB.wrong.splice(w, 1); }
+    else { if(w < 0) DB.wrong.push(gi); }
+  });
+  DB.examDone = (DB.examDone|0) + 1;
+  save(true);
+  stopTimer();
+  renderResult('exam', unanswered);
+}
+
+/* ---------------- 结果 ---------------- */
+function renderResult(kind, unanswered){
+  var total = S.list.length;
+  var ok = 0, no = 0;
+  S.list.forEach(function(gi){ if(S.res[gi] === 1) ok++; else if(S.res[gi] === 0) no++; });
+  var rate = total ? Math.round(ok/total*100) : 0;
+
+  $('rTtl').textContent = kind === 'exam' ? '模拟考试 · 成绩单' : '本次练习 · 完成';
+  $('rScore').innerHTML = '0<i>%</i>';
+  $('rOk').textContent = ok;
+  $('rNo').textContent = no;
+  $('rTotal').textContent = total;
+  var used = S.exam ? (Date.now() - S.exam.start) : 0;
+  $('rTime').textContent = S.exam ? fmtTime(used) : '--';
+
+  // 环形
+  var C = 2 * Math.PI * 80;
+  var ring = $('ring');
+  ring.style.strokeDasharray = C;
+  ring.style.strokeDashoffset = C;
+  setTimeout(function(){ ring.style.strokeDashoffset = C * (1 - rate/100); }, 80);
+
+  // 数字滚动
+  var s0 = null;
+  function step(ts){
+    if(!s0) s0 = ts;
+    var p = Math.min((ts - s0)/900, 1);
+    var e = 1 - Math.pow(1-p, 3);
+    $('rScore').innerHTML = Math.round(rate*e) + '<i>%</i>';
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+
+  // 章节掌握
+  var m = {}, order = [];
+  S.list.forEach(function(gi){
+    if(S.res[gi] === undefined) return;
+    var k = Q[gi].k || '综合';
+    if(!m[k]){ m[k] = {ok:0, n:0}; order.push(k); }
+    m[k].n++; if(S.res[gi] === 1) m[k].ok++;
+  });
+  var bars = $('kpBars'); bars.innerHTML = '';
+  order.sort(function(a,b){ return (m[a].ok/m[a].n) - (m[b].ok/m[b].n); });
+  var shown = order.slice(0, 10);
+  shown.forEach(function(k){
+    var d = m[k], pc = Math.round(d.ok/d.n*100);
+    var row = document.createElement('div'); row.className = 'bar';
+    row.innerHTML = '<span class="n"></span><span class="t"><i></i></span><span class="v"></span>';
+    row.querySelector('.n').textContent = k;
+    row.querySelector('.v').textContent = d.ok + '/' + d.n + ' ' + pc + '%';
+    bars.appendChild(row);
+    setTimeout(function(){ row.querySelector('.t i').style.width = pc + '%'; }, 120 + Math.random()*160);
+  });
+  if(!order.length){
+    bars.innerHTML = '<div class="empty">本组题目没有可统计的答题记录</div>';
+  }else if(order.length > shown.length){
+    var more = document.createElement('div');
+    more.className = 'empty';
+    more.style.padding = '10px 0 0';
+    more.style.fontSize = '11.5px';
+    more.textContent = '另有 ' + (order.length - shown.length) + ' 个章节未显示（题量较少）';
+    bars.appendChild(more);
+  }
+
+  // 按钮
+  var acts = $('rActs'); acts.innerHTML = '';
+  function act(cls, label, fn){
+    var b = document.createElement('button');
+    b.className = 'fbtn ' + cls; b.textContent = label;
+    b.addEventListener('click', fn); acts.appendChild(b);
+  }
+  var wrongN = S.list.filter(function(gi){ return S.res[gi] === 0; }).length;
+
+  if(wrongN){
+    act('pri', '重做错题（' + wrongN + ' 题）', function(){
+      var list = S.list.filter(function(gi){ return S.res[gi] === 0; });
+      S.list = list; S.pos = 0; S.review = false; S.exam = null;
+      S.ans = {}; S.judged = {}; S.res = {};
+      S.mode = 'wrong'; stopTimer();
+      show('quiz'); renderQ();
+    });
+  }
+  act('gh', '查看全部解析', function(){
+    S.review = true; S.pos = 0; S.exam = null; stopTimer();
+    show('quiz'); renderQ();
+  });
+  act('gh', '返回首页', function(){ stopTimer(); S.exam = null; renderHome(); show('home'); });
+
+  show('result');
+}
+
+/* ---------------- 答题卡 ---------------- */
+function openSheet(){
+  var sb = $('sheetSubmit');
+  sb.style.display = S.exam ? '' : 'none';
+  var g = $('grid'); g.innerHTML = '';
+  S.list.forEach(function(gi, i){
+    var b = document.createElement('button');
+    b.className = 'gi';
+    b.textContent = i+1;
+    if(S.judged[gi]) b.classList.add(S.res[gi] === 1 ? 'ok' : 'no');
+    else if(S.ans[gi]) b.classList.add('did');
+    if(i === S.pos) b.classList.add('cur');
+    b.addEventListener('click', function(){ S.pos = i; renderQ(); closeSheet(); });
+    g.appendChild(b);
+  });
+  $('mask').classList.add('on');
+  $('sheet').classList.add('on');
+}
+function closeSheet(){
+  $('mask').classList.remove('on');
+  $('sheet').classList.remove('on');
+}
+function filterSheet(f){
+  var g = $('grid');
+  for(var i=0;i<g.children.length;i++){
+    var gi = S.list[i], b = g.children[i], hide = false;
+    if(f === 'undone') hide = !!(S.judged[gi] || S.ans[gi]);
+    else if(f === 'wrong') hide = !(S.res[gi] === 0);
+    b.classList.toggle('none', hide);
+  }
+}
+
+/* ---------------- 事件 ---------------- */
+$('btnGo').addEventListener('click', function(){ startSession('seq'); });
+$('btnBack').addEventListener('click', function(){
+  if(S.exam){
+    if(!confirm('退出后本次考试作答不会计分，确定退出？')) return;
+    S.exam = null;
+  }
+  exitToHome();
+});
+$('btnCard').addEventListener('click', openSheet);
+$('mask').addEventListener('click', closeSheet);
+$('sheetClose').addEventListener('click', closeSheet);
+$('sheetSubmit').addEventListener('click', function(){
+  var used = 0; S.list.forEach(function(gi){ if(S.ans[gi]) used++; });
+  var blank = S.list.length - used;
+  var msg = blank > 0 ? ('还有 ' + blank + ' 题未作答，确定交卷？') : '确定交卷？';
+  if(confirm(msg)){ closeSheet(); submitExam(); }
+});
+
+var sfs = document.querySelectorAll('.sf');
+for(var i=0;i<sfs.length;i++){
+  sfs[i].addEventListener('click', function(){
+    for(var j=0;j<sfs.length;j++) sfs[j].classList.remove('on');
+    this.classList.add('on');
+    filterSheet(this.dataset.f);
+  });
+}
+
+$('autoNext').addEventListener('change', function(){
+  DB.auto = this.checked; save(true);
+});
+
+// 二维码
+var QR_URL = 'https://niuontheway-ops.github.io/qr-hub/ximing/jichu.html';
+$('qrUrl').textContent = QR_URL;
+$('btnQR').addEventListener('click', function(){ $('qrmask').classList.add('on'); });
+$('qrClose').addEventListener('click', function(){ $('qrmask').classList.remove('on'); });
+$('qrmask').addEventListener('click', function(e){ if(e.target === this) this.classList.remove('on'); });
+$('qrCopy').addEventListener('click', function(){
+  var done = function(){ toast('链接已复制'); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(QR_URL).then(done, function(){ fallbackCopy(); });
+  }else fallbackCopy();
+  function fallbackCopy(){
+    var ta = document.createElement('textarea');
+    ta.value = QR_URL; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){ toast('复制失败，请长按上方链接'); }
+    document.body.removeChild(ta);
+  }
+});
+
+// 键盘（桌面端）
+document.addEventListener('keydown', function(e){
+  if(!$('quiz').classList.contains('on')) return;
+  var k = e.key.toUpperCase();
+  if(LTR.indexOf(k) >= 0 && k.length === 1){
+    var opts = $('opts').children;
+    for(var i=0;i<opts.length;i++){
+      if(opts[i].dataset.l === k){ opts[i].click(); break; }
+    }
+  }else if(e.key === 'ArrowRight'){ go(1); }
+  else if(e.key === 'ArrowLeft'){ go(-1); }
+  else if(e.key === 'Enter'){
+    var f = $('qfoot').querySelector('.fbtn.pri');
+    if(f && !f.disabled) f.click();
+  }
+});
+
+// 初始化
+renderHome();
+
+// 调试入口（自动化测试用，不影响正常使用）
+window.__XM__ = { S:S, Q:Q, DB:DB, renderQ:renderQ, renderHome:renderHome, startSession:startSession };
+})();
+</script>
+</body>
+</html>

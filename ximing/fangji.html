@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#31527e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>方剂学 · 西学中题库</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --c1:#31527e;
+  --c2:#4f78ab;
+  --paper:#f6f3ec;
+  --card:#fffdf8;
+  --ink:#1b2422;
+  --ink2:#3f4c48;
+  --mut:#8b9793;
+  --line:rgba(27,36,34,.09);
+  --ok:#2e8f63;
+  --okbg:#e8f5ee;
+  --no:#c5463a;
+  --nobg:#fbe9e6;
+  --r:16px;
+  --sh:0 2px 10px rgba(27,36,34,.05);
+  --sh2:0 8px 28px rgba(27,36,34,.10);
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--paper);color:var(--ink);
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+#app{max-width:720px;margin:0 auto;min-height:100vh;position:relative;overflow-x:hidden}
+.screen{display:none}
+.screen.on{display:block;animation:fade .28s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+/* ============ 首页 ============ */
+.hero{
+  position:relative;overflow:hidden;
+  padding:calc(18px + env(safe-area-inset-top)) 20px 44px;
+  background:linear-gradient(158deg,var(--c1) 0%,var(--c2) 100%);
+  color:#fff;border-radius:0 0 30px 30px;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(60% 70% at 88% 8%,rgba(255,255,255,.22),transparent 62%),
+    radial-gradient(50% 60% at 4% 96%,rgba(0,0,0,.16),transparent 60%);
+}
+.hero::after{
+  content:"";position:absolute;right:-46px;top:-52px;width:190px;height:190px;
+  border-radius:50%;border:1px solid rgba(255,255,255,.20);
+  box-shadow:0 0 0 22px rgba(255,255,255,.05),0 0 0 46px rgba(255,255,255,.035);
+}
+.htop{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brandline{font-size:11.5px;letter-spacing:1.6px;opacity:.84;font-weight:500}
+.qrbtn{
+  width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(4px);transition:transform .16s,background .16s;
+}
+.qrbtn:active{transform:scale(.92);background:rgba(255,255,255,.26)}
+.qrbtn svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.7}
+.hname{position:relative;font-size:27px;font-weight:800;letter-spacing:1.5px;margin-top:20px;line-height:1.28}
+.hname small{display:block;font-size:12px;font-weight:500;letter-spacing:2.6px;opacity:.62;margin-top:7px;text-transform:uppercase}
+.hmeta{position:relative;display:flex;align-items:center;gap:9px;margin-top:15px;font-size:12px;opacity:.9;flex-wrap:wrap}
+.hmeta i{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.55);font-style:normal}
+
+.statcard{
+  position:relative;margin:-28px 16px 0;padding:16px 16px 14px;
+  background:var(--card);border-radius:var(--r);box-shadow:var(--sh2);
+  border:1px solid var(--line);
+}
+.statrow{display:flex}
+.st{flex:1;text-align:center;position:relative}
+.st+.st::before{content:"";position:absolute;left:0;top:14%;height:72%;width:1px;background:var(--line)}
+.st b{display:block;font-size:21px;font-weight:800;letter-spacing:.4px;font-variant-numeric:tabular-nums}
+.st span{font-size:11.5px;color:var(--mut);letter-spacing:.6px}
+.pbar{height:5px;border-radius:4px;background:rgba(27,36,34,.07);margin-top:14px;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--c2),var(--c1));transition:width .6s cubic-bezier(.2,.8,.3,1)}
+
+.cta{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin:14px 16px 0;padding:16px 18px;width:calc(100% - 32px);
+  background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;
+  border-radius:var(--r);box-shadow:0 10px 24px -10px var(--c1);
+  transition:transform .14s ease;
+}
+.cta:active{transform:scale(.985)}
+.cta span{font-size:16px;font-weight:700;letter-spacing:.6px}
+.cta em{font-style:normal;font-size:12px;opacity:.8;font-weight:400}
+.cta .arw{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;opacity:.85;flex:0 0 auto}
+
+.sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:26px 20px 11px}
+.sec h2{font-size:14px;font-weight:700;letter-spacing:1.1px;color:var(--ink)}
+.sec .hint{font-size:11.5px;color:var(--mut)}
+
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+.mode{
+  display:flex;align-items:center;gap:11px;padding:15px 13px;min-height:74px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  text-align:left;box-shadow:var(--sh);transition:transform .14s,border-color .18s,box-shadow .18s;
+}
+.mode:active{transform:scale(.97)}
+.mode .ic{
+  flex:0 0 auto;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--c1) 10%,transparent);
+}
+.mode .ic svg{width:17px;height:17px;stroke:var(--c1);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.mode b{display:block;font-size:14.5px;font-weight:700;letter-spacing:.3px;line-height:1.35}
+.mode span{display:block;font-size:11px;color:var(--mut);margin-top:2px;letter-spacing:.2px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px}
+.chip{
+  padding:8px 13px;border-radius:10px;background:var(--card);border:1px solid var(--line);
+  font-size:12.5px;color:var(--ink2);display:inline-flex;align-items:center;gap:6px;
+  transition:transform .14s,border-color .16s,color .16s;
+}
+.chip:active{transform:scale(.95)}
+.chip b{font-weight:700;font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+.chip.hot{border-color:color-mix(in srgb,var(--c1) 34%,transparent);color:var(--c1);background:color-mix(in srgb,var(--c1) 6%,var(--card))}
+.chip.hot b{color:var(--c2)}
+
+.foot{padding:28px 20px calc(38px + env(safe-area-inset-bottom))}
+.switch{display:flex;align-items:center;gap:10px;padding:13px 15px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:13px;color:var(--ink2)}
+.switch input{display:none}
+.switch i{position:relative;width:38px;height:22px;border-radius:20px;background:rgba(27,36,34,.14);flex:0 0 auto;transition:background .2s}
+.switch i::after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.switch input:checked+i{background:var(--c1)}
+.switch input:checked+i::after{transform:translateX(16px)}
+.brand{margin-top:22px;text-align:center;font-size:11px;color:var(--mut);letter-spacing:.6px;line-height:1.9}
+
+/* ============ 答题页 ============ */
+#quiz{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.tbar{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;gap:10px;
+  padding:calc(10px + env(safe-area-inset-top)) 12px 10px;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+}
+.ibtn{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;transition:background .16s,transform .14s;flex:0 0 auto}
+.ibtn:active{transform:scale(.9);background:rgba(27,36,34,.06)}
+.ibtn svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tprog{flex:1;min-width:0}
+.tprog .t1{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut);margin-bottom:5px;font-variant-numeric:tabular-nums}
+.tprog .t1 b{color:var(--ink);font-weight:700}
+.tline{height:4px;border-radius:3px;background:rgba(27,36,34,.08);overflow:hidden}
+.tline i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c2),var(--c1));border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.3,1)}
+.timer{font-size:12px;font-weight:700;color:var(--c1);font-variant-numeric:tabular-nums;letter-spacing:.5px;padding:5px 9px;border-radius:8px;background:color-mix(in srgb,var(--c1) 9%,transparent);flex:0 0 auto}
+.timer.warn{color:var(--no);background:var(--nobg);animation:blink 1.1s infinite}
+@keyframes blink{50%{opacity:.45}}
+
+.qwrap{padding:18px 16px 0}
+.qcard{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:18px 17px 16px;box-shadow:var(--sh);
+}
+.qcard.cin{animation:cin .3s cubic-bezier(.2,.85,.3,1)}
+@keyframes cin{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.qcard.cin.rev{animation-direction:reverse}
+.qhead{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.8px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb,var(--c1) 11%,transparent);color:var(--c1)}
+.tag.multi{background:rgba(160,120,40,.11);color:#9a7328}
+.kptag{font-size:10.5px;letter-spacing:.3px;padding:3px 8px;border-radius:6px;background:rgba(27,36,34,.05);color:var(--mut);max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qnum{margin-left:auto;font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums}
+.stem{font-size:16.5px;line-height:1.78;letter-spacing:.2px;color:var(--ink);font-weight:500;word-break:break-word}
+.opts{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.opt{
+  display:flex;align-items:flex-start;gap:11px;width:100%;text-align:left;
+  padding:12px 13px;background:#fff;border:1.4px solid var(--line);border-radius:13px;
+  transition:border-color .16s,background .16s,transform .12s,box-shadow .16s;
+  position:relative;
+}
+.opt:active{transform:scale(.988)}
+.ob{
+  flex:0 0 auto;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;
+  font-size:12px;font-weight:700;color:var(--mut);background:rgba(27,36,34,.05);
+  transition:background .16s,color .16s,transform .16s;margin-top:1px;
+}
+.ot{font-size:15px;line-height:1.6;color:var(--ink2);letter-spacing:.2px;word-break:break-word}
+.opt.sel{border-color:var(--c1);background:color-mix(in srgb,var(--c1) 5%,#fff)}
+.opt.sel .ob{background:var(--c1);color:#fff}
+.opt.sel .ot{color:var(--ink)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.right .ob{background:var(--ok);color:#fff;animation:pop .3s cubic-bezier(.2,1.4,.4,1)}
+.opt.right .ot{color:#1e6b47;font-weight:600}
+.opt.bad{border-color:var(--no);background:var(--nobg);animation:shake .32s}
+.opt.bad .ob{background:var(--no);color:#fff}
+.opt.bad .ot{color:#9c3428}
+.opt.dim{opacity:.55}
+.opt.lock{cursor:default}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}22%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}}
+.opt .mk{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:15px;font-weight:800;opacity:0}
+.opt.right .mk{opacity:1;color:var(--ok);animation:pop .34s .05s both}
+.opt.bad .mk{opacity:1;color:var(--no)}
+
+.exp{
+  margin-top:14px;border-radius:14px;padding:0 14px;
+  background:color-mix(in srgb,var(--c1) 5%,#fff);
+  border:1px solid color-mix(in srgb,var(--c1) 15%,transparent);
+  max-height:0;overflow:hidden;opacity:0;padding-top:0;padding-bottom:0;
+  transition:max-height .34s cubic-bezier(.2,.85,.3,1),opacity .26s,padding .3s;
+}
+.exp.on{max-height:1400px;opacity:1;padding-top:13px;padding-bottom:13px;margin-top:15px}
+.exphead{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+.exphead .lbl{font-size:11px;color:var(--mut);letter-spacing:.6px}
+.exphead .ans{font-size:15px;font-weight:800;color:var(--c1);letter-spacing:1px}
+.exphead .verd{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px}
+.verd.ok{color:var(--ok);background:var(--okbg)}
+.verd.no{color:var(--no);background:var(--nobg)}
+.exptxt{font-size:14px;line-height:1.85;color:var(--ink2);letter-spacing:.2px;word-break:break-word;white-space:pre-wrap}
+.expfoot{display:flex;align-items:center;gap:8px;margin-top:11px;padding-top:10px;border-top:1px dashed color-mix(in srgb,var(--c1) 18%,transparent);font-size:11px;color:var(--mut)}
+
+.qfoot{
+  position:fixed;left:0;right:0;bottom:0;z-index:22;
+  max-width:720px;margin:0 auto;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(14px);border-top:1px solid var(--line);
+  display:flex;gap:9px;
+}
+.fbtn{
+  flex:1;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;gap:7px;
+  font-size:15px;font-weight:700;letter-spacing:.6px;transition:transform .14s,opacity .2s,background .2s;
+}
+.fbtn:active{transform:scale(.98)}
+.fbtn.pri{background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 8px 18px -8px var(--c1)}
+.fbtn.gh{background:rgba(27,36,34,.06);color:var(--ink2);flex:0 0 88px}
+.fbtn[disabled]{opacity:.38;box-shadow:none}
+.fbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ 答题卡 / 弹层 ============ */
+.mask{
+  position:fixed;inset:0;z-index:40;background:rgba(18,26,24,.42);
+  opacity:0;pointer-events:none;transition:opacity .26s;backdrop-filter:blur(2px);
+}
+.mask.on{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:41;max-width:720px;margin:0 auto;
+  background:var(--card);border-radius:22px 22px 0 0;
+  transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.85,.3,1);
+  padding-bottom:env(safe-area-inset-bottom);max-height:82vh;display:flex;flex-direction:column;
+}
+.sheet.on{transform:none}
+.shead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px;flex:0 0 auto}
+.shead h3{font-size:15px;font-weight:700;letter-spacing:.6px}
+.shead .cbtn{font-size:12.5px;color:var(--mut);padding:5px 9px;border-radius:8px}
+.sfilters{display:flex;gap:7px;padding:0 18px 12px;flex:0 0 auto}
+.sf{font-size:12px;padding:6px 12px;border-radius:8px;background:rgba(27,36,34,.05);color:var(--ink2);transition:background .16s,color .16s}
+.sf.on{background:var(--c1);color:#fff}
+.grid{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:8px;
+  padding:4px 18px 22px;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;
+}
+.gi{
+  aspect-ratio:1;border-radius:9px;display:grid;place-items:center;
+  font-size:12.5px;font-weight:700;color:var(--ink2);
+  background:rgba(27,36,34,.055);transition:transform .12s,background .16s;font-variant-numeric:tabular-nums;
+}
+.gi:active{transform:scale(.9)}
+.gi.ok{background:var(--okbg);color:var(--ok)}
+.gi.no{background:var(--nobg);color:var(--no)}
+.gi.did{background:color-mix(in srgb,var(--c1) 12%,transparent);color:var(--c1)}
+.gi.cur{box-shadow:0 0 0 2px var(--c1);color:var(--c1);font-weight:800}
+.gi.none{opacity:.35;pointer-events:none}
+.legend{display:flex;gap:14px;padding:0 18px 16px;font-size:11px;color:var(--mut);flex-wrap:wrap;flex:0 0 auto}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+
+/* 二维码弹层 */
+.qrmask{position:fixed;inset:0;z-index:60;background:rgba(18,26,24,.55);backdrop-filter:blur(6px);display:none;place-items:center;padding:24px}
+.qrmask.on{display:grid;animation:fade .22s}
+.qrbox{background:var(--card);border-radius:22px;padding:22px 22px 18px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);max-width:320px;width:100%;animation:up .3s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{transform:translateY(18px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+.qrbox h4{font-size:15px;font-weight:700;letter-spacing:.8px;margin-bottom:3px}
+.qrbox p{font-size:11.5px;color:var(--mut);margin-bottom:14px}
+.qrbox img{width:100%;max-width:220px;border-radius:10px;display:block;margin:0 auto}
+.qrbox .url{margin-top:12px;font-size:10.5px;color:var(--mut);word-break:break-all;line-height:1.6;background:rgba(27,36,34,.04);padding:7px 9px;border-radius:8px;font-family:ui-monospace,Menlo,monospace}
+.qrbox .cbtn2{margin-top:12px;width:100%;height:42px;border-radius:11px;background:var(--c1);color:#fff;font-size:14px;font-weight:700;letter-spacing:.6px}
+.qrbox .close{margin-top:9px;font-size:12px;color:var(--mut);padding:6px}
+
+/* ============ 结果页 ============ */
+#result{padding:calc(24px + env(safe-area-inset-top)) 0 calc(40px + env(safe-area-inset-bottom))}
+.rhd{text-align:center;padding:12px 24px 4px}
+.rhd .ttl{font-size:12px;letter-spacing:2.4px;color:var(--mut);text-transform:uppercase}
+.ringwrap{position:relative;width:186px;height:186px;margin:18px auto 0}
+.ringwrap svg{transform:rotate(-90deg)}
+.ringwrap .bgc{stroke:rgba(27,36,34,.075);fill:none}
+.ringwrap .fgc{stroke:url(#rg);fill:none;stroke-linecap:round;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.3,1)}
+.ringtxt{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ringtxt b{font-size:42px;font-weight:800;letter-spacing:-1px;line-height:1;font-variant-numeric:tabular-nums}
+.ringtxt b i{font-size:16px;font-weight:600;font-style:normal;color:var(--mut);margin-left:2px}
+.ringtxt span{font-size:11.5px;color:var(--mut);letter-spacing:1.6px;margin-top:8px}
+.rsum{display:flex;justify-content:center;gap:0;margin:22px 16px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 0;box-shadow:var(--sh)}
+.rsum div{flex:1;text-align:center;position:relative}
+.rsum div+div::before{content:"";position:absolute;left:0;top:12%;height:76%;width:1px;background:var(--line)}
+.rsum b{display:block;font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.rsum span{font-size:11px;color:var(--mut)}
+.rsum .g{color:var(--ok)}
+.rsum .r{color:var(--no)}
+
+.block{margin:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 15px;box-shadow:var(--sh)}
+.block h5{font-size:12.5px;font-weight:700;letter-spacing:.9px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.block h5::before{content:"";width:3px;height:12px;border-radius:2px;background:var(--c1)}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:flex;align-items:center;gap:9px;font-size:12px}
+.bar .n{width:112px;flex:0 0 auto;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .t{flex:1;height:6px;border-radius:3px;background:rgba(27,36,34,.07);overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--c2),var(--c1));width:0;transition:width .8s cubic-bezier(.2,.8,.3,1)}
+.bar .v{width:52px;text-align:right;color:var(--mut);font-variant-numeric:tabular-nums;font-size:11px;flex:0 0 auto}
+.racts{display:flex;flex-direction:column;gap:9px;margin:18px 16px 0}
+.acts{display:flex;gap:9px;margin:18px 16px 0}
+.acts .fbtn{flex:1}
+.empty{text-align:center;color:var(--mut);font-size:13px;padding:28px 0}
+
+.toast{
+  position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,12px);
+  background:rgba(24,32,30,.92);color:#fff;font-size:13px;padding:9px 16px;border-radius:10px;
+  z-index:80;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;white-space:nowrap;
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ================= 首页 ================= -->
+  <section class="screen on" id="home">
+    <div class="hero">
+      <div class="htop">
+        <div class="brandline">福建中医药大学 · 骨干西学中</div>
+        <button class="qrbtn" id="btnQR" aria-label="扫码">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="7" rx="1.4"/><rect x="3" y="14" width="7" height="7" rx="1.4"/><path d="M14 14h3v3h-3zM20 14v3M17 20h4"/></svg>
+        </button>
+      </div>
+      <h1 class="hname">方剂学<small>Fangjixue</small></h1>
+      <div class="hmeta"><span>396 题</span><i></i><span>单选 300</span><i></i><span>多选 96</span></div>
+    </div>
+
+    <div class="statcard">
+      <div class="statrow">
+        <div class="st"><b id="stDone">0</b><span>已练习</span></div>
+        <div class="st"><b id="stRate">--</b><span>正确率</span></div>
+        <div class="st"><b id="stWrong">0</b><span>错题</span></div>
+      </div>
+      <div class="pbar"><i id="stBar"></i></div>
+    </div>
+
+    <button class="cta" id="btnGo">
+      <span id="ctaMain">开始练习</span>
+      <em id="ctaSub">从第 1 题开始</em>
+      <svg class="arw" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+    </button>
+
+    <div class="sec"><h2>练习模式</h2></div>
+    <div class="modes" id="modes"></div>
+
+    <div class="sec"><h2>章节专项</h2><span class="hint" id="kpHint"></span></div>
+    <div class="chips" id="chips"></div>
+
+    <div class="foot">
+      <label class="switch"><input type="checkbox" id="autoNext"><i></i><span>答对后自动进入下一题</span></label>
+      <div class="brand">题库来源 · 福建中医药大学骨干西学中培训<br>本页数据保存在本机浏览器，无需联网</div>
+    </div>
+  </section>
+
+  <!-- ================= 答题页 ================= -->
+  <section class="screen" id="quiz">
+    <div class="tbar">
+      <button class="ibtn" id="btnBack" aria-label="返回">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="tprog">
+        <div class="t1"><span id="progTxt">1 / 400</span><span id="progSub">已答 0</span></div>
+        <div class="tline"><i id="progBar"></i></div>
+      </div>
+      <div class="timer" id="timer" style="display:none">00:00</div>
+      <button class="ibtn" id="btnCard" aria-label="答题卡">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>
+      </button>
+    </div>
+    <div class="qwrap">
+      <div class="qcard" id="qcard">
+        <div class="qhead">
+          <span class="tag" id="qtag">单选题</span>
+          <span class="kptag" id="qkp"></span>
+        </div>
+        <div class="stem" id="stem"></div>
+        <div class="opts" id="opts"></div>
+        <div class="exp" id="exp">
+          <div class="exphead">
+            <span class="lbl">正确答案</span>
+            <span class="ans" id="ansTxt"></span>
+            <span class="verd" id="verd"></span>
+          </div>
+          <div class="exptxt" id="expTxt"></div>
+          <div class="expfoot"><span id="expKp"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="qfoot" id="qfoot"></div>
+  </section>
+
+  <!-- ================= 结果页 ================= -->
+  <section class="screen" id="result">
+    <div class="rhd">
+      <div class="ttl" id="rTtl">练习完成</div>
+      <div class="ringwrap">
+        <svg width="186" height="186" viewBox="0 0 186 186">
+          <defs>
+            <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#4f78ab"/>
+              <stop offset="100%" stop-color="#31527e"/>
+            </linearGradient>
+          </defs>
+          <circle class="bgc" cx="93" cy="93" r="80" stroke-width="12"/>
+          <circle class="fgc" id="ring" cx="93" cy="93" r="80" stroke-width="12"/>
+        </svg>
+        <div class="ringtxt"><b id="rScore">0<i>%</i></b><span id="rLabel">正确率</span></div>
+      </div>
+      <div class="rsum">
+        <div><b class="g" id="rOk">0</b><span>答对</span></div>
+        <div><b class="r" id="rNo">0</b><span>答错</span></div>
+        <div><b id="rTotal">0</b><span>总题数</span></div>
+        <div><b id="rTime">--</b><span>用时</span></div>
+      </div>
+    </div>
+    <div class="block" id="kpBlock">
+      <h5>章节掌握度</h5>
+      <div class="bars" id="kpBars"></div>
+    </div>
+    <div class="racts" id="rActs"></div>
+  </section>
+
+</div>
+
+<div class="mask" id="mask"></div>
+<div class="sheet" id="sheet">
+  <div class="shead"><h3>答题卡</h3>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="cbtn" id="sheetSubmit" style="display:none;background:var(--c1);color:#fff;font-weight:700">交卷</button>
+      <button class="cbtn" id="sheetClose">收起</button>
+    </div>
+  </div>
+  <div class="sfilters">
+    <button class="sf on" data-f="all">全部</button>
+    <button class="sf" data-f="undone">未答</button>
+    <button class="sf" data-f="wrong">做错</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="legend">
+    <span><i style="background:var(--okbg)"></i>正确</span>
+    <span><i style="background:var(--nobg)"></i>错误</span>
+    <span><i style="background:rgba(27,36,34,.055)"></i>未答</span>
+    <span><i style="background:color-mix(in srgb,var(--c1) 12%,transparent)"></i>交卷待判</span>
+  </div>
+</div>
+
+<div class="qrmask" id="qrmask">
+  <div class="qrbox">
+    <h4>方剂学</h4>
+    <p>微信／相机扫码，手机直接答题</p>
+    <img id="qrImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFRklEQVR42u3dwY0TQRCG0X8RKXBFIv+gkLgSxBDBgoy6pqrG752Xxfb6U49U6u6P67oC3OuLjwCEB8IDhAfCA4QHwgOEB8IDhAfCA+EBwgPhAcKDbb6++g++/fi+4o39/vmr9H1N+/1P9dTvmxUPPGqC8ADhgfAA4YHwgBye42XY3OnVOc9nP//Z6z81Rzr1+VS/nlc/n1Ov/9Xfv+X7ZsUDj5ogPEB4IDxAeCA8IM1zvDTNndK0z+rUPKprLndq/jnt77jldVrxwKMmCA8QHggPEB4ID0jzHC9vdq5j9X6zV+dyXfsMT71OKx4gPBAeIDwQHiA8EB7EHO8tnJprTdtXVj2v237+qhUPEB4ID4QHCA+EBwgPYo6XJ81tTp2rWf3zW96X75sVD4QHwgOEB8IDhAfCA3LrHG/avq9T515u//ntn//275sVD4QHwgOEB8IDhAfCA/7Tx3Vdcd9dyvetbT9X03mYVjwQHiA8EB4gPBAeCA/I6DnetP1gW/azde1Dm3aPX5rOz5w2z7TigUdNEB4gPBAeIDwQHpDm/Xhdc7bquc20+VXXeZ7T9vVteZ1WPPCoCcIDhAfCA4QHwgNy+H68rvnVlvMwu+Z+2+/re+rfxYoHHjVBeIDwQHiA8EB4QB6yH2/L//vUe+e65nJd+wPTdM6nFQ88aoLwAOGB8ADhgfCA3LQf77M5xqk5TPU8Z9q9f9vvA5y238+KBwgPhAfCA4QHwgOEB3n4frzt50NmyX6tDLsvruv80q7zVE/9v1Y88KgJwgOEB8IDhAfCA3LTfrzqcylfnZ9MO9/y1Puq3pfYNU+bdu9i1/fEigceNUF4gPBAeIDwQHhAbrofr2tONe3czup75PLQe/C65qtd+wyteOBRE4QHCA+EBwgPhAek+X68rv142+9Pm3Z+5rTXM20fphUPPGoCwgPhgfAA4YHwgDTP8fJm+/HSNP/Zfs5k136/U3Pj6r+vFQ88aoLwAOGB8ADhgfCA3DTHS9M9aV3nZ6Z4H+O73Uf3bvswrXggPBAeIDwQHiA8EB6Qw/fjTZv/TLsfb9o+t+p517TfX/33OvW+rHjgUROEBwgPhAcID4QH5PAcL8vnLdP2xVV/nl3zva5zMrv2i776e6x44FEThAcID4QHCA+EB+TwuZpd5x9u35fVta+v67zQrnsFq+e69uOBR01AeCA8QHggPBAekGXnak47lzJN++Wmzf2m/b9PfV9WPPCoCQgPhAfCA4QHwgPSvB8vS84tzLB73rbcj7dl7jdtf6NzNcGjJiA8EB4IDxAeCA/I0P14Gbb/LUv26XWdPzltXpo3mydb8cCjJggPEB4IDxAeCA/I4Tnedl37x7acO5qHnnfatb/RigceNUF4gPBAeIDwQHhAbjpXc8vcqfrcyK550bRzOKu/D089Z9WKBx41QXiA8EB4gPBAeEBuuh+v6x65Lec0Vu/3y7B56bTzRbvOg7XigUdNEB4gPBAeIDwQHpDmOV6W3xe3ZS5Ufd5j9T1yr+5vzJI5pHM1waMmIDwQHggPEB4ID8iyOV6W35t3aq6VYXPOU3Oqrv141eeOWvHAoyYgPBAeIDwQHiA8iDleNs73Ujwn3HIPYZacFzrt87figUdNEB4gPBAeIDwQHpDmOd608zC7zqt86v14XfO37X9fKx541AThAcID4QHCA+EBuWmOt2X/WPXcpvq8x1M/3zVfrf6enLoPsPp7YsUDj5ogPEB4IDxAeCA84B8+ruvyKYAVD4QHCA+EBwgPhAcID4QHwvMRgPBAeIDwQHiA8EB4wN/9ATEjzAc4XNEsAAAAAElFTkSuQmCC" alt="答题二维码">
+    <div class="url" id="qrUrl"></div>
+    <button class="cbtn2" id="qrCopy">复制链接</button>
+    <button class="close" id="qrClose">关闭</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+
+var BANK = {"slug":"fangji","name":"方剂学","py":"Fangjixue","c1":"#31527e","c2":"#4f78ab","questions":[{"t":1,"s":"驱虫剂主要体现“八法”中的何种治法（ ）","o":["下法","温法","清法","消法","吐法"],"a":"D","e":"本题主要考查方剂与治法的关系及“八法”的适用范围，“消法”是通过消食导滞、行气活血、化痰利水、驱虫等方法，使气、血、痰、食、水、虫等有形之邪渐消缓散的一种治法。适用于饮食停滞、气滞血瘀、癥瘕积聚、水湿内停、痰饮不化、疳积虫积等病证。方剂是治法的体现，因此，驱虫剂体现的治法主要是“八法”中的“消法”。","k":"总论"},{"t":1,"s":"下列治法中除哪项外，均属“消法”范围（ ）","o":["祛痰法","祛湿法","祛暑法","理气法","驱虫法"],"a":"C","e":"本题主要考查对治疗“八法”各类治法含义及类别的识记与领会。“消法”是通过消食导滞、行气活血、化痰利水、驱虫等方法，使气、血、痰、食、水、虫等有形之邪渐消缓散的一种治法。所以祛痰法、祛湿法、理气法、驱虫法均属消法的范围。祛暑法适用于夏季感暑受邪之暑病，暑邪为阳热之邪，当“清法”为主。即使暑病夹湿，也应清解暑热兼以化湿；暑病兼寒，也应清解暑热与解表兼用；若属阴暑，也应辛温解表、祛暑和中。因此，祛暑法不属“消法”范围。","k":"总论"},{"t":1,"s":"下列选项中，哪项不是丸剂的特点（ ）","o":["吸收较快","药效持久","节省药材","便于服用","便于携带"],"a":"A","e":"本题主要考查对方剂常用剂型特点的熟悉程度。丸剂在制作时因加入了适量黏合剂，进入胃肠道后有一个崩解、释放过程，所以吸收较慢，故A为正确答案。","k":"总论"},{"t":1,"s":"下列内服的剂型中，唯一没有固定形态的是（ ）","o":["丹剂","片剂","冲剂","散剂","膏剂"],"a":"A","e":"本题主要考查对方剂常用剂型特点的熟悉程度。内服丹剂没有固定形态，有丸剂、散剂等不同剂型，每以药品贵重或药效显著而名之曰“丹”。片剂、冲剂、散剂、膏剂都有其固定的形态。","k":"总论"},{"t":1,"s":"下列选项中，哪项不是散剂的特点（ ）","o":["制作简便","吸收较慢","节省药材","便于携带","便于服用"],"a":"B","e":"本题主要考查对方剂常用剂型特点的熟悉程度。散剂为粉末状制剂，内服时以温开水或药汁等送下，不像丸剂进入胃肠道后有一个崩解、释放过程，所以吸收较快；外用散剂则直接患处或穴位局部用药，吸收也较快。","k":"总论"},{"t":1,"s":"滋补类方药的适宜服药时间为（ ）","o":["饭后服","饭前服","空腹时服","不拘时服","睡前时服"],"a":"C","e":"本题主要考查方剂的服药时间。滋补类方药宜空腹时服，以利药物充分吸收。","k":"总论"},{"t":1,"s":"发汗解表类汤剂内服时一般宜（ ）","o":["趁热服","放冷服","热药冷服","寒药温服","定时服"],"a":"A","e":"本题主要考查方剂的服药方法。汗解表类汤剂内服时一般宜趁热服，借其温散之力，有助于发汗。","k":"总论"},{"t":1,"s":"属于反佐药功用范畴的是（ ）","o":["制约君、臣药的峻烈之性","减轻、消除君、臣药毒性","直接治疗次要兼证","与君药性味或作用相反","引方中诸药以达病所"],"a":"D","e":"本题主要考查方剂的组方理论。反佐药是根据某些病证之需，配伍少量与君药性味或作用相反而又能在治疗中起相成作用的药物，属佐药之一。制约君、臣药的峻烈之性，减轻、消除君、臣药毒性属佐制药的功用范畴；直接治疗次要兼证属佐助药功用；引方中诸药以达病所属使药的功用范畴。","k":"总论"},{"t":1,"s":"对于臣药含义描述正确的是（ ）","o":["针对兼病或兼证起治疗作用的药物","制约君、臣药的峻烈之性的药物","引方中诸药以达病所的药物","直接治疗次要兼证的药物","根据病情需要配伍与君药性味相反而在治疗中起相成作用的药物"],"a":"A","e":"本题主要考查对方剂组方形式“君、臣、佐、使”含义的理解与领会。臣药有两种意义，一是辅助君药加强其治疗主病或主证作用的药物，二是针对兼病或兼证起治疗作用的药物。本题考查的显然是臣药的第二种意义。","k":"总论"},{"t":1,"s":"君药的含义是（ ）","o":["针对主病或主证起主要治疗作用的药物","针对兼病或兼证起治疗作用的药物","制约君、臣药的峻烈之性，或减轻、消除君、臣药毒性的药物","调和诸药作用的药物","能引方中诸药以达病所的药物"],"a":"A","e":"本题主要考查对方剂组方形式“君、臣、佐、使”含义的理解与领会。君药是针对主病或主证起主要治疗作用的药物，是方剂组成中不可或缺的主药。","k":"总论"},{"t":1,"s":"佐助药的含义是（ ）","o":["针对兼病或兼证起治疗作用的药物","直接治疗次要兼证的药物","制约君、臣药的峻烈之性，或减轻、消除君、臣药毒性的药物","与君药性味或作用相反而又能在治疗中起相成作用的药物","能引方中诸药以达病所的药物"],"a":"B","e":"本题主要考查对方剂组方形式“君、臣、佐、使”含义的理解与领会。佐助药是指协助君、臣药以加强治疗作用，或用以直接治疗次要兼证的药物。若对佐助药、佐制药、反佐药、臣药的意义未能区分而混淆，极有可能会选择错误。","k":"总论"},{"t":2,"s":"下列属于“八法”内容的是（ ）","o":["汗法","吐法","攻法","清法","和法"],"a":"ABDE","e":"本题主要考查治疗“八法”的基本内容。汗、和、下、消、吐、清、温、补诸法，是谓“八法”。“攻法”不属“八法”内容，属于《景岳全书·新方八略》“补、和、攻、散、寒、热、固、因”的内容。","k":"总论"},{"t":2,"s":"汗法具有的功效是（ ）","o":["开泄腠理","调畅营卫","宣发肺气","温里祛寒","清热泻火"],"a":"ABC","e":"本题主要考查对治疗“八法”主要功能的识记。其中，“汗法”是通过开泄腠理，调畅营卫，宣发肺气等方法，使在表的六淫之邪随汗而解的一类治法。而温里祛寒、清热泻火，则分别是“温法”“清法”的功能，分别适用于里寒证、里热证。","k":"总论"},{"t":2,"s":"“十剂”的内容包括（ ）","o":["宣、通","补、泻","轻、重","滑、涩","燥、湿"],"a":"ABCDE","e":"本题主要考查方剂的分类与溯源。“十剂”说，始于唐代陈藏器的《本草拾遗》，原是按功用归类药物的一种方法，其曰：“诸药有宣、通、补、泄、轻、重、涩、滑、燥、湿，此十种者是药之大体。”金代成无己在《伤寒明理药方论》中说：“制方之体，宣、通、补、泻、轻、重、涩、滑、燥、湿，十剂是也”，至此才有“十剂”这一名称。","k":"总论"},{"t":2,"s":"口服液的优点是（ ）","o":["剂量较小","吸收较快","服用方便","口感适宜","药效持久"],"a":"ABCD","e":"本题主要考查对方剂常用剂型特点的熟悉程度。口服液是将药物用水或其他溶剂提取，经精制而成的内服液体制剂。口服液具有剂量较小、吸收较快、服用方便、口感适宜等优点。","k":"总论"},{"t":2,"s":"硬膏又称（ ）","o":["锭剂","膏药","煎膏","薄贴","药膏"],"a":"BD","e":"本题主要考查对方剂常用剂型特点的熟悉程度。硬膏又称膏药，古称薄贴，是以植物油将药物煎至一定程度，去渣，煎至滴水成珠，加黄丹等搅匀、收膏，涂布于纸或布等裱褙材料上而制成的外用制剂，用时加温软化后贴于患处或穴位上。软膏又称药膏，是将药物细粉与适宜的基质制成具有适当稠度的半固体外用制剂。其中用乳剂型基质的亦称乳膏剂。煎膏又称膏滋，是将药物加水反复煎煮，去渣浓缩后，加炼蜜或炼糖制成的半液体内服剂型。锭剂是将药物研成细粉，或加适当的黏合剂制成规定形状的固体剂型。所以正确答案应是B、D。","k":"总论"},{"t":2,"s":"佐药包括（ ）","o":["佐制药","臣佐药","反佐药","佐助药","佐使药"],"a":"ACD","e":"本题主要考查对方剂组方形式“君、臣、佐、使”含义的记忆。佐药有三种意义，佐助药、佐制药和反佐药。选项B、E均有臣佐药功用相兼或佐使药功用相兼之义，不属单纯佐药之义。","k":"总论"},{"t":2,"s":"下列哪几项不属于佐药的范围（ ）","o":["针对兼病或兼证起治疗作用的药物","制约君、臣药的峻烈之性，或减轻、消除君、臣药毒性的药物","引导方中诸药直达病所的药物","直接治疗次要病证的药物","与君药性味或作用相反在治疗中起相成作用的药物"],"a":"AC","e":"本题主要考查对方剂组方形式“君、臣、佐、使”含义的记忆。佐药有三种意义：①佐助药，即协助君、臣药以加强治疗作用，或直接治疗次要兼证的药物。②佐制药，即制约君、臣药的峻烈之性，或减轻、消除君、臣药毒性的药物。③反佐药，指根据病情需要，配伍与君药性味或作用相反而在治疗中起相成作用的药物。选项A是臣药的意义；选项C是使药的意义。","k":"总论"},{"t":2,"s":"属于佐制药功用范畴的是（ ）","o":["减轻君、臣药的毒性","制约君、臣药的峻烈之性","直接治疗次要兼证","针对兼病或兼证起治疗作用","引方中诸药以达病所的药物"],"a":"AB","e":"本题主要考查对“佐药”含义的领会与记忆。一是佐助药，即协助君、臣药以加强治疗作用，或直接治疗次要兼证的药物；二是佐制药，即制约君、臣药的峻烈之性，或减轻、消除君、臣药毒性的药物；三是反佐药，即根据某些病证之需，配伍少量与君药性味或作用相反而又能在治疗中起相成作用的药物。选项C是佐助药的功用范畴，选项D是臣药的功用范围，选项E是使药的功用范围。","k":"总论"},{"t":2,"s":"使药包括（ ）","o":["佐制药","调和药","引经药","佐助药","佐使药"],"a":"BC","e":"本题主要考查对方剂组方形式“君、臣、佐、使”含义的记忆。使药有两种意义，引经药和调和药。选项A、D均是佐药之义，选项E则有佐使药功用相兼之义，均不属使药之义。","k":"总论"},{"t":2,"s":"方剂运用的变化形式包括（ ）","o":["药量加减","药味加减","剂型更换","方名更改","服法调整"],"a":"ABC","e":"本题主要对方剂变化应用的记忆考查。方剂的变化有药味加减、药量加减、剂型更换三种变化形式。","k":"总论"},{"t":1,"s":"患者见恶寒发热，头身疼痛，无汗而喘，舌苔薄白，脉浮紧，临床首选代表方剂是（）","o":["麻黄汤","桂枝汤","九味羌活汤","香苏散","小青龙汤"],"a":"A","e":"本题主要考查对几首辛温解表代表方剂主治证候的掌握。以上方剂均为辛温解表剂，均能主治外感风寒之证，但桂枝汤主治外感风寒表虚证，症见头痛发热，汗出恶风，鼻鸣干呕，苔白不渴，脉浮缓或浮弱；九味羌活汤主治外感风寒湿邪，内有蕴热证，症见恶寒发热，肌表无汗，头痛项强，肢体酸楚疼痛，口苦而渴；香苏散主治外感风寒，气郁不舒证，症见恶寒发热，头痛无汗，胸脘痞闷，不思饮食，舌苔薄白，脉浮；小青龙汤主治外寒内饮证，症见恶寒发热，无汗，喘咳，痰多而稀，或痰饮咳喘，不得平卧，或身体疼重，头面四肢浮肿，舌苔白滑，脉浮。","k":"解表剂"},{"t":1,"s":"桂枝汤中桂枝与芍药的配伍比例是（）","o":["1：1","2：1","5：1","6：1","7：1"],"a":"A","e":"本题主要考查对方剂配伍药物之间用量比例的掌握。在所学方剂中需要特别注意用量比例的是：麻杏甘石汤中石膏与麻黄的用量比例为2：1；当归补血汤中黄芪与当归的用量比例为5：1；左金丸中黄连与吴茱萸或六一散中滑石与甘草的用量比例为6：1；麦门冬汤中麦门冬与半夏的用量比例为7：1。","k":"解表剂"},{"t":1,"s":"下列方剂中，药物配伍具有“分经论治”特点的是（）","o":["败毒散","小青龙汤","九味羌活汤","独活寄生汤","香苏散"],"a":"C","e":"本题主要考查对九味羌活汤配伍特点的掌握。九味羌活汤主治外感风寒湿邪、内有蕴热证，方中羌活祛风除湿，主入太阳经；苍术发汗祛湿，入太阴经；细辛善止少阴头痛；白芷擅解阳明头痛；川芎长于止少阳厥阴头痛。上五味药合用，体现“分经论治”的组方思路，此为九味羌活汤的主要配伍特点。","k":"解表剂"},{"t":1,"s":"具有解表散寒、温肺化饮作用，主治外寒内饮证的代表方剂是（）","o":["麻黄汤","桂枝汤","小青龙汤","九味羌活汤","止嗽散"],"a":"C","e":"本题主要考查对小青龙汤功用、主治证候的掌握。小青龙汤主治外寒内饮证，临床多见恶寒发热、头身疼痛、无汗、喘咳、痰涎清稀而量多、胸痞、头面四肢浮肿、舌苔白滑、脉浮等症，小青龙汤配伍麻黄、桂枝解表散寒，宣肺平喘；干姜、细辛温肺化饮；五味子敛肺止咳，芍药和营养阴，半夏燥湿化痰，散中有收，开中有合，以达解表散寒、温肺化饮之效。","k":"解表剂"},{"t":1,"s":"小青龙汤组成中含有的药物是（）","o":["干姜","姜汁","生姜","煨姜","姜炭"],"a":"A","e":"本题主要考查对小青龙汤组成药物的掌握。小青龙汤主治外寒内饮证，方中以麻黄、桂枝解表散寒为主，配伍干姜、细辛温肺化饮，其中干姜辛温，归肺、脾二经，既可温阳化饮，又可温健脾胃，使得脾胃运化有权，痰湿不生，旨在健脾以杜生痰之源，故小青龙汤方中用干姜。","k":"解表剂"},{"t":1,"s":"止嗽散方中含有的药物是（）","o":["白前、陈皮、荆芥","前胡、半夏、苏叶","贝母、枳壳、杏仁","半夏、苏子、桑叶","百部、桔梗、杏仁"],"a":"A","e":"本题主要考查对止嗽散组成药物的掌握。止嗽散主治风邪犯肺之咳嗽证，方中以紫菀、百部止咳化痰；桔梗、白前一宣一降，宣利肺气；荆芥疏风解表，陈皮理气化痰；甘草调和诸药，利咽止咳。方中七味药物配伍，共奏宣利肺气、疏风止咳之功。原方组成中无半夏、苏子、苏叶、贝母、桑叶、枳壳、杏仁等药物，故B、C、D、E均不正确。","k":"解表剂"},{"t":1,"s":"银翘散的功用是（）","o":["疏风清热，宣肺止咳","辛凉透表，清热解毒","发汗祛湿，兼清里热","辛凉疏表，清肺平喘","清肺化痰，逐瘀排脓"],"a":"B","e":"本题主要考查对银翘散功用的掌握。银翘散主治发热、微恶风寒，无汗或有汗不畅，头痛口渴，咳嗽咽痛，舌尖红，苔薄白或薄黄，脉浮数等温病初起之证，功用辛凉透表、清热解毒，故B为正确答案。答案A是桑菊饮功用；C为九味羌活汤功用；D为麻杏石甘汤功用；E为苇茎汤功用，故均不正确。","k":"解表剂"},{"t":1,"s":"被吴鞠通称为“辛凉轻剂”的方剂是（）","o":["银翘散","桑菊饮","杏苏散","麻杏甘石汤","白虎汤"],"a":"B","e":"本题主要考查对桑菊饮配伍特点的掌握。桑菊饮主治风温初起邪客肺络证，方中以桑叶、菊花配伍杏仁，肃肺止咳之力大，但解表清热作用较银翘散弱，吴鞠通称之为“辛凉轻剂”，故正确答案是B。银翘散用银花、连翘配伍荆芥、豆豉、牛蒡子、竹叶，解表清热之力强，吴鞠通称之为“辛凉平剂”。白虎汤用石膏配伍知母，清热透邪之力最强，故称之为“辛凉重剂”。","k":"解表剂"},{"t":1,"s":"体现“逆流挽舟”法的方剂是（）","o":["杏苏散","止嗽散","败毒散","香薷散","银翘散"],"a":"C","e":"本题主要考查对败毒散主治及配伍特点的掌握。败毒散由羌活、独活、川芎、人参等散寒祛湿、益气解表药物组成。清代医家喻嘉言用本方治疗外邪陷里而成痢疾者，使陷里之邪还出表解，此谓“逆流挽舟”法，故正确答案是C。","k":"解表剂"},{"t":2,"s":"桂枝在麻黄汤中的作用是（）","o":["解肌发表","调和营卫","通达营卫","温阳化气","平冲降逆"],"a":"AC","e":"本题主要考查对麻黄汤中桂枝配伍意义的掌握。麻黄汤主治外感风寒表实证，系由风寒束表、肺气失宣所致。故见恶寒发热、无汗、头身疼痛等症，方中麻黄辛温，为发汗之峻剂，既开腠理、透毛窍，发汗以祛在表之风寒；又开宣肺气，宣散肺经风寒而平喘，为君药。风寒外束，卫闭营郁，遂臣以辛温而甘之桂枝解肌发表、通达营卫，既助麻黄发汗散寒之力，又可温通营卫之郁。故正确答案是A、C。","k":"解表剂"},{"t":2,"s":"桂枝汤中调和营卫的药对是（）","o":["桂枝与芍药","生姜与大枣","桂枝与甘草","生姜与桂枝","芍药与甘草"],"a":"AB","e":"本题主要考查对桂枝汤配伍意义的掌握。桂枝汤主治外感风寒表虚证，方中桂枝解肌发表而祛在表之风邪，芍药益阴敛营，敛固外泄之营阴，二药等量配伍，营卫同治，邪正兼顾，为调和营卫之常用药对。方中生姜、大枣相配，补脾和胃、化气生津、益营助卫，共为佐药，是为补脾和胃、调和营卫之另一常用药对。故本题的正确答案是A、B。选项C、D、E的药物配伍，虽亦为桂枝汤方的重要药对，但主要体现了辛甘化阳、辛散表邪以及酸甘化阴等作用，不发挥调和营卫之功效，故均为错误选项。","k":"解表剂"},{"t":2,"s":"九味羌活汤中具有清泄里热作用的药物是（）","o":["黄连","黄芩","石膏","生地黄","知母"],"a":"BD","e":"本题主要考查对九味羌活汤组成药物及配伍特点的掌握。九味羌活汤主治外感风寒湿邪，内有蕴热证。方中以羌活、防风、苍术、细辛、白芷、川芎祛风除湿、散寒止痛；又配伍黄芩、生地黄清泄里热，兼防辛温燥烈之品伤津之弊，故B、D为正确答案。选项A、C、E中的药物虽均为清热药，但不属于九味羌活汤的组成药物，故均不正确。","k":"解表剂"},{"t":2,"s":"银翘散与桑菊饮中共有的药物是（）","o":["杏仁","连翘","荆芥","桔梗","芦根"],"a":"BDE","e":"本题主要考查对银翘散、桑菊饮组成药物的掌握。银翘散、桑菊饮都是治疗温病初起的辛凉解表方剂，银翘散用银花、连翘配伍荆芥穗、淡豆豉、薄荷、牛蒡子、芦根、竹叶、桔梗、甘草，辛凉透表、清热解毒；桑菊饮用桑叶、菊花配伍薄荷、杏仁、桔梗、连翘、芦根、甘草，疏风清热、宣肺止咳。故两方共有的组成药物有连翘、桔梗、芦根、薄荷、甘草，选项B、D、E为正确答案。","k":"解表剂"},{"t":1,"s":"大承气汤的功用是（）","o":["轻下热结","泻热破瘀","缓下热结","峻下热结","润肠泻热"],"a":"D","e":"本题主要考查对大承气汤功用的掌握，其功用是峻下热结。选项A是小承气汤的功用，选项C是调胃承气汤的功用，B、E为干扰项。","k":"泻下剂"},{"t":1,"s":"麻子仁丸的主治证是（）","o":["阳明腑实便秘证","脾约便秘证","阳虚冷积便秘证","阳明腑实，气血不足便秘证","肾虚便秘证"],"a":"B","e":"本题主要考查对麻子仁丸主治病机的掌握。麻子仁丸（脾约丸）是润下剂的代表方剂，有润肠泻热、行气通便之功，主治脾约便秘证。选项A是大承气汤的主治证，选项C是温脾汤的主治证，选项D是黄龙汤的主治证，选项E是济川煎的主治证。","k":"泻下剂"},{"t":1,"s":"遣药配伍中体现“通因通用”治法的方剂是（）","o":["凉膈散","白头翁汤","大承气汤","痛泻要方","葛根芩连汤"],"a":"C","e":"本题主要考察对大承气汤主治病机及配伍特点的掌握。热结旁流是大承气汤主治证之一，“热结”为假象，燥屎内结才是本质，故用峻下之法，使热结得去，“旁流”可止，属“通因通用”之法。而凉膈散、白头翁汤、痛泻要方、葛根芩连汤中均没有体现“通因通用”治法的药物配伍。","k":"泻下剂"},{"t":2,"s":"大承气汤的药物组成包括（）","o":["大黄","厚朴","芒硝","黄芩","枳实"],"a":"ABCE","e":"本题主要考察对大承气汤药物组成的掌握。大承气汤由大黄、芒硝、厚朴、枳实组成，有峻下热结之功，主治阳明腑实证、热结旁流证、里热实证之热厥、痉病或发狂等证。","k":"泻下剂"},{"t":2,"s":"十枣汤的用法要点包括（）","o":["清晨空腹服","甘遂、大戟、芫花等分为末","大枣煎汤送服","每服0.5～1g，每日1次","服药得快下利后，糜粥自养"],"a":"ABCDE","e":"本题主要考察对十枣汤用法要点的掌握。十枣汤由芫花、大戟、甘遂、大枣组成，功用攻逐水饮，主治悬饮、实水。用法要点包括：甘遂、大戟、芫花三药等分为末，或装入胶囊；每服0.5～1g，每日1次；大枣10枚煎汤送服；清晨空腹服；得快下利后，糜粥自养。","k":"泻下剂"},{"t":2,"s":"温脾汤的君药是（）","o":["芒硝","大黄","附子","干姜","人参"],"a":"BC","e":"本题主要考察对温脾汤的组成及配伍意义的掌握。温脾汤由大黄、附子、芒硝、干姜、人参、当归、甘草组成，功用攻下冷积、温补脾阳，主治阳虚冷积证。方中附子温壮脾阳、散寒凝，大黄泻下冷积，共为君药。芒硝泻下润肠软坚，干姜温中散寒，共为臣药。人参、当归益气养血，为佐药。甘草益气、调药为佐使。","k":"泻下剂"},{"t":1,"s":"应用小柴胡汤，《伤寒论》指出，若“胸中烦而不呕者”，当（）","o":["“去黄芩，加芍药三两”","“去大枣，加牡蛎四两”","“去黄芩，加茯苓四两”","“去半夏、人参，加栝楼根一枚”","“去半夏，加人参合前成四两半，加栝楼根四两”"],"a":"D","e":"本题主要考查对小柴胡汤临床加减运用的掌握。小柴胡汤主治伤寒少阳证，若胸中烦而不呕，为热聚于胸，故宜去温燥之半夏、甘壅之人参，加瓜蒌清热理气宽胸。若腹中痛，是肝气乘脾，宜去黄芩，加芍药柔肝缓急止痛；若胁下痞硬，是气滞痰郁，去大枣，加牡蛎软坚散结；若心下悸，小便不利，是水气凌心，宜去黄芩，加茯苓利水宁心。","k":"和解剂"},{"t":1,"s":"下述是对逍遥散配伍意义的分析，其中哪项是不妥当的？（）","o":["柴胡疏肝解郁，当归、白芍养血柔肝","白术、茯苓健脾祛湿","薄荷助柴胡疏肝，兼散肝郁所生之热","煨生姜和胃止呕","炙甘草益气和中，兼缓肝急"],"a":"B","e":"本题主要考查对逍遥散组方意义的掌握，这是学习的重点。逍遥散主治肝郁血虚脾弱证，治宜疏肝解郁、养血健脾。方中以柴胡疏肝解郁，使肝郁得以条达，为君药。当归甘辛苦温、养血和血，且其味辛散，乃血中气药；白芍酸苦微寒、养血敛阴、柔肝缓急；归、芍与柴胡同用，补肝体而助肝用，使血和则肝和，血充则肝柔，共为臣药。木郁则土衰，肝病易传脾，故以白术、茯苓、甘草健脾益气，非但实土以御木乘，且使营血生化有源，共为佐药。用法中加薄荷少许，疏散郁遏之气，透达肝经郁热；烧生姜降逆和中，且能辛散达郁，亦为佐药。因此，选项B中所述“白术、茯苓健脾祛湿”的说法不妥当，故选此项。","k":"和解剂"},{"t":1,"s":"四逆散中具有一升一降配伍关系的药对是（）","o":["柴胡配伍芍药","柴胡配伍甘草","柴胡配伍枳实","芍药配伍甘草","枳实配伍芍药"],"a":"C","e":"本题主要考查对四逆散中柴胡与枳实配伍意义的掌握。四逆散由柴胡、芍药、枳实、甘草组成。原治阳郁厥逆证，后世多用作疏肝理脾的基础方，具有透邪解郁、疏肝理脾之功。方中柴胡入肝胆经，升发阳气，疏肝解郁，透邪外出，为君药。白芍敛阴，养血柔肝，为臣药，与柴胡合用，以补养肝血、条达肝气，可使柴胡升散而无耗伤阴血之弊。佐以枳实理气解郁、泄热破结，与柴胡为伍，一升一降，增舒畅气机之功，并奏升清降浊之效；与白芍相配，又能理气和血，使气血调和。甘草调和诸药，益脾和中。故方中具有一升一降配伍关系的药物是柴胡配伍枳实。","k":"和解剂"},{"t":1,"s":"四逆散主治手足不温的病机是（）","o":["脾阳不足，失于温煦","营血亏虚，寒凝经脉","热结于里，热深厥深","气机阻滞，阳气不达","肾阳衰微，阴寒内盛"],"a":"D","e":"本题主要考查对四逆散主治证候病机的掌握。选项A“脾阳不足，失于温煦”为温脾汤主治手足不温的病机；选项B“营血亏虚，寒凝经脉”为当归四逆汤主治四逆的病机；选项C“热结于里，热深厥深”为大承气汤主治热厥的病机；选项D“气机阻滞，阳气不达”为四逆散主治四逆的病机；选项E“肾阳衰微，阴寒内盛”为四逆汤主治四逆的病机。故正确答案应为D。","k":"和解剂"},{"t":1,"s":"逍遥散中姜的用法是（）","o":["鲜姜","炮姜","煨姜","姜汁","姜皮"],"a":"C","e":"本题主要考查对逍遥散组成中煨姜的掌握。选项A鲜姜，长于解表散寒，温中止呕；选项B炮姜，善走血分，长于温经止血；选项C煨姜，尤善温运和中，且能辛散达郁；选项D姜汁，功同生姜，偏于化痰止呕；选项E姜皮，长于和脾行水消肿。逍遥散中选用的是煨姜。","k":"和解剂"},{"t":1,"s":"半夏泻心汤与小柴胡汤方中均含有的药物是（）","o":["人参、黄芩、半夏、干姜、甘草","人参、生姜、半夏、甘草、大枣","半夏、黄芩、人参、甘草、大枣","柴胡、人参、黄芩、生姜、甘草","黄连、黄芩、半夏、甘草、大枣"],"a":"C","e":"本题主要考查对小柴胡汤与半夏泻心汤药物组成的掌握。小柴胡汤由柴胡、黄芩、半夏、生姜、人参、大枣、炙甘草组成；半夏泻心汤由半夏、干姜、黄连、黄芩、人参、大枣、甘草组成，两方共有的药物是黄芩、半夏、人参、大枣、甘草，故正确答案为C。容易出错的是两方中姜的应用，一为生姜，一为干姜。","k":"和解剂"},{"t":2,"s":"痛泻要方中配伍防风的意义是（）","o":["疏风解表","祛风止痛","燥湿止泻","散肝疏脾","发散郁火"],"a":"CD","e":"防风为辛温之品，因其味辛能散，具有疏风解表、祛风止痛之效，故解表方剂中常用之。然本题主要考查的是痛泻要方中配伍防风的意义，这是学习的难点。本方所治痛泻，是因肝强疏泄太过，脾弱运化不及，肝木乘脾，脾运失常所致，治当补脾柔肝、祛湿止泻。方中白术与白芍相伍，可补脾柔肝，于土中泻木；配以陈皮理气燥湿、醒脾和胃；防风具升散之性，合白芍以助疏散肝郁，伍白术以鼓舞脾之清阳，并可祛湿以助止泻，又为脾经引经药，兼具佐使之用。故正确答案应选择C、D。","k":"和解剂"},{"t":2,"s":"逍遥散主治证的病机是（）","o":["肝郁","血瘀","血虚","脾虚","脾热"],"a":"ACD","e":"本题主要考查对逍遥散主治证病机的掌握。逍遥散主治肝郁血虚脾弱证，症见两胁作痛，头痛目眩，口燥咽干，神疲食少，或月经不调，乳房胀痛，脉弦而虚。病机为肝郁血虚，肝体失养；脾弱不运，生化乏源；木不疏土，土不荣木。因此病机要点是肝郁、血虚、脾虚。","k":"和解剂"},{"t":2,"s":"半夏泻心汤的配伍特点是（）","o":["苦辛并进","寒热互用","表里同治","补泻兼施","气血兼顾"],"a":"ABD","e":"本题主要考查对半夏泻心汤配伍特点的掌握，这是学习的重点，亦是难点。半夏泻心汤主治证病机较为复杂，既有寒热错杂，又有虚实相兼，其中以中虚为基础，寒热互结，气机结滞，升降失常。治宜补其不足，调其寒热，开其结滞，复其升降。方中辛温之半夏、干姜与苦寒之黄连、黄芩相伍，辛开苦降，开结除痞。又以人参、大枣、甘草，健脾益气，补虚和中。综合全方，寒热平调以和阴阳，辛开苦降以调气机，补泻兼施以顾虚实，使寒去热清，升降复常，则痞满可除，呕利自愈。故本方配伍特点：寒热互用以和其阴阳，苦辛并进以复其升降，补泻兼施以调其虚实。因此正确答案为A、B、D。","k":"和解剂"},{"t":1,"s":"热病后期，余热未清，气津两伤，胃气不和，治宜选用（　）","o":["清暑益气汤","炙甘草汤","白虎汤","生脉散","竹叶石膏汤"],"a":"E","e":"本题主要考查对上述几首方剂临证主治证的掌握。选项A清暑益气汤主治暑热气津两伤证，症见身热汗多，心烦口渴，小便短赤，体倦少气，精神不振，脉虚数；选项B炙甘草汤主治阴血阳气虚弱、心脉失养证，症见脉结代、心动悸，虚羸少气，舌光少苔或质干而瘦小；选项C白虎加人参汤主治气分热盛，气阴两伤证，症见白虎汤证，但汗多而脉大无力，具有津气皆伤之证；以及暑病见有津气两伤，症见汗出背微恶寒，身热而渴等；选项D生脉散主治温热、暑热，耗气伤阴证，症见汗多神疲，体倦乏力，气短懒言，咽干口渴，舌干红少苔，脉虚数；选项E竹叶石膏汤主治伤寒、温病、暑病余热未清，气津两伤，胃失和降证，症见身热多汗，心胸烦闷，气逆欲呕，口干喜饮，或虚烦不寐，舌红苔少，脉虚数。","k":"清热剂"},{"t":1,"s":"体现“以泻代清”治法的方剂是（　）","o":["葛根黄芩黄连汤","凉膈散","白头翁汤","大柴胡汤","黄连解毒汤"],"a":"B","e":"本题主要考查对凉膈散中“以泻代清”治法的理解。凉膈散主治上中二焦邪郁生热证，治宜泻火通便、清上泄下。方中既用连翘、黄芩、栀子、薄荷、竹叶疏解清泄胸膈邪热于上；更用调胃承气汤合蜂蜜，通便导滞，荡热于中，使上焦之热得以清解，中焦之实由下而去。是以清上与泻下并行，但泻下是为清泄胸膈郁热而设，故谓之“以泻代清”。","k":"清热剂"},{"t":1,"s":"患者烦躁口渴，面赤唇焦，口舌生疮，便秘尿赤，舌红苔黄，脉滑数，治宜选用（　）","o":["黄连解毒汤","凉膈散","导赤散","清胃散","白虎汤"],"a":"B","e":"本题主要考查对几首清热方剂主治证的掌握。黄连解毒汤主治三焦火毒证，症见大热烦躁，口燥咽干，错语不眠，小便黄赤，舌红苔黄，脉数有力；凉膈散主治上中二焦邪郁生热证，症见烦躁口渴，面赤唇焦，胸膈烦热，口舌生疮，睡卧不宁，谵语狂妄，便秘溲赤，舌红苔黄，脉滑数；导赤散主治心经火热或心热移于小肠证，症见心胸烦热，口渴面赤，意欲饮冷，口舌生疮，以及小便赤涩刺痛，舌红，脉数；清胃散主治胃火牙痛，症见牙痛牵引头疼，面颊发热，其齿恶热喜冷，口气热臭，口干舌燥，舌红苔黄，脉滑数。","k":"清热剂"},{"t":1,"s":"凉膈散组成中含有的方剂是（　）","o":["大承气汤","小承气汤","调胃承气汤","增液汤","增液承气汤"],"a":"C","e":"本题主要考查对凉膈散组成的掌握。凉膈散由连翘、黄芩、栀子、大黄、芒硝、薄荷、竹叶、甘草、蜂蜜组成，其中大黄、芒硝、甘草为调胃承气汤，故正确答案为C。大承气汤、小承气汤的组成与调胃承气汤易混淆，若掌握不牢固，则会错误地选择A、B。","k":"清热剂"},{"t":1,"s":"“少阴不足，阳明有余”，症见牙痛，齿松牙衄，头痛，烦热干渴，舌红苔黄而干者，治宜选用（　）","o":["凉膈散","玉女煎","黄连解毒汤","增液汤","清胃散"],"a":"B","e":"玉女煎与清胃散均治胃热牙痛。但清胃散主治胃火牙痛，症见牙痛牵引头疼，面颊发热，其齿恶热喜冷，或牙宣出血，或牙龈红肿溃烂，或唇舌颊腮肿痛，口气热臭，口干舌燥，舌红苔黄，脉滑数；而玉女煎主治“少阴不足，阳明有余”之胃热阴虚证，症见头痛，牙痛，齿松牙衄，烦热干渴，舌红苔黄且干或消渴，消谷善饥。故正确答案为B。若不能辨清二方的区别，则会错误地选择E清胃散。","k":"清热剂"},{"t":1,"s":"患儿气喘咳嗽，皮肤蒸热，日晡尤甚，舌红苔黄，脉细数，治宜选用（　）","o":["左金丸","苇茎汤","泻白散","麻杏甘石汤","麻黄汤"],"a":"C","e":"虽然苇茎汤、泻白散、麻杏甘石汤、麻黄汤主治证中均有咳喘，但证治病机各有不同，临床表现迥异。苇茎汤主治热毒壅滞，痰瘀互结之肺痈，症见身有微热，咳嗽痰多，甚至吐腥臭脓血，胸中隐隐作痛，咳则痛增，舌红苔黄腻，脉滑数；泻白散主治肺热喘咳证，症见气喘咳嗽，皮肤蒸热，日晡尤甚，舌红苔黄，脉细数；麻杏甘石汤主治外感风邪，邪热壅肺证，症见身热不解，咳逆气急，甚则鼻煽，口渴，有汗或无汗，舌苔薄白或黄，脉浮数；麻黄汤主治外感风寒表实证，症见恶寒发热，头身疼痛，无汗而喘，舌苔薄白，脉浮紧。故正确答案为C。","k":"清热剂"},{"t":1,"s":"导赤散主治心经有热之证，属于下列何种情况者为宜（　）","o":["气火内郁，暗耗阴血，虚热上炎者","气郁化火，心火内炽，循经上炎者","气郁化火，炼液为痰，痰火内扰者","心火上炎，或下移小肠，水虚火不实者","心火亢盛，烦热谵语，口舌生疮，邪实而正不虚者"],"a":"D","e":"本题主要考查对导赤散主治证病机的掌握。导赤散主治心经有热证，病机为心火上炎或心热下移于小肠，水虚火不实。方中用生地黄配伍木通，说明此“火”并非“实火”。选项E表述的病机就为“实火”。若不能正确理解“水虚火不实”，则容易错选为E。","k":"清热剂"},{"t":1,"s":"下列方剂中，含有包煎药物的是（　）","o":["清营汤","导赤散","炙甘草汤","龙胆泻肝汤","温经汤"],"a":"D","e":"本题主要考查药物的特殊用法。清营汤由水牛角、生地、玄参、麦冬、银花、连翘、竹叶、黄连、丹参组成，其中水牛角需先煎；导赤散由木通、生地黄、生甘草梢、竹叶组成；炙甘草汤由甘草、生姜、人参、生地、桂枝、阿胶、麦冬、麻仁、大枣组成，温经汤由吴茱萸、桂枝、当归、川芎、芍药、人参、阿胶、生姜、丹皮、甘草、半夏、麦冬组成，两方中的阿胶需烊化；龙胆泻肝汤由龙胆草、黄芩、栀子、泽泻、木通、车前子、生地黄、当归、柴胡、生甘草组成，方中的车前子因易沉在锅底而粘锅，故需包煎，正确答案为D。","k":"清热剂"},{"t":1,"s":"治疗肝火犯胃之嘈杂吞酸者，宜首选（　）","o":["导赤散","龙胆泻肝汤","左金丸","清胃散","泻白散"],"a":"C","e":"本题主要考查对左金丸主治证的掌握。选项B、C、D中的方剂主治证均涉及肝或胃，易于混淆。其中龙胆泻肝汤主治肝胆实火上炎或肝经湿热下注证，症见头痛目赤，胁痛，口苦，耳聋，耳肿，舌红苔黄，脉弦数有力，或阴肿，阴痒，筋痿，阴汗，小便淋浊，或妇女带下黄臭等，舌红苔黄腻，脉弦数有力；左金丸主治肝火犯胃证，症见胁肋胀痛，嘈杂吞酸，呕吐口苦，舌红苔黄，脉弦数；清胃散主治胃火牙痛，症见牙痛牵引头疼，面颊发热，其齿恶热喜冷，或牙宣出血，或牙龈红肿溃烂，或唇舌颊腮肿痛，口气热臭，口干舌燥，舌红苔黄，脉滑数。","k":"清热剂"},{"t":1,"s":"左金丸方中黄连与吴茱萸的用量比例是（　）","o":["1∶1","2∶1","5∶1","6∶1","7∶1"],"a":"D","e":"本题主要考查对方剂配伍药物之间用量比例的掌握。在所学历方剂中需要特别注意用量比例的是：桂枝汤中桂枝与芍药的用量比例为1∶1；麻杏甘石汤中石膏与麻黄的用量比例为2∶1；当归补血汤中黄芪与当归的用量比例为5∶1；左金丸中黄连与吴茱萸或六一散中滑石与甘草的用量比例为6∶1；麦门冬汤中麦门冬与半夏的用量比例为7∶1。","k":"清热剂"},{"t":1,"s":"立法用药体现“行血则便脓自愈，调气则后重自除”的方剂是（　）","o":["乌梅丸","败毒散","芍药汤","白头翁汤","葛根黄芩黄连汤"],"a":"C","e":"本题主要考查对选项中方剂组方意义的掌握。以上方剂均可用于治疗痢疾，然组方配伍各有特点。其中芍药汤主治湿热壅滞肠中，气血不调，传导失常所致之湿热痢疾，治宜清热燥湿、调气和血。故方中重用芍药养血和营、缓急止痛，配以当归养血活血，加强调行血和营之功，使“行血则便脓自愈”；又配木香、槟榔行气导滞，使“调气则后重自除”。","k":"清热剂"},{"t":2,"s":"不可误投白虎汤的脉证是（　）","o":["身热脉浮弦而细者","身热而脉沉者","身热脉洪而不任重按者","身热无汗而口不渴者","以上答案均不是"],"a":"ABCD","e":"本题主要考查对白虎汤禁忌证的掌握。选项A“脉浮弦而细者”，为寒邪在表，正气不充，应扶正解表，若误用白虎汤，则更伤其正而使邪入里。选项B“脉沉者”，若脉沉而有力，多见阳明腑实证，治当攻下，不可用白虎汤；若脉沉而无力，则为肾阳衰微，浮阳外越，亦不可用白虎汤。选项C“脉洪而不任重按者”，为血虚气弱，阳气浮越于外，治当补气生血，不应用白虎汤。选项D“无汗而口不渴者”，为热入营血，津液亏耗，无源作汗，热邪蒸腾营阴上泛于口，当清热凉血、养阴生津，不宜应用白虎汤。","k":"清热剂"},{"t":2,"s":"清营汤中体现“透热转气”治法的药物是（　）","o":["水牛角","黄连","银花","连翘","丹参"],"a":"CD","e":"本题主要考查对清营汤中“透热转气”治法的理解。清营汤主治热入营分证，治宜清营解毒、透热养阴。方中银花、连翘可清热解毒、轻清透泄，促使营分热邪向外从气分透泄而解，此即叶桂所云“入营犹可透热转气”。","k":"清热剂"},{"t":2,"s":"普济消毒饮中升麻、柴胡的配伍意义是（　）","o":["疏散风热","举陷升提","火郁发之","引药上行","疏肝解郁"],"a":"ACD","e":"本题主要考查对普济消毒饮中配伍升麻、柴胡意义的掌握。该方主治风热疫毒壅聚所致之大头瘟。方中升麻、柴胡疏散风热，并引药达上，使壅于头面的风热疫毒之邪得以散泄，寓有“火郁发之”之意。","k":"清热剂"},{"t":2,"s":"方药配伍寓“火郁发之”之义的方剂是（　）","o":["清营汤","清胃散","泻白散","普济消毒饮","导赤散"],"a":"BD","e":"本题主要考查对“火郁发之”的理解。清胃散中用升麻清热解毒，升而能散，可宣达郁火，有“火郁发之”之意；普济消毒饮中用柴胡、升麻疏散风热，有“火郁发之”之意。故正确答案为B、D。","k":"清热剂"},{"t":2,"s":"玉女煎中牛膝的配伍意义是（　）","o":["补益肝肾","活血祛瘀","引热下行","利尿通淋","清泻胃热"],"a":"AC","e":"本题主要考查对玉女煎中配伍牛膝意义的掌握。该方主治“少阴不足，阳明有余”之胃热阴虚证。方中牛膝引热下行，且补肝肾，为佐使之用。","k":"清热剂"},{"t":2,"s":"左金丸中黄连的配伍意义是（　）","o":["泻心火","泻肝火","清胃热","清肺热","疏肝郁"],"a":"ABC","e":"本题主要考查对左金丸中配伍黄连意义的掌握。该方主治肝火犯胃证。重用黄连为君，一则与吴茱萸相伍，亦可入肝经而清肝火；二则善清胃热；三则泻心火，寓“实则泻其子”之意。故正确答案为A、B、C。","k":"清热剂"},{"t":2,"s":"清胃散中升麻的配伍意义是（　）","o":["清热解毒","火郁发之","引药归经","升阳举陷","解表透疹"],"a":"ABC","e":"本题主要考查对清胃散中配伍升麻意义的掌握。该方主治胃火牙痛。方中臣以甘辛微寒之升麻，一取其清热解毒，以治胃火牙痛，一取其轻清升散透发，可宣达郁遏之伏火，取“火郁发之”之意。升麻兼以引经为使。故正确答案为A、B、C。","k":"清热剂"},{"t":2,"s":"青蒿鳖甲汤的临床表现包括（　）","o":["夜热早凉","热退无汗","身重脘闷","舌红少苔","脉象细数"],"a":"ABDE","e":"本题主要考查对青蒿鳖甲汤主治证临床表现的掌握。青蒿鳖甲汤主治温病后期，阴液已伤，邪热未尽，深伏阴分之证。阴分本有伏热，入夜阳气入阴，两阳相加，阴不制阳，故入夜身热；昼则正气外行于表，阳出于阴，则热退身凉；温病后期，阴液已伤，加之邪热深伏阴分，则阴津益耗，无以作汗，且邪不外解，仍归阴分，故见热退无汗；舌红少苔，脉象细数，皆为阴虚有热之征。故正确答案为A、B、D、E。选项C“身重脘闷”多系湿邪困顿所致，故不应选择。","k":"清热剂"},{"t":2,"s":"青蒿鳖甲汤中青蒿的配伍意义是（　）","o":["清热退黄","引邪外出","滋阴退热","清热透络","滋阴潜阳"],"a":"BD","e":"本题主要考查对青蒿鳖甲汤中青蒿配伍意义的掌握。该方主治温病后期，阴液耗伤，邪伏阴分证，治当养阴透热并行。方中鳖甲咸寒，直入阴分，滋阴退热；青蒿苦辛而寒，其气芳香，清中有透散之力，清热透络，引邪外出，二药相伍，滋阴清热，内清外透，使阴分伏热有外达之机，共为君药。生地甘寒，滋阴凉血；知母苦寒质润，滋阴降火，为臣药。丹皮辛苦而凉，助除青蒿透泄阴分之伏热，为佐药。五药合用，共奏养阴透热之功。","k":"清热剂"},{"t":1,"s":"患者见恶寒发热，头疼身痛，无汗，腹痛吐泻，胸脘痞闷，舌苔白腻，脉浮，治宜选用（　）","o":["香苏散","小青龙汤","九味羌活汤","香薷散","败毒散"],"a":"D","e":"本题主要考查对5首表里同治方剂临床主治病证的理解和掌握。以上方剂均可外解风寒表证，内治里证。但香苏散主治外感风寒，内兼气滞之证，症见恶寒身热，头痛无汗，胸脘痞闷，不思饮食，舌苔薄白，脉浮。临床除见发热恶寒，头痛无汗等表证，尚有不思饮食，胸脘痞闷等气郁不舒之象，且舌苔薄白不腻。小青龙汤主治外寒内饮证，恶寒发热，头痛无汗，脉浮，与一般表证无异，但见喘咳，痰多而稀，或痰饮咳喘，不得平卧，或身体疼重，头面四肢浮肿，舌苔白滑等寒饮内停之征。九味羌活汤主治外感风寒湿邪，兼有里热证，除见风寒湿邪侵犯肌表所致恶寒发热，肌表无汗，头痛项强，肢体酸楚疼痛等症外，尚见口苦而渴，舌苔薄白或黄等里有蕴热之症。败毒散主治气虚，外感风寒湿表证，症见憎寒壮热，头项强痛，肢体酸痛，无汗，鼻塞声重，咳嗽有痰，胸膈痞满，舌淡苔白，脉浮而按之无力。脉浮而按之无力乃虚人外感之征。","k":"祛暑剂"},{"t":1,"s":"暑热气津两伤之身热汗多，口渴心烦，小便短赤，体倦少气，精神不振，脉虚数，应首选（　）","o":["白虎汤","清暑益气汤","黄连解毒汤","银翘散","三仁汤"],"a":"B","e":"本题主要考查对方剂主治病证的掌握。白虎汤为清气分热代表方剂，黄连解毒汤为清热解毒代表方剂，银翘散乃风热表证之代表方，三仁汤治疗湿温初起及暑温夹湿之湿重于热证。","k":"祛暑剂"},{"t":2,"s":"清暑益气汤的组成中含有（　）","o":["西洋参、甘草","石斛、麦冬","人参、甘草","黄连、竹叶","石膏、知母"],"a":"ABD","e":"本题主要考查对方剂组成的掌握。清暑益气汤出自《温热经纬》，方由西洋参、西瓜翠衣、石斛、麦冬、竹叶、黄连、知母、荷梗、甘草、粳米组成，故选A、B、D。如果不能理解药物作用特点，准确记忆方剂组成，易选择错误答案C。西洋参与人参均可补气，但西洋参偏于苦凉，兼能清热养阴生津，尤适用于热伤气津所致身热多汗，神疲乏力，口渴心烦，脉虚数等。","k":"祛暑剂"},{"t":1,"s":"理中丸的药物组成不包括（　）","o":["附子","干姜","人参","白术","炙甘草"],"a":"A","e":"本题主要考查理中丸的药物组成。理中丸由干姜、人参、白术、炙甘草组成，方中不包括附子，故正确答案应是A。","k":"温里剂"},{"t":1,"s":"小建中汤的君药是（　）","o":["桂枝","芍药","人参","饴糖","黄芪"],"a":"D","e":"本题主要考查对小建中汤君药的掌握。小建中汤由饴糖、桂枝、芍药、生姜、大枣、炙甘草组成，温中补虚、和里缓急，主治中焦虚寒、肝脾失调、阴阳不和证。方中重用甘温质润之饴糖作为君药，温补中焦、缓急止痛。故正确答案是D。","k":"温里剂"},{"t":1,"s":"治疗病后中焦虚寒喜唾涎沫者，宜选用（　）","o":["苓桂术甘汤","吴茱萸汤","四君子汤","理中丸","半夏泻心汤"],"a":"D","e":"本题主要考查对理中丸主治病证的掌握。理中丸温中祛寒、补气健脾，主治脾胃虚寒证，以及阳虚失血或脾胃虚寒所致的胸痹、病后喜唾涎沫、小儿慢惊等证。病后多生涎唾，久久不已，是脾气虚寒，不能摄津，津上溢于口所致，以理中丸缓治，可徐徐收功。苓桂术甘汤温阳化饮、健脾利湿，主治中阳不足之痰饮证。吴茱萸汤温中补虚、降逆止呕，主治胃寒呕吐、肝寒或肾寒上逆证。四君子汤益气健脾，主治脾胃气虚证。半夏泻心汤寒热平调、散结除痞，主治寒热互结之心下痞证。","k":"温里剂"},{"t":2,"s":"小建中汤与桂枝汤中相同的药物是（　）","o":["桂枝","芍药","生姜","大枣","炙甘草"],"a":"ABCDE","e":"本题主要考查对桂枝汤、小建中汤两方药物组成的掌握。桂枝汤由桂枝、芍药、生姜、大枣、炙甘草组成；小建中汤由饴糖、桂枝、芍药、生姜、大枣、炙甘草组成，即桂枝汤倍用芍药、重用饴糖而成。所以小建中汤与桂枝汤组方中共同的药物是桂枝、芍药、生姜、大枣、炙甘草。如果对此知识掌握不牢固，则极易漏选。","k":"温里剂"},{"t":2,"s":"四逆汤的主治证候包括（　）","o":["四肢厥逆","面色苍白","神衰欲寐","舌红苔黄","脉微细"],"a":"ABCE","e":"本题主要考查对四逆汤主治证候的掌握。四逆汤主治心肾阳衰寒厥证，临床以四肢厥逆，恶寒蜷卧，神衰欲寐，面色苍白，腹痛下利，呕吐不渴，舌淡苔白滑，脉微细为主要表现，故正确答案是A、B、C、E。选项D为舌红苔黄，此为热证之舌苔征象，与病机不符。","k":"温里剂"},{"t":1,"s":"往来寒热，胸胁苦满，呕不止，郁郁微烦，心下满痛，大便不解，舌苔黄，脉弦数有力者，治宜选用（　）","o":["大承气汤","小承气汤","大柴胡汤","小柴胡汤","调胃承气汤"],"a":"C","e":"本题主要考查对大柴胡汤主治证的掌握。大承气汤、小承气汤、调胃承气汤均为泻下剂，主治阳明证，其中大承气汤主治痞、满、燥、实俱备之阳明腑实重证；小承气汤主治痞、满、实而燥证不明显的阳明腑实轻证；调胃承气汤主治阳明燥实内结而无痞满之证。小柴胡汤主治伤寒少阳证，症见往来寒热，胸胁苦满，默默不欲饮食，心烦喜呕，口苦，咽干，目眩，舌苔薄白，脉弦。大柴胡汤主治少阳阳明合病，症见往来寒热，胸胁苦满，呕不止，郁郁微烦，心下满痛或心下痞硬，大便不解或协热下利，舌苔黄，脉弦数有力。故正确答案是C。","k":"表里双解剂"},{"t":1,"s":"大柴胡汤中重用生姜，是由于症见（　）","o":["往来寒热","胸胁苦满","心下痞硬","呕不止","郁郁微烦"],"a":"D","e":"小柴胡汤与大柴胡汤中均有生姜，前方中生姜为三两，后方中为五两，是因大柴胡汤所治之证呕逆比小柴胡汤证为重，由少阳证的“喜呕”发展为“呕不止”，故重用生姜以加强降逆和胃止呕之力。","k":"表里双解剂"},{"t":2,"s":"组成中含有柴胡、黄芩的方剂是（　）","o":["逍遥散","痛泻要方","小柴胡汤","蒿芩清胆汤","大柴胡汤"],"a":"CE","e":"本题主要考查对几首和解方剂药物组成的掌握。逍遥散由柴胡、当归、白芍、白术、茯苓、炙甘草、煨姜、薄荷组成；痛泻要方由白术、白芍、陈皮、防风组成；小柴胡汤由柴胡、黄芩、半夏、生姜、人参、大枣、炙甘草组成；蒿芩清胆汤由青蒿、黄芩、竹茹、半夏、枳壳、陈皮、赤茯苓、碧玉散（滑石、甘草、青黛）组成；大柴胡汤由柴胡、黄芩、芍药、半夏、枳实、大黄、大枣、生姜组成。故组成中含有柴胡、黄芩的方剂是小柴胡汤、大柴胡汤。容易出错的是选项D蒿芩清胆汤，虽亦为和解剂，具有和解少阳的作用，但其主治证为少阳湿热偏重，故方中未用柴胡，而是选用芳香化湿的青蒿与黄芩配伍，以清透少阳湿热。","k":"表里双解剂"},{"t":2,"s":"葛根黄芩黄连汤中葛根的配伍意义是（　）","o":["解肌发表","透疹解毒","养阴生津","升阳止利","引药上行"],"a":"AD","e":"本题主要考查对葛根黄芩黄连汤中配伍葛根意义的掌握。该方主治协热下利。方中重用葛根为君，甘辛而凉，主入阳明经，外解肌表之邪，内清阳明之热，又升发脾胃清阳而止泻升津，使表解里和。故正确答案为A、D。","k":"表里双解剂"},{"t":1,"s":"具滋阴降火之效，常用治阴虚火旺证的方剂是（　）","o":["一贯煎","左归丸","六味地黄丸","青蒿鳖甲汤","大补阴丸"],"a":"E","e":"本题主要考查对几首具有养阴作用方剂主治病机的掌握。以上方剂虽分别属于补益剂和清热剂，但均可养阴用治阴液不足之证。其中一贯煎功用为滋阴疏肝，主治肝肾阴虚，肝气郁滞证。左归丸功用为滋阴补肾、填精益髓，主治真阴不足，精髓内亏证。六味地黄丸功用为填精滋阴补肾，主治肾阴精不足证。青蒿鳖甲汤功用为养阴透热，主治温病后期，阴虚邪伏证。","k":"补益剂"},{"t":1,"s":"体现“甘温除热”治法的方剂是（　）","o":["桂枝汤","小柴胡汤","补中益气汤","竹叶石膏汤","白虎汤"],"a":"C","e":"本题主要考查对几首均有除热作用之方剂所体现治法的掌握。以上方剂虽分别属于解表剂、和解剂、补益剂及清热剂，但所治均见发热且方中含有甘温药物。桂枝汤功可发汗解肌、调和营卫，主治外感风寒表虚之恶风发热。小柴胡汤功可和解少阳，主治邪在少阳之往来寒热。竹叶石膏汤功可清热生津、益气和胃，主治热病后期，余热未清，气津两伤之身热多汗。白虎汤功可清热生津，主治阳明气分热盛之壮热。","k":"补益剂"},{"t":1,"s":"患者见胸脘痞闷，饮食不化，肠鸣泄泻，四肢乏力，形体消瘦，舌淡苔白腻，脉虚缓，临床首选代表性方剂是（　）","o":["补中益气汤","生脉散","四君子汤","参苓白术散","玉屏风散"],"a":"D","e":"本题主要考查对几首补气方剂主治证的掌握。以上方剂均属补气剂，皆可主治气虚之证。但补中益气汤主治脾虚气陷证及气虚发热证，症见饮食减少，少气懒言，体倦肢软，或发热，自汗出，渴喜温饮，舌淡苔白，脉虚软无力及清阳下陷诸证等。生脉散主治气阴两虚之证，症见汗多神疲，体倦乏力，气短懒言，咽干口渴，或干咳少痰，舌干红少苔，脉虚细等。四君子汤主治脾胃气虚之证，症见面色萎白，语声低微，气短乏力，食少便溏，舌淡苔白，脉虚弱。玉屏风散主治表虚自汗之证，症见汗出恶风，面色㿠白，舌淡苔白，脉浮虚软；亦治虚人腠理不固，易感风邪。","k":"补益剂"},{"t":1,"s":"主治血虚阳浮发热证的代表性方剂是（　）","o":["当归补血汤","归脾汤","四物汤","炙甘草汤","八珍汤"],"a":"A","e":"本题主要考查对几首具有补血作用的方剂主治病机的掌握。以上方剂均有补血作用，皆可用治血虚证。但归脾汤主治心脾气血两虚证及脾不统血证；四物汤主治营血虚滞证；炙甘草汤主治阴血阳气虚弱，心脉失养证；八珍汤主治气血两虚证。","k":"补益剂"},{"t":2,"s":"一贯煎主治证的临床表现有（　）","o":["胸脘胁痛","吞酸吐苦","疝气瘕聚","舌红少津","脉虚弦"],"a":"ABCDE","e":"本题主要考查对一贯煎主治证的掌握。一贯煎主治肝肾阴虚，肝气郁滞证，症见胸脘胁痛，吞酸吐苦，咽干口燥，舌红少津，脉细弱或虚弦。亦治肝气久郁，经气不利，经脉郁滞之疝气瘕聚。","k":"补益剂"},{"t":2,"s":"肾气丸的配伍特点是（　）","o":["阳中求阴","阴中求阳","少火生气","峻补元阳","纯补无泻"],"a":"BC","e":"本题主要考查对肾气丸配伍特点的掌握。肾气丸主治肾阳不足证。方中附子、桂枝温肾阳，助气化，配伍滋阴补肾且量多之干地黄，可补肾填精，温肾助阳，阳药得阴药之柔润则温而不燥，阴药得阳药之温通则滋而不腻，相得益彰。方中补阳之品药少而量轻而滋阴之品药多而量重，可见立方之旨，非峻补元阳，乃在于微微生火，以鼓舞肾气，取“少火生气”之理。而选项A、E为主治真阴不足证之左归丸的配伍特点。","k":"补益剂"},{"t":2,"s":"四物汤的组成药物是（　）","o":["生地黄","熟地黄","当归","白芍","川芎"],"a":"BCDE","e":"本题主要考查对四物汤的药物组成、功用及主治病机的掌握。四物汤由熟地黄、当归、川芎、白芍组成，功可补血调血，主治营血虚滞之证。方中用熟地为君，甘温质润而腻，长于滋阴养血、补肾填精，为滋阴补血之要药。而选项A生地黄甘寒，宜于清热凉血、滋阴生津。","k":"补益剂"},{"t":2,"s":"组成中含熟地黄的方剂是（　）","o":["四物汤","大补阴丸","一贯煎","六味地黄丸","青蒿鳖甲汤"],"a":"ABD","e":"本题主要考查对几首分别含有生、熟地黄方剂的药物组成的掌握。四物汤由熟地黄、当归、川芎、白芍组成，主治营血虚滞之证。大补阴丸由黄柏、知母、熟地黄、龟甲、猪脊髓、蜂蜜组成，主治阴虚火旺证。六味地黄丸由熟地黄、山药、山茱萸、泽泻、丹皮、茯苓组成，主治肾精不足证。选项C一贯煎，由北沙参、麦冬、当归身、生地黄、枸杞子、川楝子组成，主治肝肾阴虚，肝气郁滞证。选项E青蒿鳖甲汤，由青蒿、鳖甲、细生地、知母、丹皮组成，主治温病后期，阴虚邪伏证。","k":"补益剂"},{"t":1,"s":"四神丸的组成药物是（　）","o":["吴茱萸、骨碎补、肉豆蔻、五味子","肉豆蔻、五味子、吴茱萸、补骨脂","补骨脂、草豆蔻、吴茱萸、五味子","肉豆蔻、补骨脂、五味子、山茱萸","肉豆蔻、五倍子、补骨脂、吴茱萸"],"a":"B","e":"本题主要考查对四神丸组成的掌握。四神丸由肉豆蔻、五味子、吴茱萸、补骨脂组成，记忆难度并不大，但由于选项中利用名称相近的药物作为干扰，如果药物功效掌握不扎实，则容易错选。","k":"固涩剂"},{"t":1,"s":"固冲汤中与黄芪共为君药的是（　）","o":["山茱萸","白术","牡蛎","白芍","五倍子"],"a":"B","e":"本题主要考查固冲汤的组方配伍意义。固冲汤为治肾虚不固、脾虚不摄、冲脉滑脱所致崩漏而设，方中重用白术，与黄芪相伍，补气健脾，使气旺摄血，共为君药。","k":"固涩剂"},{"t":1,"s":"牡蛎散的功用是（　）","o":["敛阴止汗，益气固表","益气固表，实卫止汗","益气生津，敛阴止汗","清暑益气，养阴生津","滋阴泻火，固表止汗"],"a":"A","e":"本题考查牡蛎散的功效。牡蛎散功用敛阴止汗、益气固表；玉屏风散功用益气固表止汗；生脉散功用益气生津、敛阴止汗；清暑益气汤功用清暑益气、养阴生津；当归六黄汤功用滋阴泻火、固表止汗。干扰选项中均有生津或止汗词句，易相互混淆，需要特别注意。","k":"固涩剂"},{"t":1,"s":"脾肾阳虚之五更泻，治宜选用（　）","o":["芍药汤","真人养脏汤","痛泻要方","乌梅丸","四神丸"],"a":"E","e":"本题考查对治疗泄泻方剂主治证病机的掌握。四神丸功能温肾暖脾、固肠止泻，主治脾肾阳虚之五更泻，故选项E为正确答案。芍药汤主治湿热痢疾；真人养脏汤主治久泻久痢，脾肾虚寒证；痛泻要方主治脾虚肝旺之痛泻证；乌梅丸主治久泻久痢。","k":"固涩剂"},{"t":1,"s":"症见遗精滑泄、神疲乏力、腰痛耳鸣、舌淡苔白、脉细弱者，治宜选用（　）","o":["桑螵蛸散","六味地黄丸","金锁固精丸","四神丸","大补阴丸"],"a":"C","e":"本题主要考查金锁固精丸的主治证候、临床表现。以临床案例形式出题，贴近临床实际，亦为考核方剂主治证候的常用方法。金锁固精丸具有补肾涩精之效，主治肾虚不固之遗精，症见遗精滑泄，神疲乏力，腰痛耳鸣，舌淡苔白，脉细弱。","k":"固涩剂"},{"t":2,"s":"固涩剂的禁忌病证是（　）","o":["伤食泄泻","火扰遗泄","热病汗出","实热崩带","痰饮咳嗽"],"a":"ABCDE","e":"本题主要考查固涩类方剂的使用注意事项。固涩剂为正虚无邪者设，若外邪未去者，不宜过早使用，以免有闭门留寇之弊。病证属邪实者，如热病汗出、痰饮咳嗽、火扰遗泄、伤食泄泻、热痢初起，以及实热崩中带下等，均非本类方剂之所宜。","k":"固涩剂"},{"t":2,"s":"桑螵蛸散中配伍人参的意义是（　）","o":["大补元气","补益心气","安神定志","固摄津液","健脾益气"],"a":"BC","e":"本题考查单味药在方中的配伍意义。桑螵蛸散原作散剂，各药用量相等，而在服用时，以人参汤调服，于方中寓意有二，一为补益心气，一为安神定志。","k":"固涩剂"},{"t":2,"s":"固经丸的君药是（　）","o":["黄柏","龟甲","黄芩","香附","白芍"],"a":"BE","e":"本题考查方剂的组方结构。方中龟甲滋养肝肾、潜阳制火；白芍敛阴益血以养肝。二药合用，肝肾同补，共为君药。","k":"固涩剂"},{"t":2,"s":"桑螵蛸散中体现安神定志，交通心肾作用的药物是（　）","o":["桑螵蛸","龙骨","菖蒲","当归","远志"],"a":"CE","e":"本题主要考查桑螵蛸散的组方配伍意义。桑螵蛸散调补心肾、涩精止遗，主治心肾两虚证。方中菖蒲、远志安神定志，交通心肾，意在补肾涩精、宁心安神的同时，促进心肾相交。","k":"固涩剂"},{"t":2,"s":"组成中含有罂粟壳的方剂是（　）","o":["真人养脏汤","固冲汤","金锁固精丸","九仙散","四神丸"],"a":"AD","e":"本题考查固涩类方剂的药物组成。虽然仅为一题，但需要掌握五首方剂组成才能正确作答，属于多选题中难度较大的类型。罂粟壳具有涩肠止泻和敛肺止咳之效，常用于久泻久痢和肺虚久咳，遗精滑泄和崩漏少用，可用排除法筛选出正确答案。","k":"固涩剂"},{"t":1,"s":"主治心火亢盛，阴血不足而致心悸失眠，神志不安证的方剂是（　）","o":["归脾汤","天王补心丹","朱砂安神丸","血府逐瘀汤","酸枣仁汤"],"a":"C","e":"本题主要考查对几首均可用治心悸失眠，神志不安证方剂主治病机的掌握。以上方剂虽分别属于补益剂、理血剂及安神剂，但均可治疗神志不安之心悸失眠证。其中归脾汤主治心脾气血两虚，心失所养之心悸失眠。天王补心丹主治心肾阴虚血少，虚火内扰之心悸失眠。血府逐瘀汤主治胸中血瘀，气机郁滞，瘀热扰心之心悸失眠。酸枣仁汤主治肝血不足，虚热内扰之心悸失眠。","k":"安神剂"},{"t":1,"s":"患者见虚烦失眠，心悸不安，头目眩晕，咽干口燥，舌红，脉细弦，临床首选代表性方剂是（　）","o":["温胆汤","酸枣仁汤","天王补心丹","归脾汤","朱砂安神丸"],"a":"B","e":"本题主要考查对几首均有安神功用方剂临证主治证的掌握。以上方剂虽分别属于祛痰剂、补益剂及安神剂，但均能安神定志，用治神志不安之证。温胆汤主治胆郁痰扰证，症见胆怯易惊，头眩心悸，心烦不眠，夜多异梦；或呕吐呃逆，眩晕，癫痫；苔白腻，脉弦滑。天王补心丹主治阴虚血少，神志不安证，症见心悸怔忡，虚烦失眠，神疲健忘，或梦遗，手足心热，口舌生疮，大便干结，舌红少苔，脉细数。归脾汤主治心脾两虚，气血不足证，症见心悸怔忡，健忘失眠外，盗汗，食少体倦，面色萎黄，舌质淡，苔薄白，脉细缓，或见便血、崩漏等脾不统血证。朱砂安神丸主治心火亢盛，阴血不足证，症见失眠多梦，惊悸怔忡，心烦神乱，或胸中懊憹，舌尖红，脉细数。","k":"安神剂"},{"t":2,"s":"天王补心丹主治证的临床表现有（　）","o":["大便溏薄","手足心热","心悸失眠","舌红少苔","脉细数"],"a":"BCDE","e":"本题主要考查对天王补心丹主治证的掌握。天王补心丹主治阴虚血少，神志不安证，症见心悸怔忡，虚烦失眠，神疲健忘，或梦遗，手足心热，口舌生疮，大便干结，舌红少苔，脉细数。而备选答案A为脾失健运，湿浊内生之征。","k":"安神剂"},{"t":2,"s":"天王补心丹的配伍特点是（　）","o":["肝脾同调","心肾两顾","标本兼治","镇清并用","补中有行"],"a":"BC","e":"本题主要考查对天王补心丹配伍特点的掌握。天王补心丹主治心肾阴虚血少，神志不安证，方中重用生地黄配麦冬、天冬、玄参等，意在补心肾之阴，使水盛制火，并伍大队养心安神药以滋阴养血、补心安神为主。而备选答案A是主治肝脾不和证方剂的配伍特点。备选答案D是有镇心安神、清热养血之效，主治心火亢盛，阴血不足证之朱砂安神丸的配伍特点。备选答案E是酸枣仁与川芎相伍，辛散酸收、补血行血，有养血调肝之用，主治肝血不足，虚热内扰证之酸枣仁汤的配伍特点。","k":"安神剂"},{"t":1,"s":"至宝丹最适宜于哪种原因所致的窍闭神昏证","o":["温邪内陷","痰热壅闭","肝阳暴张","心火炽盛","中寒气闭"],"a":"B","e":"本题主要考查至宝丹主治证的病机特点。首先应区别凉开剂与温开剂主治病证的不同，排除选项E。至宝丹主治神昏谵语，身热烦躁，痰盛气粗，舌绛苔黄垢腻，脉滑数等证，为痰热壅闭，内闭心包所致，故选B。","k":"开窍剂"},{"t":1,"s":"功擅清热开窍、化浊解毒的方剂是","o":["紫金锭","紫雪","至宝丹","苏合香丸","安宫牛黄丸"],"a":"C","e":"本题主要考查至宝丹的功用，并采用了逆向思维。选项B紫雪以金石重镇、甘寒咸凉与芳香开窍之品组方，因配伍了羚羊角，心肝并治，清热开窍中更具息风止痉之效，长于息风止痉；选项E安宫牛黄丸由开窍药配伍清热药及重镇安神、豁痰解毒之品组成，功用为清热解毒、开窍醒神，长于清热解毒。选项A紫金锭功用是辟秽解毒、化痰开窍、消肿止痛。","k":"开窍剂"},{"t":1,"s":"安宫牛黄丸的功用是","o":["清热开窍、息风止痉","清热泻火、开窍宁神","清心豁痰、开窍安神","清热解毒、豁痰开窍","以上都不是"],"a":"D","e":"本题主要考查安宫牛黄丸的功用。安宫牛黄丸由开窍药配伍清热药及重镇安神、豁痰解毒之品组成，方中除了用甘凉、咸寒之牛黄、犀角，又配伍了大苦大寒之黄连、黄芩、栀子，故本方长于清热解毒。其功用除开窍豁痰，又强调了清热解毒之效。","k":"开窍剂"},{"t":1,"s":"某患者症见高热烦躁，神昏谵语，痉厥，口渴唇焦，尿赤便秘，舌质红绛，苔干黄，脉弦数。治宜选用","o":["安宫牛黄丸","紫金锭","至宝丹","紫雪","苏合香丸"],"a":"D","e":"本题主要考查对开窍剂主治证主要临床表现的掌握。以上方剂同为开窍剂，均主治窍闭神昏证。首先排除选项E苏合香丸，主治寒闭证；选项B紫金锭功用是辟秽解毒、化痰开窍、消肿止痛。安宫牛黄丸主治邪热内陷心包证，邪热偏盛，身热较甚；至宝丹主治痰热内闭心包证，痰浊偏盛而昏迷较重；紫雪主治温热病，热闭心包及热盛动风证，除热盛外，患者有明显的痉厥动风表现，可选擅长息风镇痉的紫雪。","k":"开窍剂"},{"t":1,"s":"苏合香丸的功用是","o":["化痰开窍、辟秽解毒","温通开窍、行气止痛","开窍定惊、清热化痰","清热开窍、化浊解毒","清热开窍、镇痉安神"],"a":"B","e":"本题主要考查对苏合香丸功用的掌握。苏合香丸以麝香、安息香、苏合香、冰片等开窍药配伍沉香、香附、青木香、丁香、檀香、乳香等诸多辛散温通之品，称为\"十香开窍\"之剂，其芳香开窍、行气止痛之功显著，擅治寒凝气滞闭证。芳香辛温相须，属温开剂，故选项B正确。选项中出现清热开窍者均是错误答案。","k":"开窍剂"},{"t":2,"s":"凉开\"三宝\"是指","o":["安宫牛黄丸","苏合香丸","紫雪","紫金锭","至宝丹"],"a":"ACE","e":"安宫牛黄丸、紫雪、至宝丹皆为体现凉开法的常用方剂，因均有清热开窍的作用，常用于热闭证，故合称凉开\"三宝\"。而紫金锭、苏合香丸为温开法的常用方剂。","k":"开窍剂"},{"t":2,"s":"苏合香丸的临床证治要点包括","o":["不省人事","牙关紧闭","突然昏倒","苔白脉迟","身热烦躁"],"a":"ABCD","e":"本题主要考查对苏合香丸主治证临床辨证要点的掌握。本方主治因寒邪痰浊上蒙清窍，或因暴怒，气血逆乱，扰及神明，或因感受疫疠秽恶之气，气机逆乱，机窍不利所致之证，临床表现均以突然昏倒，不省人事，牙关紧闭为主，兼有面白唇青，四肢不温，苔白脉迟等症，属于\"寒闭\"范畴。而身热烦躁是热闭证的主要临床表现。","k":"开窍剂"},{"t":1,"s":"半夏厚朴汤的功用是","o":["行气散结、降逆化痰","行气散结、降逆止呕","行气散结、化痰止咳","行气散结、宽胸利膈","行气散结、止咳平喘"],"a":"A","e":"本题主要考查对半夏厚朴汤的药物组成、功用及主治病机的掌握。半夏厚朴汤的组成是半夏、厚朴、茯苓、生姜、苏叶，功用是行气散结、降逆化痰，主治痰气交阻于咽喉之梅核气。","k":"理气剂"},{"t":1,"s":"具有降逆化痰、益气和胃功用的方剂是","o":["苏子降气汤","定喘汤","半夏泻心汤","橘皮竹茹汤","旋覆代赭汤"],"a":"E","e":"本题主要考察方剂的功用。旋覆代赭汤的功用是降逆化痰，益气和胃；苏子降气汤的功用是降气平喘、祛痰止咳；定喘汤的功用是宣降肺气、清热化痰；橘皮竹茹汤的功用是降逆止呃、益气清热；半夏泻心汤的功用是寒热平调、消痞散结。","k":"理气剂"},{"t":1,"s":"越鞠丸的功用是","o":["疏肝泻热","行气解郁","通阳散结","理气止咳","理气化痰"],"a":"B","e":"本题主要考察对越鞠丸的功用的掌握。越鞠丸由香附、川芎、栀子、苍术、神曲组成，有行气解郁之功，主治气、血、痰、火、湿、食之六郁证。而六郁之中以气郁为主，故治当行气解郁为主。","k":"理气剂"},{"t":1,"s":"定喘汤主治证的病机是","o":["外感温燥，邪在肺卫","风寒客表，水饮内停","外感风寒，内伤湿滞","痰热内蕴，风寒外束","胸阳不振，痰浊中阻"],"a":"D","e":"本题主要考察对定喘汤主治病机的掌握。定喘汤属降气剂，有宣降肺气、清热化痰之功，主治痰热内蕴，风寒外束之喘咳证，症见咳嗽痰多气急，质稠色黄，或微恶风寒，舌苔黄腻，脉滑数。","k":"理气剂"},{"t":1,"s":"旋覆代赭汤原方中用量最重的药物是","o":["旋覆花","代赭石","人参","生姜","炙甘草"],"a":"D","e":"本题主要考察对旋覆代赭汤的药物组成、功用及主治病机的掌握。旋覆代赭汤出自《伤寒论》，由旋覆花、代赭石、人参、生姜、炙甘草、半夏、大枣组成，有降逆化痰、益气和胃之功，主治胃虚气逆痰阻证。方中生姜用量独重（五两），和胃降逆增其止呕之力，并可宣散水气以助祛痰之功。","k":"理气剂"},{"t":2,"s":"苏子降气汤的组成药物包括","o":["桂枝","厚朴","当归","半夏","甘草"],"a":"BCDE","e":"本题主要考察对苏子降气汤的药物组成的掌握。苏子降气汤由紫苏子、半夏、当归、甘草、前胡、厚朴、肉桂、苏叶、生姜、大枣组成。功用是降气平喘、祛痰止咳，主治上实下虚喘咳证。方中苏子降气平喘、祛痰止咳为君药；半夏燥湿化痰降逆为臣药。厚朴燥湿消痰、下气除满，前胡降气祛痰，肉桂温肾助阳纳气，当归治咳逆上气，养血补肝润燥，生姜、苏叶散寒宣肺，共为佐药；甘草、大枣和中调药，同为使药。","k":"理气剂"},{"t":2,"s":"定喘汤方中清泄肺热的药物是","o":["石膏","黄芩","桑白皮","地骨皮","知母"],"a":"BC","e":"本题主要考察对定喘汤的药物组成及组方意义的掌握。定喘汤由白果、麻黄、苏子、款冬花、杏仁、半夏、桑白皮、黄芩、甘草组成。有宣降肺气、清热化痰之功，主治痰热内蕴，风寒外束之喘咳证。方中麻黄疏散风寒、宣肺平喘，白果敛肺化痰定喘，散收相配，共为君药。桑白皮、黄芩清泄肺热、止咳平喘，共为臣药。","k":"理气剂"},{"t":2,"s":"小柴胡汤、半夏泻心汤、旋覆代赭汤中都含有的药物是","o":["人参","生姜","黄芩","大枣","甘草"],"a":"ADE","e":"本题主要考察对方剂的药物组成的掌握。小柴胡汤由柴胡、黄芩、半夏、生姜、人参、大枣、甘草组成；半夏泻心汤由黄连、黄芩、半夏、干姜、人参、大枣、甘草组成；旋覆代赭汤由旋覆花、代赭石、半夏、生姜、人参、大枣、甘草组成。三首方剂共有的药物是人参、大枣、炙甘草。","k":"理气剂"},{"t":1,"s":"温经汤中配伍半夏的主要意义是","o":["燥湿化痰而和胃","和胃降逆而止呕","通降胃气而散结","益气降逆而消痞","化痰开胃而行津"],"a":"C","e":"本题主要考查对温经汤中半夏配伍意义的掌握。该方主治冲任虚寒，瘀血阻滞证，治当温经散寒、养血祛瘀。方中以半夏为佐药，辛温行散，入胃经通降胃气，以助通冲任，散瘀结。故应选择C。选项A、B、E虽然亦是半夏之功效，但均非半夏在本方中的配伍意义。","k":"理血剂"},{"t":1,"s":"桂枝茯苓丸主治","o":["脾阳不足，聚湿成饮，咳痰稀白，胸膈不快","中阳不足，饮停心下，胸胁支满，心悸目眩","脾失健运，痰停中脘，流溢四肢，臂疼肢肿","下焦虚寒，小便自浊，频数无度，凝如膏糊","以上均不是"],"a":"E","e":"本题主要考查对桂枝茯苓丸方证病机及证治要点的掌握。桂枝茯苓丸主治瘀阻胞宫证，以少腹宿有癥块，腹痛拒按，或下血色晦暗而夹有瘀块，舌质紫暗，脉沉涩为辨证要点。","k":"理血剂"},{"t":1,"s":"桂枝茯苓丸的功用是","o":["活血化瘀、缓消癥块","活血祛瘀、通络止痛","活血化瘀、温经止痛","活血祛瘀、散结止痛","温经散寒、养血祛瘀"],"a":"A","e":"本题主要考查对桂枝茯苓丸功用的掌握。该方主治瘀阻胞宫证，治当活血化瘀，但祛瘀药多有碍胎元，特别是祛瘀过猛，易损胎气，故唯有渐消缓散。因此，该方的功用为活血化瘀、缓消癥块。","k":"理血剂"},{"t":1,"s":"黄芪在补阳还五汤中的配伍意义是","o":["补气利水","补气行血","补气生血","补气生阳","补气固表"],"a":"B","e":"本题主要考查对补阳还五汤中黄芪配伍意义的掌握。该方主治气虚血瘀证之中风，治当补气活血通络。方中重用生黄芪，甘温大补元气，使气旺以促血行，瘀去络通，为君药。","k":"理血剂"},{"t":1,"s":"血府逐瘀汤的组成除四物汤外，其余的药物是","o":["官桂、干姜、蒲黄、五灵脂","乌药、香附、枳壳、延胡索","柴胡、桔梗、枳壳、牛膝","香附、牛膝、没药、五灵脂","葱白、麝香、红枣、黄酒"],"a":"C","e":"本题主要考查对四物汤、血府逐瘀汤组成的掌握。血府逐瘀汤由桃仁、红花、当归、生地、赤芍、川芎、枳壳、柴胡、牛膝、桔梗、甘草组成。其中，当归、生地、赤芍、川芎为四物汤（生地易熟地；赤芍易白芍），其余的药物为桃仁、红花、枳壳、柴胡、牛膝、桔梗、甘草。","k":"理血剂"},{"t":1,"s":"复元活血汤证瘀阻的部位是","o":["胸中","胁下","胞宫","头面","少腹"],"a":"B","e":"本题主要考查对复元活血汤主治证病机的掌握。该方主治跌打损伤，瘀血阻滞证，以外伤后胁肋瘀肿疼痛、痛不可忍为辨证要点。因此，瘀阻的部位是胁下。选项A胸中是血府逐瘀汤的瘀阻部位；选项C是生化汤、桂枝茯苓丸的瘀阻部位；选项D、E分别是通窍活血汤、少腹逐瘀汤的瘀阻部位。","k":"理血剂"},{"t":1,"s":"温经汤的功用是","o":["温经散寒、养血祛瘀","活血祛瘀、温经止痛","温经活血、通络舒筋","温经止痛、疏肝通络","以上都不是"],"a":"A","e":"本题主要考查对温经汤功用的掌握。该方具有温经散寒、养血祛瘀之功，温清补消并用，以温经化瘀为主，主治冲任虚寒，瘀血阻滞证。","k":"理血剂"},{"t":1,"s":"温经汤与胶艾汤两方组成中相同的五味药是","o":["川芎、干地黄、当归、芍药、艾叶","川芎、干地黄、当归、芍药、干姜","川芎、甘草、人参、芍药、阿胶","桂枝、甘草、人参、芍药、阿胶","川芎、甘草、当归、芍药、阿胶"],"a":"E","e":"本题主要考查对温经汤、胶艾汤组成的掌握。温经汤由吴茱萸、桂枝、当归、川芎、芍药、人参、阿胶、生姜、丹皮、甘草、半夏、麦冬组成；胶艾汤由干地黄、当归、芍药、川芎、阿胶、艾叶、甘草组成。故两方共有的药物是当归、川芎、芍药、阿胶、甘草。","k":"理血剂"},{"t":1,"s":"生化汤中当归的作用是","o":["活血祛痰、养血调经","补血活血、化瘀生新","补血养肝、和血调经","活血祛瘀、温经止痛","活血通经、散寒止痛"],"a":"B","e":"本题主要考查对生化汤中当归配伍意义的掌握。该方主治血虚寒凝，瘀血阻滞证，治当养血祛瘀、温经止痛。方中重用全当归，补血活血，化瘀生新为君。","k":"理血剂"},{"t":1,"s":"桂枝茯苓丸主治证病机是","o":["气滞血瘀","冲任虚寒","水湿内停","气虚血瘀","瘀阻胞宫"],"a":"E","e":"本题主要考查对桂枝茯苓丸主治证病机的掌握。该方是缓消癥块法的代表方剂，主治瘀阻胞宫证。","k":"理血剂"},{"t":1,"s":"失笑散主治","o":["心腹刺痛，或产后恶露不行，或月经不调，小腹急痛者","漏下不止，或月经不调，入暮发热，手心烦热，唇干口燥者","小腹急结，小便不利，甚则谵语烦躁，其人如狂，至夜发热，脉沉实而涩者","瘀血留于胁下，痛不可忍者","心悸失眠，头晕目眩，月经不调，脐腹作痛，舌淡，脉细弦者"],"a":"A","e":"本题主要考查对失笑散主治证临床表现的掌握。该方主治瘀血疼痛证，症见心胸刺痛，脘腹疼痛，或产后恶露不行，或月经不调，少腹急痛等。而选项B、C、D、E分别为温经汤、桃核承气汤、复元活血汤、四物汤的临床表现。","k":"理血剂"},{"t":1,"s":"血府逐瘀汤与补阳还五汤的区别是","o":["补阳还五汤主治气滞血瘀证，血府逐瘀汤主治气虚血瘀证","补阳还五汤可补气行血，血府逐瘀汤可行气活血","两方均是益气活血法的代表方剂","两方组成均有当归、桃仁、红花、白芍、川芎","两方均是仲景创制的活血名方"],"a":"B","e":"两方均出自清代医家王清任的《医林改错》，均是活血化瘀的名方，组方均有当归、桃仁、红花、赤芍、川芎。其中补阳还五汤主治气虚血瘀证，治宜补气活血，是益气活血法的代表方剂；血府逐瘀汤主治气滞血瘀证，治宜行气活血。","k":"理血剂"},{"t":1,"s":"功用为活血化瘀、行气止痛的方剂是","o":["桂枝茯苓丸","生化汤","复元活血汤","失笑散","血府逐瘀汤"],"a":"E","e":"本题主要考查对几首活血祛瘀方剂功用的掌握。桂枝茯苓丸的功用是活血化瘀、缓消癥块；生化汤的功用是养血祛瘀、温经止痛；复元活血汤的功用是活血祛瘀、疏肝通络；失笑散的功用是活血祛瘀、散结止痛；血府逐瘀汤的功用是活血化瘀、行气止痛。","k":"理血剂"},{"t":1,"s":"下列方剂中，用炮姜的是","o":["温经汤","半夏泻心汤","血府逐瘀汤","生化汤","桂枝汤"],"a":"D","e":"本题主要考查不同方剂中姜的使用。温经汤、桂枝汤中含有生姜；半夏泻心汤中含有干姜；血府逐瘀汤中不含姜；生化汤中用炮姜入血散寒、温经止血。","k":"理血剂"},{"t":1,"s":"下列方剂中，含有柴胡、枳壳的是","o":["血府逐瘀汤","复元活血汤","四逆散","小柴胡汤","大柴胡汤"],"a":"A","e":"本题主要考查方剂的组成。血府逐瘀汤由桃仁、红花、当归、生地、赤芍、川芎、枳壳、柴胡、牛膝、桔梗、甘草组成；复元活血汤由柴胡、栝楼根、当归、红花、穿山甲、大黄、桃仁、甘草组成；四逆散由柴胡、芍药、枳实、甘草组成；小柴胡汤由柴胡、黄芩、半夏、生姜、人参、大枣、甘草组成。因此方中含有柴胡、枳壳的是血府逐瘀汤。","k":"理血剂"},{"t":1,"s":"失笑散的功用是","o":["活血祛瘀、散结止痛","活血祛瘀、行气止痛","活血化瘀、缓消癥块","活血祛瘀、疏肝通络","养血祛瘀、温经散寒"],"a":"A","e":"本题主要考查对失笑散功用的掌握。该方主治瘀血疼痛证。具有活血祛瘀、散结止痛之功用。选项B、C、D、E分别为血府逐瘀汤、桂枝茯苓丸、复元活血汤、温经汤的功用。","k":"理血剂"},{"t":1,"s":"血府逐瘀汤的君药是","o":["桃仁、桂枝","大黄、桂枝","桃仁、红花","桃仁、芒硝","大黄、芒硝"],"a":"C","e":"本题主要考查对血府逐瘀汤中君药的掌握。该方主治胸中血瘀证，治宜活血化瘀、行气止痛。方中桃仁破血行滞而润燥，红花活血祛瘀以止痛，共为君药。","k":"理血剂"},{"t":1,"s":"瘀血留阻胞宫，胎动不安，漏下不止，血色晦暗，腹痛拒按者，治宜选用","o":["复元活血汤","桂枝茯苓丸","生化汤","温经汤","活络效灵丹"],"a":"B","e":"本题主要考查对几首活血祛瘀方剂主治证临床表现的掌握。桂枝茯苓丸主治瘀阻胞宫证，症见妇人宿有癥块，妊娠胎动不安，或漏下不止，血色紫黑暗暗，腹痛拒按，或经闭腹痛，或产后恶露不尽而腹痛拒按，舌质紫黯或有瘀点，脉沉涩。","k":"理血剂"},{"t":1,"s":"黄土汤的组成药物中不包括","o":["干地黄","黄芪","炮附子","阿胶","甘草"],"a":"B","e":"本题主要考查对黄土汤组成的掌握。黄土汤由灶心黄土、炮附子、白术、干地黄、阿胶、黄芩、甘草组成。故方中不含有的药物是黄芪。","k":"理血剂"},{"t":1,"s":"槐花散中荆芥穗的主要配伍意义是","o":["发汗解表","透达郁热","祛湿止带","疏风理血","疏风止痒"],"a":"D","e":"本题主要考查对槐花散中荆芥的配伍意义的掌握。该方主治风热湿毒，壅遏肠道，损伤血络便血证，治当清肠止血、疏风行气。方中荆芥穗辛散疏风，微温不燥，炒黑入血分而止血，与止血药相配，疏风理血。","k":"理血剂"},{"t":1,"s":"患者咳痰带血，咯吐不爽，心烦易怒，胸胁作痛，咽干口苦，颊赤便秘，舌红苔黄，脉弦数。治宜首选","o":["泻白散","槐花散","左金丸","咳血方","龙胆泻肝汤"],"a":"D","e":"本题主要考查对选项中几首方剂临证主治证的掌握。咳血方主治肝火犯肺之咳血证，症见咳嗽痰稠带血，咯吐不爽，心烦易怒，胸胁作痛，咽干口苦，颊赤便秘，舌红苔黄，脉弦数。","k":"理血剂"},{"t":2,"s":"生化汤以黄酒、童便各半煎服，意在","o":["温经止痛","通利血脉","益阴化瘀","引败血下行","温经散寒"],"a":"BCD","e":"本题主要考查对生化汤中配伍黄酒、童便意义的掌握。该方主治血虚寒凝，瘀血阻滞证，可养血祛瘀、温经止痛。方中佐用黄酒温通血脉，以助行气活血之力。原方另用童便同煎者，乃取其益阴化瘀、引败血下行之意。","k":"理血剂"},{"t":2,"s":"血府逐瘀汤，复元活血汤两方均含有的药物是","o":["大黄","牛膝","桃仁","柴胡","当归"],"a":"CDE","e":"本题主要考查对血府逐瘀汤、复元活血汤组成药物的掌握。血府逐瘀汤由桃仁、红花、当归、生地、赤芍、川芎、枳壳、柴胡、牛膝、桔梗、甘草组成；复元活血汤由柴胡、栝楼根、当归、红花、穿山甲、大黄、桃仁、甘草组成。因此两方均有的药物是桃仁、柴胡、当归、红花、甘草。","k":"理血剂"},{"t":2,"s":"白芍、赤芍、生地黄、熟地黄、大黄、芒硝、枳壳、红花、天花粉、桃仁、甘草、桂枝、泡姜、牛膝、当归、穿山甲、川芎、柴胡、桔梗。在上述药物中含有哪几首方剂","o":["复元活血汤","桃核承气汤","血府逐瘀汤","生化汤","桃红四物汤"],"a":"ABCDE","e":"本题主要考查对活血祛瘀方剂组成的掌握。复元活血汤由柴胡、栝楼根、当归、红花、穿山甲、大黄、桃仁、甘草组成；桃核承气汤由桃仁、大黄、桂枝、芒硝、甘草组成；血府逐瘀汤由桃仁、红花、当归、生地、赤芍、川芎、枳壳、柴胡、牛膝、桔梗、甘草组成；生化汤由当归、桃仁、川芎、炮姜、甘草组成；桃红四物汤由桃仁、红花、当归、熟地黄、白芍、川芎组成。","k":"理血剂"},{"t":2,"s":"复元活血汤的功用是","o":["活血祛瘀","温经止痛","疏肝通络","软坚散结","气血双补"],"a":"AC","e":"本题主要考查对复元活血汤功用的掌握。该方主治跌打损伤，瘀血阻滞证，具有活血祛瘀、疏肝通络之功用。","k":"理血剂"},{"t":2,"s":"桃核承气汤、血府逐瘀汤和复元活血汤的组成中，均含有的药物是","o":["大黄","桃仁","红花","甘草","当归"],"a":"BD","e":"本题主要考查对几首重点活血祛瘀方剂组成的掌握。桃核承气汤由桃仁、大黄、桂枝、芒硝、甘草组成；血府逐瘀汤由桃仁、红花、当归、生地、赤芍、川芎、枳壳、柴胡、牛膝、桔梗、甘草组成；复元活血汤由柴胡、栝楼根、当归、红花、穿山甲、大黄、桃仁、甘草组成。三方均含有桃仁、甘草。","k":"理血剂"},{"t":2,"s":"温经汤的君药是","o":["干姜","吴茱萸","肉桂","桂枝","当归"],"a":"BD","e":"本题主要考查对温经汤君药的掌握。该方主治冲任虚寒，瘀血阻滞证，治当温经散寒、养血祛瘀。方中吴茱萸辛热，入肝肾而走冲任，散寒行气止痛；桂枝辛甘温入血分、温通血脉。二者配伍，重在温经散寒、行血通脉。共为君药。","k":"理血剂"},{"t":2,"s":"用柴胡疏肝理气，兼引诸药入肝经的方剂是","o":["补中益气汤","复元活血汤","完带汤","龙胆泻肝汤","逍遥散"],"a":"BDE","e":"本题主要考查柴胡在不同方剂中意义的掌握。复元活血汤方中柴胡既能疏肝调气，以解郁结，又兼引祛瘀药入肝经；龙胆泻肝汤方中柴胡疏肝解郁，以顺应肝木条达之性，亦可引诸药归于肝经。逍遥散方以柴胡为君，疏肝解郁、条达肝气，且引药入肝为使。","k":"理血剂"},{"t":2,"s":"下列选项中，具有活血祛瘀功用的方剂有","o":["温经汤","补阳还五汤","失笑散","桂枝茯苓丸","血府逐瘀汤"],"a":"ABCDE","e":"本题主要考查对活血祛瘀方剂功用的掌握。温经汤的功用是养血祛瘀、温经散寒；补阳还五汤的功用是补气活血通络；失笑散的功用是活血祛瘀、散结止痛；桂枝茯苓丸的功用是活血祛瘀、缓消癥块；血府逐瘀汤的功用是活血祛瘀、行气止痛。五首方剂均有活血祛瘀的功用。","k":"理血剂"},{"t":2,"s":"龙胆泻肝汤与血府逐瘀汤的组成中均含有的药物有","o":["生地","当归","泽泻","牛膝","柴胡"],"a":"ABE","e":"本题主要考查对龙胆泻肝汤、血府逐瘀汤组成的掌握。龙胆泻肝汤由龙胆草、黄芩、栀子、泽泻、木通、车前子、生地、当归、柴胡、甘草组成；血府逐瘀汤由桃仁、红花、当归、生地、赤芍、川芎、枳壳、柴胡、牛膝、桔梗、甘草组成。因此两方均含有生地、当归、柴胡、甘草。","k":"理血剂"},{"t":2,"s":"补阳还五汤的功用是","o":["助阳","补气","活血","通络","补血"],"a":"BCD","e":"本题主要考查对补阳还五汤功用的掌握。本方是益气活血法的代表方剂，主治气虚血瘀之中风证，治当补气为主，活血通络为辅。","k":"理血剂"},{"t":2,"s":"下列选项中，具有止血功用的方剂有","o":["归脾汤","槐花散","胶艾汤","犀角地黄汤","小蓟饮子"],"a":"BCE","e":"本题主要考查对属不同章节、体现不同治法的方剂的掌握。归脾汤虽可用于脾不统血之便血，但健脾治本而不止血治标；犀角地黄汤所治动血以清热为本。槐花散功用清肠止血、疏风行气；胶艾汤功用养血止血、调经安胎；小蓟饮子功用凉血止血、利水通淋。","k":"理血剂"},{"t":2,"s":"下列方剂中，含当归、生地的是","o":["小蓟饮子","温经汤","血府逐瘀汤","龙胆泻肝汤","咳血方"],"a":"ACD","e":"本题主要考查对方剂组成的掌握。小蓟饮子由当归、生地、小蓟、滑石、木通、蒲黄、藕节、淡竹叶、栀子、炙甘草组成；血府逐瘀汤由当归、生地、桃仁、红花、赤芍、川芎、枳壳、柴胡、牛膝、桔梗、甘草组成；龙胆泻肝汤由当归、生地、龙胆草、黄芩、栀子、泽泻、木通、车前子、柴胡、生甘草组成；咳血方由青黛、瓜蒌仁、海粉、山栀子、诃子组成，不含当归、生地。温经汤组成中无生地。","k":"理血剂"},{"t":2,"s":"十灰散中大黄的配伍意义是","o":["泻热通便","清热泻火","活血祛瘀","导热下行","收涩止血"],"a":"BCD","e":"本题主要考查对十灰散中大黄的配伍意义的掌握。十灰散主治血热妄行之上部出血证，治宜凉血止血。方中大黄清热泻火、引热下行，以折血热上逆之势，使邪热从大小便而去；同时又可活血祛瘀，使血热清而无瘀之弊，止血而不留瘀。","k":"理血剂"},{"t":1,"s":"镇肝熄风汤的君药是（ ）","o":["怀牛膝、代赭石","芍药、怀牛膝","龟甲、牡蛎","牡蛎、白芍","龙骨、代赭石"],"a":"A","e":"本题主要考查对镇肝熄风汤组方配伍的掌握。以上药物均为镇肝熄风汤中组成药物。方中怀牛膝苦酸性平，归肝肾经，重用以引血下行，折其阳亢，并有补益肝肾之效；代赭石质重沉降，镇肝降逆，合牛膝引气血下行，重在治其标，共为君药。","k":"治风剂"},{"t":1,"s":"风邪初中经络，症见口眼喎斜，舌强不能言语，手足不能运动，治宜选用（ ）","o":["天麻钩藤饮","地黄饮子","小活络丹","大秦艽汤","牵正散"],"a":"D","e":"本题主要考查对方剂主治病证的掌握。如果不能准确记忆和理解大秦艽汤、地黄饮子和牵正散的主治病机特点，则容易导致相互混淆。大秦艽汤所治乃风邪中于经络所致；地黄饮子所主之喑痱是由于下元虚衰，阴阳两亏，虚阳上浮，痰浊随之上泛，堵塞窍道所致。","k":"治风剂"},{"t":1,"s":"具有凉肝息风、增液舒筋作用，用以治疗肝热生风证的方剂是（ ）","o":["镇肝熄风汤","大定风珠","羚角钩藤汤","大秦艽汤","天麻钩藤饮"],"a":"C","e":"本题主要考查对方剂功用的掌握。备选答案均为治风剂，牢固掌握方剂的功用，是正确选择的关键，切记不能被干扰项错误诱导。","k":"治风剂"},{"t":1,"s":"方剂组成中生地黄和熟地黄同用的方剂是（ ）","o":["天麻钩藤饮","地黄饮子","大秦艽汤","小活络丹","牵正散"],"a":"C","e":"本题主要考查方剂的药物组成。生地黄和熟地黄属来源相同，但炮制方法不同的药物。除大秦艽汤外，百合固金汤、当归六黄汤也是生地黄、熟地黄同用，亦为多选题常考之知识点。","k":"治风剂"},{"t":1,"s":"患者症见头痛，眩晕，失眠多梦，舌红苔黄，脉弦数，治宜选用（ ）","o":["天麻钩藤饮","镇肝熄风汤","羚角钩藤汤","半夏白术天麻汤","消风散"],"a":"A","e":"本题主要考查对天麻钩藤饮主治病证的掌握。该方平肝息风、清热活血、补益肝肾，主治肝阳偏亢，肝风上扰证，症见头痛，眩晕，失眠多梦，或口苦面红，舌红苔黄，脉弦或数。因此，选项A为正确答案，B、C、D、E各方都能祛风，注意鉴别，重点记忆。","k":"治风剂"},{"t":2,"s":"消风散中辛散以达邪，疏风以止痒的药物是（ ）","o":["牛蒡子、蝉蜕","石膏、知母","苦参、苍术","荆芥、防风","当归、生地"],"a":"AD","e":"本题主要考查对消风散组方配伍结构的掌握。本方所治之风疹、湿疹，是由风湿或风热之邪侵袭人体，浸淫血脉，内不得疏泄，外不得透达，郁于肌肤腠理之间所致，故治宜疏风为主，佐以清热除湿之法。方中荆芥、防风、蝉蜕、牛蒡子辛散以达邪，疏风以止痒。苍术祛风除湿，苦参清热燥湿；石膏、知母清热泻火；当归、生地、胡麻仁以养血活血、滋阴润燥，既补已伤之阴血，且达治风先治血、血行风自灭之意。故选A、D。","k":"治风剂"},{"t":2,"s":"天麻钩藤饮的功效为（ ）","o":["平肝息风","清热活血","镇肝息风","补益肝肾","增液舒筋"],"a":"ABD","e":"本题主要考查天麻钩藤饮的功效。本方临床常用，应该牢记其组成、功用和主治。天麻钩藤饮的功用为平肝息风、清热活血、补益肝肾，共十二个字，出题多选题的概率较大，需重点记忆。","k":"治风剂"},{"t":2,"s":"小活络丹的功效是（ ）","o":["祛风除湿","化痰通络","活血止痛","息风止痉","滋阴补肾"],"a":"ABC","e":"本题主要考查小活络丹的功效。小活络丹祛风除湿、化痰通络、活血止痛，主治风寒湿痹。本方虽非重点内容，但是需要掌握其功用和主治。","k":"治风剂"},{"t":2,"s":"下列方剂组成药物中含有防风的是（ ）","o":["川芎茶调散","消风散","九味羌活汤","独活寄生汤","大秦艽汤"],"a":"ABCDE","e":"本题主要考查方剂药物组成。方剂组成属于基础内容，需牢记。防风具有祛风解表、胜湿止痛、止痉作用，本版教材所选的平息内风类方剂组成中均无防风。","k":"治风剂"},{"t":2,"s":"川芎茶调散和大秦艽汤中共有的药物是（ ）","o":["川芎","羌活","防风","细辛","甘草"],"a":"ABCDE","e":"本题主要考查川芎茶调散和大秦艽汤的药物组成。两首方剂药味偏多，容易漏选。","k":"治风剂"},{"t":1,"s":"杏苏散的功用是（ ）","o":["宣利肺气、疏风止咳","清宣温燥、润肺止咳","发散风寒、降气化痰","轻宣凉燥、理肺化痰","清燥润肺、养阴益气"],"a":"D","e":"本题考查方剂的功用，干扰项中多为相近方剂功用。选项A是止嗽散的功用，选项B是桑杏汤的功用，选项C是金沸草散的功用，选项E是清燥救肺汤的功用。","k":"治燥剂"},{"t":1,"s":"清燥救肺汤主治病证的病机是（ ）","o":["温燥伤肺，气阴两伤","温燥外袭，肺津受灼","凉燥外袭，肺失宣降","肺肾阴虚，虚火上炎","胃阴不足，虚火灼肺"],"a":"A","e":"本题考查方剂主治，仍属对基本知识点考核，在整份试卷中占到较大比例，解题难度不大。熟练掌握清燥救肺汤的组成、功用、主治，并与其他轻宣外燥剂功用和主治协同记忆，抓住重点，避免混淆。","k":"治燥剂"},{"t":1,"s":"身热不甚，干咳无痰，右脉数大者，治宜选用（ ）","o":["桑杏汤","养阴清肺汤","杏苏散","清燥救肺汤","增液汤"],"a":"A","e":"本题主要考查方剂主治证。桑杏汤为治疗温燥伤肺轻证的常用方，临床应用以身热不甚，干咳无痰或痰少而粘，右脉数大为辨证要点。","k":"治燥剂"},{"t":1,"s":"麦门冬汤所治肺痿证之病机是（ ）","o":["肺肾阴虚，虚火上炎","阴虚蕴热，复感疫毒","阳明温病，津液不足","久咳伤肺，气阴两伤","肺胃阴虚，气火上逆"],"a":"E","e":"本题主要考查麦门冬汤主治病证之病机，为本方难点之所在。虚热肺痿乃肺胃阴虚，气火上逆所致，治以清养肺胃、降逆下气。","k":"治燥剂"},{"t":1,"s":"清燥救肺汤的君药是（ ）","o":["枇杷叶","石膏","麦冬","霜桑叶","人参"],"a":"D","e":"本题考查方剂组方结构。方中重用霜桑叶质轻性寒，轻宣肺燥，透邪外出，为君药。故D为正确答案。","k":"治燥剂"},{"t":2,"s":"百合固金汤组成中含有的药物是（ ）","o":["生地黄","玄参","熟地黄","芍药","当归"],"a":"ABCDE","e":"本题运用多选形式考查方剂组成。由于百合固金汤组成药味较多，考查其组方结构机会较少，复习重点宜放在组成、功用及主治等基础知识点上。百合固金汤中生地黄和熟地黄同用，也是常考知识点，应留心应对。","k":"治燥剂"},{"t":2,"s":"清燥救肺汤的配伍特点是（ ）","o":["宣","清","润","降","补"],"a":"ABCDE","e":"本题考查方剂配伍特点。清燥救肺汤功用清燥润肺、益气养阴，主治温燥伤肺证。诸药合用，宣、清、润、补、降五法并用，气阴双补，培土生金，使肺金之燥热得以清宣，肺气之上逆得以肃降，则燥热伤肺之证自除。","k":"治燥剂"},{"t":2,"s":"桑杏汤的功用是（ ）","o":["轻宣凉燥","清宣温燥","理肺化痰","润肺止咳","养阴益气"],"a":"BD","e":"本题考查桑杏汤功用。该方清宣温燥，润肺止咳，主治外感温燥证。桑杏汤易与杏苏散、桑菊饮、清燥救肺汤功用混淆。桑叶辛凉，所以桑杏汤是清宣温燥之剂；苏叶辛温，因此杏苏散为轻宣凉燥之剂，二者由此可明确区分。","k":"治燥剂"},{"t":2,"s":"益胃汤和增液汤共有的药物是（ ）","o":["麦冬","玄参","沙参","生地","玉竹"],"a":"AD","e":"本题考查益胃汤和增液汤的药物组成。两方均为二级内容，需要掌握组成、功用、主治证候。益胃汤组成：沙参、麦冬、冰糖、细生地、玉竹。增液汤组成：玄参、麦冬、细生地。两方均出自《温病条辨》，组成药物中最易混淆的是玄参和沙参，要注意区分。","k":"治燥剂"},{"t":2,"s":"体现培土生金配伍的方剂是（ ）","o":["清燥救肺汤","麦门冬汤","参苓白术散","养阴清肺汤","益胃汤"],"a":"ABC","e":"本题考查治法特点。参苓白术散兼有渗湿行气作用，并有保肺之效，是治疗脾虚湿盛证及体现培土生金治法的常用方剂；清燥救肺汤中用人参益气生津，合甘草以培土生金；麦门冬汤佐以甘草、粳米、大枣益气养胃，合人参益胃生津，胃津充足，自能上归于肺，此正培土生金之法。","k":"治燥剂"},{"t":1,"s":"具有益气祛风、健脾利水功用的方剂是（ ）","o":["五苓散","藿香正气散","羌活胜湿汤","防己黄芪汤","八正散"],"a":"D","e":"本题主要考查对祛湿剂功用的掌握。五苓散利水渗湿、温阳化气；藿香正气散解表化湿、理气和中；羌活胜湿汤祛风胜湿止痛；八正散清热泻火、利水通淋。","k":"祛湿剂"},{"t":1,"s":"平胃散所主病证的病机是（ ）","o":["脾失健运","脾气亏虚","湿滞脾胃","肝木乘脾","脾胃不和"],"a":"C","e":"本题主要考查对方剂所主病证病机的掌握。平胃散为治疗湿滞脾胃证之基础方。症见脘腹胀满，不思饮食，口淡无味，恶心呕吐，嗳气吞酸，肢体沉重，怠惰嗜卧，常多自利，舌苔白腻而厚，脉缓。","k":"祛湿剂"},{"t":1,"s":"具有解表化湿、理气和中之效，用治外感风寒，内伤湿滞证的方剂是（ ）","o":["五苓散","实脾散","二妙散","八正散","藿香正气散"],"a":"E","e":"本题主要考查对藿香正气散功用和主治的掌握。该方解表化湿、理气和中，主治外感风寒，内伤湿滞证。症见恶寒发热，头痛，胸膈满闷，脘腹疼痛，恶心呕吐，肠鸣泄泻，舌苔白腻以及山岚瘴疟等。应与香薷散相鉴别：藿香正气散临床应用以恶寒发热，上吐下泻，舌苔白腻为辨证要点；香薷散临床应用以恶寒发热，头重身痛，无汗，胸闷，苔白腻，脉浮为辨证要点。","k":"祛湿剂"},{"t":1,"s":"二妙散的组成药物是（ ）","o":["黄柏、苍术","车前子、苍术","黄柏、白术","牛膝、苍术","牛膝、薏苡仁"],"a":"A","e":"本题主要考查方剂组成药物。本方由黄柏、苍术两味药组成，为治疗湿热下注所致痿、痹、脚气、带下、湿疮等病证的基础方，其清热燥湿之力较强，宜于湿热俱重之证。三妙丸即二妙散加牛膝，专治下焦湿热之两脚麻木、痿软无力；再加薏苡仁，即为四妙丸，主治湿热下注之痿证。","k":"祛湿剂"},{"t":1,"s":"完带汤中用量最重的一组药物是（ ）","o":["人参、苍术","白芍、车前子","白术、山药","陈皮、甘草","柴胡、黑芥穗"],"a":"C","e":"本题主要考查对完带汤用药特点的掌握。完带汤有补脾疏肝、化湿止带之效，主治脾虚肝郁，湿浊下注之带下色白，清稀如涕，倦怠便溏，舌淡苔白，脉濡缓等。方中白术健脾而化湿浊，山药补肾以固带脉，二者相合，补脾胃，祛湿浊，约带脉，则带下可止，共为君药。","k":"祛湿剂"},{"t":1,"s":"患者肩背痛不可回顾，头痛身重，腰脊疼痛，难以转侧，苔白，脉浮，治宜选用（ ）","o":["九味羌活汤","羌活胜湿汤","独活寄生汤","大秦艽汤","小活络丹"],"a":"B","e":"本题主要考查方剂主治证候。羌活胜湿汤功用祛风胜湿止痛，主治风湿在表之痹证。本方与九味羌活汤均可祛风胜湿、止头身痛。但九味羌活汤解表之力较为著，主治外感风寒湿邪兼有里热之证，以恶寒发热为主，兼口苦微渴；本方善祛一身上下之风湿，而解表之力较弱，故主治风湿客表之证，以头身重痛为主，表证不著。","k":"祛湿剂"},{"t":2,"s":"三仁汤中三仁指（ ）","o":["杏仁","薏苡仁","桃仁","白蔻仁","砂仁"],"a":"ABD","e":"本题主要考查三仁汤药物组成。三仁汤宣畅气机，清利湿热，主治湿温初起及暑温夹湿之湿重于热证。方中以薏苡仁、杏仁、白蔻仁三仁相伍，上中下三焦并治。其中薏苡仁淡渗利湿以健脾，使湿热从下焦而去；白蔻仁芳香化湿，利气宽胸，畅中焦之脾气以助祛湿；杏仁宣利上焦肺气，气化则湿亦化。","k":"祛湿剂"},{"t":2,"s":"桂枝在五苓散的配伍意义是（ ）","o":["平冲降逆","温通血脉","温阳化气","调和营卫","解表散邪"],"a":"CE","e":"本题主要考查五苓散组成药物的配伍意义。五苓散利水渗湿、温阳化气，主治蓄水证、痰饮及水湿内停证。方中桂枝为佐药，功能温阳化气以助利水，且可辛温发散以祛表邪，一药而表里兼治。","k":"祛湿剂"},{"t":2,"s":"五苓散主治证包括（ ）","o":["蓄水证","水热互结","痰饮","水湿内停","风湿"],"a":"ACD","e":"本题主要考查方剂主治病证。五苓散主治病证较多：膀胱气化不利之蓄水证；脐下动悸，吐涎沫而头目眩晕；短气而咳；水肿、泄泻。根据其病机可分为3类：①外有表证，内停水湿之蓄水证。②水湿内停，可见水肿，泄泻，小便不利，以及霍乱吐泻等证。③痰饮，脐下动悸，吐涎沫而头眩，或短气而咳者。注意和猪苓汤相区别，后者功能利水养阴清热，主治水热互结证。","k":"祛湿剂"},{"t":2,"s":"独活寄生汤的功用是（ ）","o":["清湿热","祛风湿","补气血","止痹痛","益肝肾"],"a":"BCDE","e":"本题主要考查独活寄生汤的功用。独活寄生汤祛风湿、止痹痛、益肝肾、补气血，主治痹证日久，肝肾两虚，气血不足证。症见腰膝疼痛、痿软，肢节屈伸不利，或麻木不仁，畏寒喜温，心悸气短，舌淡苔白，脉细弱。","k":"祛湿剂"},{"t":2,"s":"八正散的君药是（ ）","o":["瞿麦","车前子","滑石","木通","萹蓄"],"a":"CD","e":"本题考查方剂组方配伍意义。八正散清热泻火、利水通淋，主治湿热淋证。方中滑石清热利湿、利水通淋；木通上清心火、下利湿热，使湿热之邪从小便而去，共为君药。","k":"祛湿剂"},{"t":2,"s":"完带汤的主治病机是（ ）","o":["脾虚不运","肝气郁滞","带脉失约","湿热下注","湿浊下注"],"a":"ABCE","e":"本题主要考查对完带汤主治病机的掌握。完带汤有补脾疏肝、化湿止带之功，主治脾虚肝郁，湿浊带下证，症见带下色白，清稀如涕，倦怠便溏，舌淡苔白，脉濡缓等。可知并无选项D所示湿热下注的临床特点。","k":"祛湿剂"},{"t":1,"s":"治疗湿痰证的最佳方剂是（）","o":["止嗽散","二陈汤","桑杏汤","清气化痰丸","苓甘五味姜辛汤"],"a":"B","e":"本题主要考查对二陈汤主治证候的掌握。二陈汤临床应用以咳嗽、呕恶、痰多色白易咯、舌苔白腻、脉滑为辨证要点，为燥湿化痰的基础方，故B为正确答案。止嗽散主治风邪犯肺之咳嗽；桑杏汤主治温燥外袭、肺津受灼之咳嗽；清气化痰丸主治热痰咳嗽；苓甘五味姜辛汤主治寒痰咳嗽，故A、C、D、E均为错误选项。","k":"祛痰剂"},{"t":1,"s":"二陈汤中，燥湿化痰的基本结构是（）","o":["半夏、橘红","半夏、茯苓","橘红、茯苓","半夏、生姜","橘红、生姜"],"a":"A","e":"本题主要考查对二陈汤配伍特点的掌握。二陈汤燥湿化痰、理气和中，主治湿痰证。方中配伍半夏燥湿化痰、降逆和胃；橘红理气行滞、燥湿化痰。二药配伍，既可增强燥湿化痰之力，又体现治痰先理气，气顺则痰消之意。且半夏、橘红入药皆以陈久者良，而无过燥之弊，故方名\"二陈\"，此为本方燥湿化痰的基本结构，故A为正确答案。","k":"祛痰剂"},{"t":1,"s":"乌梅在二陈汤中的配伍意义是（）","o":["涩肠止泻","收敛止血","安蛔止痛","生津止渴","收敛肺气"],"a":"E","e":"本题主要考查对二陈汤配伍特点的掌握。二陈汤主治湿痰证，方中除配伍半夏、橘红燥湿化痰、理气行滞外，还配伍茯苓、生姜、甘草健脾祛湿，以杜生痰之源；又用少许乌梅，收敛肺气，与半夏相伍，散中有收，使祛痰而不伤正，且有\"欲劫之而先聚之\"之意，均为佐药。故正确答案是E。","k":"祛痰剂"},{"t":1,"s":"治疗痰热互结之小结胸证的常用方剂是（）","o":["小陷胸汤","八正散","清气化痰丸","猪苓汤","大陷胸汤"],"a":"A","e":"本题主要考查对小陷胸汤主治证候的掌握。小陷胸汤原治伤寒表证误下，邪热内陷，痰浊结于心下之小结胸病，痰热互结心下或胸膈，气郁不通，故临床多见胃脘或心胸痞闷，按之则痛，舌红苔黄腻，脉滑数。大陷胸汤虽亦主治热实结胸，但其证为水热互结心下，涉及胸腹，病情较重，病势较急，可见心下痛，按之石硬，甚则从心下至少腹硬满而痛不可近，脉象沉紧。故正确答案是A。","k":"祛痰剂"},{"t":1,"s":"治疗咳嗽呛急，咯痰不爽，涩而难出，咽喉干燥哽痛，舌苔白而干者，首选方剂是（）","o":["止嗽散","二陈汤","清气化痰丸","贝母瓜蒌散","苓甘五味姜辛汤"],"a":"D","e":"本题主要考查对贝母瓜蒌散主治证候的掌握。咳嗽呛急，咯痰不爽，涩而难出，咽喉干燥哽痛，舌苔白而干，临床辨证属于燥热伤肺、灼津成痰所致，故治宜润肺清热、理气化痰，贝母瓜蒌散为治疗燥痰咳嗽的常用方。故D为正确答案。","k":"祛痰剂"},{"t":1,"s":"风痰上扰之眩晕头痛、胸闷呕恶、舌苔白腻、脉弦滑者，治宜选用（）","o":["天麻钩藤饮","三子养亲汤","川芎茶调散","半夏白术天麻汤","镇肝熄风汤"],"a":"D","e":"本题主要考查对半夏白术天麻汤主治证候的掌握。眩晕头痛乃风痰上扰、蒙蔽清阳之症；胸闷呕恶，为痰阻气滞，升降失司；舌苔白腻、脉弦滑，主风主痰，故该证为脾湿生痰，湿痰壅遏，引动肝风，风痰上扰清空所致。故治宜选用化痰息风、健脾祛湿之代表方剂半夏白术天麻汤。","k":"祛痰剂"},{"t":2,"s":"二陈汤的功用是（）","o":["燥湿运脾","燥湿化痰","理气和中","健脾益气","渗湿止泻"],"a":"BC","e":"本题主要考查对二陈汤功用的掌握。二陈汤主治湿痰证，治宜燥湿化痰、理气和中之法，故正确答案是B、C。选项A燥湿运脾，为平胃散之功用，二方不要混淆。","k":"祛痰剂"},{"t":2,"s":"清气化痰丸中含有的药物是（）","o":["半夏","黄芩","瓜蒌皮","陈皮","胆南星"],"a":"ABDE","e":"本题主要考查对清气化痰丸组成药物的掌握。清气化痰丸主治热痰咳嗽，具有清热化痰、理气止咳之功。方中药物有：陈皮、杏仁、枳实、黄芩、瓜蒌仁、茯苓、胆南星、制半夏、姜汁。方中用的是瓜蒌仁而非瓜蒌皮，瓜蒌仁甘寒质润而性滑，长于清热化痰，尚能导痰热从大便而下。","k":"祛痰剂"},{"t":2,"s":"温胆汤主治胆胃不和，痰热内扰证，其证候可见（）","o":["不眠","惊悸","呕吐","眩晕","癫痫"],"a":"ABCDE","e":"本题主要考查对温胆汤主治证候的掌握。温胆汤所治之胆胃不和，痰热内扰证，多因素体胆气不足，复由情志不遂，胆失疏泄，气郁生痰，痰浊内扰，胆胃不和所致。胆为清净之府，性喜宁谧而恶烦扰，若胆为邪扰，失其宁谧，则胆怯易惊、心烦不眠、惊悸不安；胆胃不和，胃失和降，则呕吐、呃逆；痰蒙清窍，则可发为眩晕，甚则癫痫。","k":"祛痰剂"},{"t":1,"s":"保和丸中配伍连翘的意义是（）","o":["清热解毒","清热散结","散结消肿","疏散风热","辟秽化浊"],"a":"B","e":"本题主要考查连翘在不同方剂中的组方配伍意义。连翘味苦微寒，功能清热解毒、散结消肿、疏散风热。保和丸主治食积证，已有化热趋势，舌苔厚腻微黄，方中佐以苦而微寒之连翘，既可散结以助消积，又可清解食积所生之热。故选择B。","k":"消食剂"},{"t":1,"s":"枳实导滞丸的君药是（）","o":["枳实","黄芩","大黄","神曲","白术"],"a":"C","e":"本题主要考查枳实导滞丸的组方配伍特点。答题时考生易因枳实导滞丸方名或归类为消食方剂而误选A、D。枳实导滞丸方证为食积或湿热较重者，且病位偏下，若以消食之品为主，往往力所不及，唯推之荡之，方可使邪去正安。故方用苦寒大黄为君，攻积泻热，使积滞湿热从大便而去。正确答案选择C。","k":"消食剂"},{"t":1,"s":"患者食少难消，脘腹痞闷，大便溏薄，倦怠乏力，苔腻微黄，脉虚弱者，治宜选用（）","o":["归脾汤","实脾散","健脾丸","温脾汤","脾约丸"],"a":"C","e":"本题主要考查对方剂主治病证的理解和掌握。题中备选答案方剂名称具有一定相似性，易干扰答案选择。归脾汤为补血方剂，临床用于心脾气血两虚证，症见心悸怔忡，健忘失眠，盗汗虚热，食少体倦，面色萎黄，舌质淡，苔薄白，脉细弱；及脾不统血之便血、皮下紫癜、妇女崩漏，月经超前，量多色淡或淋漓不止，舌淡，脉细弱等。实脾散为祛湿方剂，用治脾肾阳虚，水气内停之阴水证，症见身半以下肿甚，手足不温，口中不渴，胸腹胀满，大便溏薄，舌苔白腻，脉沉弦而迟。健脾丸为消食代表方，治疗脾虚食积证，患者见食少难消，脘腹痞满，大便溏薄，倦怠乏力，苔腻微黄，脉象虚弱。温脾汤为寒下代表方，主治阳虚冷积证，见腹痛便秘，脐周绞痛，手足不温，苔白不渴，脉沉弦而迟。脾约丸（麻子仁丸）为润下代表方，治疗肠胃燥热，脾约便秘证，见大便干结，小便频数，舌红苔黄，脉数。","k":"消食剂"},{"t":2,"s":"组成中含有四君子汤的方剂是（）","o":["参苓白术散","炙甘草汤","健脾丸","归脾汤","补中益气汤"],"a":"ACD","e":"本题主要考查对方剂中药物组成的理解和记忆。参苓白术散是在四君子汤的基础上加山药、莲子、白扁豆、薏苡仁、砂仁、桔梗而成，主治脾虚湿盛证。健脾丸以四君子汤、山药益气健脾之品为主，配伍木香、黄连、神曲、陈皮、砂仁、麦芽、山楂、肉豆蔻等消食行气药，治疗脾虚食积证。归脾汤由人参、白术、茯神、甘草（四君子汤）配伍黄芪、当归、龙眼肉、远志、酸枣仁、木香，用于心脾气血两虚证及脾不统血证。故选择A、C、D。","k":"消食剂"},{"t":1,"s":"脏寒蛔厥证，治宜选用（）","o":["四逆汤","乌梅丸","当归四逆汤","四逆散","大承气汤"],"a":"B","e":"以上5首方剂均可用治厥逆之证，但性质、临床表现各不相同。四逆汤主治心肾阳衰寒厥，症见四肢厥逆，恶寒蜷卧，神衰欲寐，下利清谷，脉微细，治以回阳救逆法。乌梅丸主治胃热肠寒之蛔厥，症见吐蛔、呕吐，腹痛时发时止，治以温脏安蛔法。当归四逆汤主治血虚受寒，不能温养四肢之厥逆，症见手足厥寒，舌淡苔白，脉沉细或细而欲绝，治以养血温经法。四逆散主治外邪传经入里，阳气内郁之阳郁厥逆证，症见手足不温，腹痛，下利，身热等，治以宣郁通阳法。大承气汤主治邪热积滞闭阻于内，阳盛格阴于外而成热厥，以痞、满、燥、实为主证，治以峻下热结法。综上分析，大承气汤治热厥；四逆散主治阳郁厥逆；四逆汤、当归四逆汤主治寒厥。乌梅丸主治寒热错杂，虚实夹杂之蛔厥。故正确答案为B。","k":"驱虫剂"},{"t":2,"s":"可治疗久泻久痢的方剂有（）","o":["补中益气汤","败毒散","真人养脏汤","乌梅丸","芍药汤"],"a":"ACD","e":"本题主要考查对几首治疗泻痢病证方剂的掌握。补中益气汤善治气虚下陷证之脱肛、子宫脱垂、久泻、久痢、崩漏等，伴气短乏力，舌淡，脉虚。败毒散主治正气不足，外邪陷里而成之痢疾，体现逆流挽舟法。真人养脏汤全方用药涩、补、温并用，适用于脾肾虚寒，肠滑失固之久泻久痢，临床表现见泻痢无度，滑脱不禁，甚至脱肛坠下，腹痛喜温喜按，不思饮食，舌淡苔白，脉沉迟细等。乌梅丸用于治疗胃热肠寒而正气亏虚之久泻久痢。芍药汤主治湿热壅滞肠中，气血失调之湿热痢疾。","k":"驱虫剂"},{"t":2,"s":"乌梅丸的配伍特点是（）","o":["寒温并用","行中有宣","邪正兼顾","酸苦辛并进","甘温除热"],"a":"ACD","e":"本题主要考查对方剂组方配伍特点的掌握。乌梅丸的配伍特点：一选药则酸苦并进，使\"蛔得酸则静，得辛则伏，得苦则下\"。二是针对寒热错杂、正气虚弱的病因病机，选药配伍采取寒温佐甘温，正邪兼顾，将温清补泻数法有机地融合为一体，以分消寒热、扶正祛邪，这也是仲景组方的主要特点之一，在其所创许多方剂中均得以体现。","k":"驱虫剂"},{"t":1,"s":"痰涎、宿食壅滞胸脘，症见胸中痞硬，懊憹不安，欲吐不出，气上冲咽喉不得息，寸脉微浮，治宜选用（）","o":["瓜蒂散","半夏泻心汤","旋覆代赭汤","保和丸","朱砂安神丸"],"a":"A","e":"本题主要考查对方剂临床主治病证及临床表现的理解和掌握。几首方剂主治病证临床表现有相似之处，但瓜蒂散主治胸中痞硬，懊憹不安，欲吐不出等症由痰涎宿食，壅滞胸脘所致。半夏泻心汤主治心下痞，但满不痛，或呕吐等症乃中气虚弱，寒热错杂，升降失常而致肠胃不和。旋覆代赭汤主治胃脘痞闷或胀痛，按之不痛，纳差、恶心或呕吐等症，则因胃气虚弱，痰浊内阻。保和丸治疗脘腹痞满胀痛，嗳腐吞酸，恶食呕逆等，因饮食不洁，暴饮暴食所致。朱砂安神丸治疗失眠多梦，惊悸怔忡，心神烦乱，或胸中懊憹等，乃因心火亢盛，阴血不足而致。故选A。","k":"涌吐剂"},{"t":2,"s":"涌吐剂可用于治疗（）","o":["痰厥","食积","喉痹","中风","误食毒物"],"a":"ABCDE","e":"本题主要考查对涌吐剂的适用范围的理解和掌握。涌吐剂具有导引、促使呕吐之功，适用于停留咽喉、胸膈、胃脘的痰涎、宿食和毒物等有形实邪。凡中风、痰厥、喉痹之痰涎壅盛，阻塞咽喉，呼吸急迫，痰声如锯等，使用本类方剂通关豁痰，令痰涎排出，病情往往可得到好转。宿食停滞胃脘，胸闷脘胀，时时欲吐不能者，可用涌吐剂以除宿食。误食毒物，为时不久，毒物尚留胃中者，用吐法排出毒物是一种简便易行的急救方法。故选择A、B、C、D、E。","k":"涌吐剂"},{"t":1,"s":"贝母、天花粉在仙方活命饮中的主要配伍意义是（）","o":["清热生津止渴","清热养阴润燥","清热化痰排脓","清热解毒消瘀","解毒消肿生肌"],"a":"C","e":"本题主要考查对仙方活命饮中天花粉配伍意义的掌握。本方所治痈疡肿毒初起，为热毒壅聚，营气滞，气滞血瘀；气滞亦可导致津聚成痰，故配用贝母、天花粉清热化痰排脓，使脓未成即消。","k":"治痈疡剂"},{"t":1,"s":"仙方活命饮的君药是（）","o":["连翘","穿山甲","皂角刺","金银花","贝母"],"a":"D","e":"本题主要考查对仙方活命饮君药的掌握。方中金银花芳香透达，轻清气浮，善清热解毒、消肿疗疮，乃\"疮疡圣药\"，故重用为君。","k":"治痈疡剂"},{"t":1,"s":"治疗痰瘀互结，热毒壅滞之肺痈证，宜选用的方剂是（）","o":["阳和汤","仙方活命饮","四妙勇安汤","苇茎汤","五味消毒饮"],"a":"D","e":"本题主要考查对苇茎汤主治的掌握。该方所治之肺痈，乃因热毒壅肺、痰瘀互结而致。阳和汤主治阴疽；仙方活命饮主治痈疡肿毒初起；四妙勇安汤主治热毒炽盛之脱疽；五味消毒饮主治火毒结聚之疔疮。","k":"治痈疡剂"},{"t":2,"s":"苇茎汤的功用是（）","o":["软坚散结","清肺化痰","温阳补血","祛瘀通络","逐瘀排脓"],"a":"BE","e":"本题主要考查对苇茎汤功用的掌握。本方所治之肺痈，乃因热毒壅肺、痰瘀互结而致，故治以清肺化痰、逐瘀排脓。","k":"治痈疡剂"},{"t":1,"s":"清营汤中能体现\"透热转气\"治法的药物是()","o":["银花、连翘","黄连、竹叶","丹参、水牛角","生地、玄参","石膏、知母"],"a":"A","e":"本题主要考查对于清营汤方解的理解与记忆。清营汤所治证乃邪热内传营分，耗伤营阴之候。温邪初入营分，故用银花、连翘清热解毒，轻清透泄，使营分热邪有外达之机，促其透出气分而解，此即\"入营犹可透热转气\"之具体应用。","k":"模拟试卷A卷"},{"t":1,"s":"主治三焦火毒热盛证的方剂是()","o":["普济消毒饮","仙方活命饮","凉膈散","黄连解毒汤","犀角地黄汤"],"a":"D","e":"本题主要考查对于黄连解毒汤功用与配伍的理解。黄连解毒汤用黄连、黄芩、黄柏、栀子，泻火解毒力强，直折亢盛之火，三焦气血均治，为\"通泻三焦火热之峻剂\"。","k":"模拟试卷A卷"},{"t":1,"s":"白头翁汤的药物组成是()","o":["白头翁、黄连、黄芩、秦皮","白头翁、黄连、黄柏、秦皮","白头翁、黄芩、黄柏、秦皮","白头翁、黄连、黄芩、陈皮","白头翁、黄连、黄柏、陈皮"],"a":"B","e":"本题主要考查对于白头翁汤组成的记忆。白头翁汤由白头翁、黄连、黄柏、秦皮组成，具有清热解毒、凉血止痢的作用。","k":"模拟试卷A卷"},{"t":1,"s":"具有温中补虚、和里缓急功用的方剂是()","o":["理中丸","黄土汤","小建中汤","吴茱萸汤","四逆汤"],"a":"C","e":"本题主要考查对于小建中汤功用的记忆。本方重用饴糖为君，温中焦，缓急止痛。桂枝、白芍为臣。佐以生姜、大枣。炙甘草益气和中，调和诸药，为佐使药。六药合用，共奏温中补虚、和里缓急之功。","k":"模拟试卷A卷"},{"t":1,"s":"属于六味地黄丸中\"三补\"的药物是()","o":["熟地黄、山茱萸、山药","熟地黄、吴茱萸、山药","熟地黄、山药、茯苓","生地黄、山茱萸、山药","生地黄、山药、茯苓"],"a":"A","e":"本题主要考查对于六味地黄丸组方配伍的理解。六味地黄丸中熟地黄滋阴补肾、填精益髓。山茱萸补养肝肾并能涩精，取\"肝肾同源\"之意；山药补益脾阴，亦能固肾。三药配合，肾肝脾三阴并补，是为\"三补\"。","k":"模拟试卷A卷"},{"t":1,"s":"肾气丸中用量最轻的药物是()","o":["生地、山药","生地、山茱萸","熟地、茯苓","茯苓、泽泻","附子、桂枝"],"a":"E","e":"本题主要考查对于肾气丸组方配伍的理解。附子大辛大热，为温阳诸药之首；桂枝辛甘而温，乃温通阳气要药；二药相合，补肾阳之虚，助气化之复，配伍干地、山茱萸、山药等滋阴补肾。方中补阳之品药少量轻，而滋阴之晶药多量重，可见其立方之旨，并非峻补元阳，乃在微微生火，鼓舞肾气，即取\"少火生气\"之义。故方中附子、桂枝用量最小。","k":"模拟试卷A卷"},{"t":1,"s":"一贯煎中具有行气作用的药物是()","o":["川楝子","香附","陈皮","砂仁","木香"],"a":"A","e":"本题主要考查对于一贯煎组成与组方配伍的理解。一贯煎由北沙参、麦冬、当归、生地黄、枸杞子、川楝子组成，方中佐以少量川楝子，疏肝泄热、理气止痛，复其条达之性。故而一贯煎中川楝子具有行气作用，其余选项并非一贯煎的组成药物。","k":"模拟试卷A卷"},{"t":1,"s":"四神丸的功用是()","o":["健脾和胃、消食止泻","涩肠固脱、温补脾肾","涩肠止泻、温中散寒","温肾暖脾、固肠止泻","解表化湿、和中止泻"],"a":"D","e":"本题主要考查对于四神丸功用的记忆。四神丸由补骨脂、肉豆蔻、五味子、吴茱萸组成。方中重用补骨脂为君，伍肉豆蔻、五味子、吴茱萸，故具有温肾暖脾、固肠止泻之功。","k":"模拟试卷A卷"},{"t":1,"s":"心肾两亏，阴血虚少，虚火内扰所致心悸怔忡，虚烦失眠者，治宜首选的方剂是()","o":["归脾汤","天王补心丹","朱砂安神丸","温胆汤","酸枣仁汤"],"a":"B","e":"本题主要考查对于证型判断以及相似方剂应用的记忆与理解。此证为阴虚血少，虚火内扰之神志不安。天王补心丹功能滋阴清热、养血安神，是主治心肾阴血亏虚、虚火内扰所致神志不安的常用方。","k":"模拟试卷A卷"},{"t":1,"s":"酸枣仁汤中具有养血调肝作用的药物是()","o":["酸枣仁、川芎","酸枣仁、知母","酸枣仁、甘草","酸枣仁、茯苓","酸枣仁、柴胡"],"a":"A","e":"本题主要考查对于酸枣仁汤组方配伍的理解。酸枣仁汤主治肝血不足之虚烦失眠。方中川芎辛温行散，为血中气药，可理肝血、疏肝气，与养血之酸枣仁相伍，补中有行，有养血调肝之妙。","k":"模拟试卷A卷"},{"t":1,"s":"导赤散的君药是()","o":["生地、甘草","熟地、木通","生地、木通","生地、竹叶","木通、竹叶"],"a":"C","e":"本题主要考查对于导赤散组方配伍的记忆。导赤散以木通清心降火、利水通淋，生地清心热而凉血滋阴，二药共为君药。","k":"模拟试卷A卷"},{"t":1,"s":"越鞠丸中不含有的药物是()","o":["香附","半夏","苍术","神曲","栀子"],"a":"B","e":"本题主要考查越鞠丸组成的记忆。越鞠丸由香附、川芎、苍术、神曲、栀子组成。","k":"模拟试卷A卷"},{"t":1,"s":"温经汤主治证的病机是()","o":["瘀血内阻，气机郁滞","脾肾两虚，冲脉失固","寒凝血瘀，湿阻胞宫","冲任虚寒，瘀血阻滞","营血虚滞，气机失畅"],"a":"D","e":"本题主要考查温经汤主治证病机的理解。本方证因冲任虚寒，瘀血阻滞所致。","k":"模拟试卷A卷"},{"t":1,"s":"五苓散的君药是()","o":["白术","茯苓","猪苓","泽泻","桂枝"],"a":"D","e":"本题主要考查对五苓散中君臣佐使配伍的记忆与理解。五苓散由泽泻、猪苓、茯苓、桂枝、白术组成，功用为利水渗湿、温阳化气，方中以泽泻为君，性味甘淡，直达肾与膀胱，利水渗湿，故为君药。","k":"模拟试卷A卷"},{"t":1,"s":"清气化痰丸与半夏白术天麻汤中均有的药物是()","o":["半夏、陈皮、茯苓","半夏、白术、茯苓","半夏、茯苓、黄芩","半夏、枳实、白术","半夏、陈皮、杏仁"],"a":"A","e":"本题主要考查对清气化痰丸与半夏白术天麻汤组成的掌握。清气化痰丸以胆南星、瓜蒌仁清热化痰共为君药，配伍制半夏、黄芩、杏仁、陈皮、枳实、茯苓，姜汁为丸，共奏清热化痰、理气止咳之功。半夏白术天麻汤则是由半夏、天麻、陈皮、茯苓、橘红、白术、甘草、大枣、生姜组成，具有化痰息风、健脾祛湿的作用。","k":"模拟试卷A卷"},{"t":1,"s":"善治肝火犯肺之咳血证的方剂是()","o":["黄土汤","咳血方","一贯煎","百合固金汤","泻白散"],"a":"B","e":"本题主要考查对理血剂中咳血方主治证的掌握。咳血方具有清肝宁肺、凉血止血之功，为治肝火犯肺的咳血常用方。","k":"模拟试卷A卷"},{"t":1,"s":"下列方剂组成中含有生地黄、当归的方剂是()","o":["清营汤","导赤散","芍药汤","四物汤","小蓟饮子"],"a":"E","e":"本题主要考查对重点方剂组成的掌握。清营汤由犀角、生地、银花、连翘、元参、黄连、竹叶心、丹参、麦冬组成。导赤散由木通、生地黄、生甘草梢、竹叶组成。芍药汤由芍药、槟榔、大黄、黄芩、黄连、当归、官桂、甘草、木香组成。四物汤由熟地、当归、芍药、川芎组成。小蓟饮子由生地黄、小蓟、滑石、木通、蒲黄、藕节、淡竹叶、当归、山栀子、甘草组成。","k":"模拟试卷A卷"},{"t":1,"s":"具有平肝息风、清热活血、补益肝肾功用的方剂是()","o":["独活寄生汤","川芎茶调散","羚角钩藤汤","半夏白术天麻汤","天麻钩藤饮"],"a":"E","e":"本题主要考查对天麻钩藤饮功用和主治的掌握。天麻钩藤饮由天麻、钩藤、石决明、山栀、黄芩、川牛膝、杜仲、桑寄生、益母草、夜交藤、朱茯神组成。功能平肝息风、清热活血、补益肝肾。是主治肝阳偏亢，肝风上扰所致眩晕、头痛之常用方。","k":"模拟试卷A卷"},{"t":1,"s":"镇肝熄风汤与羚角钩藤汤组成中均含有的药物是()","o":["白芍","生地黄","怀牛膝","玄参","茵陈"],"a":"A","e":"本题主要考查对羚角钩藤汤与镇肝熄风汤组成的掌握。羚角钩藤汤由羚角片、川贝、鲜生地、双钩藤、白芍、茯神木等组成。镇肝熄风汤由怀牛膝、生赭石、生龙骨、生牡蛎、生龟甲、生杭芍、玄参、天冬、川楝子、生麦芽、茵陈、甘草组成。","k":"模拟试卷A卷"},{"t":1,"s":"麦门冬汤中体现\"培土生金\"治法的药物是()","o":["白术、茯苓、人参、粳米","山药、炙甘草、粳米、大枣","麦冬、大枣、粳米、半夏","粳米、大枣、人参、炙甘草","白术、炙甘草、麦冬、人参"],"a":"D","e":"本题主要考查对麦门冬汤组方配伍的掌握。方中以人参益气生津为臣。佐以甘草、粳米、大枣益气养胃，合人参益胃生津，胃津充足，自能上归于肺，此正\"培土生金\"之法。","k":"模拟试卷A卷"},{"t":1,"s":"清燥救肺汤中重用的药物是()","o":["石膏","麦冬","杏仁","人参","桑叶"],"a":"E","e":"本题主要考查对清燥救肺汤组成与配伍的掌握。清燥救肺汤功能清燥润肺，养阴益气。方中桑叶质轻性寒，清透肺中燥热之邪，且为君药，用量最大。","k":"模拟试卷A卷"},{"t":1,"s":"真武汤中不含有的药物是()","o":["炮附子","干姜","芍药","白术","茯苓"],"a":"B","e":"本题主要考查对真武汤组成的掌握。真武汤由茯苓、芍药、生姜、附子、白术等组成。故干姜不属于真武汤的组成。","k":"模拟试卷A卷"},{"t":1,"s":"三仁汤中具有\"宣上、畅中、渗下\"作用的药物是()","o":["杏仁、半夏、通草","杏仁、半夏、滑石","杏仁、厚朴、通草","杏仁、白蔻仁、竹叶","杏仁、白蔻仁、薏苡仁"],"a":"E","e":"本题主要考查对三仁汤组成与配伍原则的掌握。三仁汤中杏仁宣利上焦肺气，气行则湿化；白蔻仁芳香化湿，行气宽中，畅中焦之脾气；薏苡仁甘淡性寒，渗湿利水而健脾，使湿热从下焦而去。三仁合用，三焦分消。","k":"模拟试卷A卷"},{"t":1,"s":"完带汤方中重用为君的药物是()","o":["人参、白术","苍术、山药","白术、山药","人参、山药","白术、苍术"],"a":"C","e":"本题主要考查对完带汤组成、功用以及配伍的掌握。完带汤由白术、山药、人参、白芍、车前子、苍术、甘草、陈皮、黑芥穗、柴胡等组成，具有补脾疏肝、化湿止带的功用，所主病证乃由脾虚肝郁、带脉失约、湿浊下注所致。方中重用白术、山药为君，意在补脾祛湿，使脾气健运，湿浊得消；山药并有固肾止带之功。","k":"模拟试卷A卷"},{"t":1,"s":"茵陈蒿汤的药物组成是()","o":["茵陈、大黄、青蒿","茵陈、栀子、青蒿","茵陈、大黄、栀子","茵陈、青蒿、黄柏","茵陈、黄柏、栀子"],"a":"C","e":"本题主要考查对茵陈蒿汤组成的掌握。茵陈蒿汤由茵陈、大黄、栀子组成。","k":"模拟试卷A卷"},{"t":1,"s":"苓桂术甘汤的功用是()","o":["解表散寒，温肺化饮","利水消肿，理气健脾","利水渗湿，温阳化气","宣畅气机，清利湿热","温阳化饮，健脾利湿"],"a":"E","e":"本题主要考查对苓桂术甘汤功用的掌握。苓桂术甘汤由健脾利水燥湿之茯苓、白术与温阳化气之桂枝组成。功能温阳化饮、健脾利湿。主治中阳不足，饮停心下证。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，47岁。症见便秘腹痛，脐周绞痛，手足不温，苔白不渴，脉沉弦而迟。治疗本病证首选的方剂是()","o":["温脾汤","麻子仁丸","大承气汤","小承气汤","调胃承气汤"],"a":"A","e":"本题主要考查对温脾汤病因主治以及临床应用的掌握。患者因脾阳不足，阴寒内盛，寒积中阻所致诸证。寒实冷积阻于肠间，腑气不通，故便秘腹痛、绕脐不止；脾阳不足，四末失于温煦，则手足不温；脉沉弦而迟，是阴盛里实之征。温脾汤可攻下冷积、温补脾阳，切中病机。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，28岁。患者平素情绪不畅，时常两胁作痛，头痛目眩，口燥咽干，神疲食少，月经不调，乳房胀痛，舌苔薄白，脉弦而虚。治疗本病证首选的方剂是()","o":["四逆散","一贯煎","小柴胡汤","逍遥散","归脾汤"],"a":"D","e":"本题主要考查对逍遥散临床应用的掌握。\"两胁隐痛，口燥咽干，精神不振，不思饮食，月经后期，乳房作胀，脉弦而虚\"为肝郁血虚脾弱之见症，故应首选逍遥散治疗。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，40岁。2天前出现发热，并伴有腹泻，下利臭秽，胸脘烦热，口干作渴，喘而汗出，舌红苔黄，脉数。治疗本病证首选的方剂是()","o":["芍药汤","白头翁汤","四神丸","葛根黄芩黄连汤","大承气汤"],"a":"D","e":"本题主要考查对葛根芩连汤辨证与临床应用的掌握。\"发热，并伴有腹泻，下利臭秽，胸脘烦热，口干作渴，喘而汗出，舌红苔黄，脉数\"为表证未解，邪热入里之见症，故应首选葛根黄芩黄连汤治疗。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，58岁。症见汗多神疲，体倦乏力，气短懒言，咽干口渴，舌干红少苔，脉虚数。治疗本病证首选的方剂是()","o":["补中益气汤","牡蛎散","桂枝汤","玉屏风散","生脉散"],"a":"E","e":"本题主要考查对生脉散辨证与临床应用的掌握。\"汗多神疲，体倦乏力，气短懒言，咽干口渴，舌干红少苔，脉虚数\"为温热耗气伤阴之见症，故应首选生脉散治疗。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，54岁。因情志不畅自觉咽中如有物阻，咯吐不出，吞咽不下，或咳或呕，舌苔白润或白滑，脉弦缓或弦滑。此病证的治法是()","o":["降气平喘，祛痰止咳","燥湿化痰，理气和中","行气降逆，宽胸散剂","行气散结，降逆化痰","行气消痞，健脾和胃"],"a":"D","e":"本题主要考查对疾病辨证与治则的掌握。\"因情志不畅自觉咽中如有物阻，咯吐不出，吞咽不下，或咳或呕，舌苔白润或白滑，脉弦缓或弦滑\"为七情郁结、痰气交阻所致梅核气之见症，故治法应为行气散结，降逆化痰。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，68岁。症见半身不遂，口眼㖞斜，语言謇涩，口角流涎，小便频数，舌黯淡，苔白，脉缓。治疗本病证首选的方剂是()","o":["羚角钩藤汤","镇肝熄风汤","天麻钩藤饮","半夏白术天麻汤","补阳还五汤"],"a":"E","e":"本题主要考查对补阳还五汤辨证的掌握。\"半身不遂，口眼㖞斜，语言謇涩，口角流涎，小便频数，舌黯淡，苔白，脉缓\"为气虚血瘀之见症，故应首选补阳还五汤治疗。","k":"模拟试卷A卷"},{"t":1,"s":"患者胃疾已久，烦劳太过而见吐血，血色暗淡，面色萎黄，四肢不温，舌淡苔白，脉沉细无力。治疗本病证首选的方剂是()","o":["参苓白术散","黄土汤","归脾汤","十灰散","小蓟饮子"],"a":"B","e":"本题主要考查对黄土汤辨证的掌握。\"胃疾已久，烦劳太过而见吐血，血色暗淡，面色萎黄，四肢不温，舌淡苔白，脉沉细无力\"为脾阳不足、脾不统血之见症，故应首选黄土汤治疗。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，32岁。因受风出现巅顶头痛，伴有恶寒发热，目眩鼻塞，舌苔薄白，脉浮。治疗本病证首选的方剂是()","o":["桂枝汤","麻黄汤","川芎茶调散","半夏白术天麻汤","银翘散"],"a":"C","e":"本题主要考查对川芎茶调散辨证的掌握。\"受风出现巅顶头痛，伴有恶寒发热，目眩鼻塞，舌苔薄白，脉浮\"为外感风邪头痛之见症，故应首选川芎茶调散治疗。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，67岁。症见身半以下肿甚，手足不温，口中不渴，胸腹胀满，大便溏薄，舌苔白腻，脉沉弦而迟。治疗本病证首选的方剂是()","o":["实脾散","真武汤","十枣汤","五苓散","苓桂术甘汤"],"a":"A","e":"本题主要考查对实脾散辨证的掌握。\"身半以下肿甚，手足不温，口中不渴，胸腹胀满，大便溏薄，舌苔白腻，脉沉弦而迟\"为脾肾阳虚水气内停之阴水的见症，故应首选实脾散治疗。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，39岁。身起痈疡，患处漫肿无头，酸痛不热，皮色不变，口中不渴，舌淡苔白，脉沉细。此病证的治法是()","o":["温经散寒，养血祛瘀","温阳补血，散寒通滞","温经散寒，养血通脉","泄热破瘀，散结消肿","化痰除湿，祛瘀通络"],"a":"B","e":"本题主要考查对阴疽辨证的掌握。\"身起痈疡，患处漫肿无头，酸痛不热，皮色不变，口中不渴，舌淡苔白，脉沉细\"为阴疽之见症，多因素体阳虚，营血不足，寒邪凝滞所致，故其治法应为温阳补血，散寒通滞。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，68岁。受凉后出现恶寒发热，头身疼痛，无汗，喘咳，痰涎清稀而量多，胸痞，身体疼重，头面四肢浮肿，舌苔白滑，脉浮。当辨证是()","o":["外感风寒表实证","外感风寒表虚证","外感风寒，寒饮内停证","外感风寒湿邪，内有蕴热证","气虚外感风寒湿表证"],"a":"C","e":"本题主要考查对外感风寒、寒饮内停证症状表现的掌握。\"恶寒发热，头身疼痛，无汗，喘咳，痰涎清稀而量多，胸痞，身体疼重，头面四肢浮肿，舌苔白滑，脉浮\"为外感风寒、寒饮内停之见症。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，68岁。受凉后出现恶寒发热，头身疼痛，无汗，喘咳，痰涎清稀而量多，胸痞，身体疼重，头面四肢浮肿，舌苔白滑，脉浮。此病证的治法是()","o":["解表散寒，温肺化饮","解表散寒，宣肺平喘","解肌发表，调和营卫","散寒祛湿，益气解表","发汗祛湿，兼清里热"],"a":"A","e":"本题主要考查对治法与证型掌握。依据题干确立患者证型为外感风寒、寒饮内停，因此其治法应为解表散寒、温肺化饮。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，68岁。受凉后出现恶寒发热，头身疼痛，无汗，喘咳，痰涎清稀而量多，胸痞，身体疼重，头面四肢浮肿，舌苔白滑，脉浮。治疗本病证首选的方剂是()","o":["苓桂术甘汤","麻黄杏仁甘草石膏汤","麻黄汤","九味羌活汤","小青龙汤"],"a":"E","e":"本题主要考查对方剂与治法之间掌握。依据题干确立患者证型为外感风寒、寒饮内停，治法应解表散寒、温肺化饮。故而本病证的首选方剂是小青龙汤。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，56岁。近两月每进油腻或不易消化的食物，大便次数增多，每天2~3次，大便稀薄，完谷不化，时有肠鸣，伴食少难消，胸脘痞闷，四肢乏力，形体消瘦，面色萎黄，舌淡苔白腻，脉虚缓。此病证的治法是()","o":["健脾和胃，消食止泻","益气健脾，渗湿止泻","温肾暖脾，固肠止泻","涩肠固脱，温补脾肾","补脾柔肝，祛湿止泻"],"a":"B","e":"本题主要考查对治法与证型掌握。\"大便次数增多，每天2~3次，大便稀薄，完谷不化，时有肠鸣，伴食少难消，胸脘痞闷，四肢乏力，形体消瘦，面色萎黄，舌淡苔白腻，脉虚缓\"为脾虚肝旺泄泻之见症，因此其治法应为益气健脾，渗湿止泻。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，56岁。近两月每进油腻或不易消化的食物，大便次数增多，每天2~3次，大便稀薄，完谷不化，时有肠鸣，伴食少难消，胸脘痞闷，四肢乏力，形体消瘦，面色萎黄，舌淡苔白腻，脉虚缓。治疗本病证首选的方剂是()","o":["四神丸","痛泻要方","参苓白术散","真人养脏汤","健脾丸"],"a":"C","e":"本题主要考查对方剂与治法之间掌握。治法应为益气健脾，渗湿止泻。故而本病证的首选方剂是参苓白术散。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，28岁。近半年出现月经过多，色淡质稀，伴有心悸气短，神疲乏力，腰膝酸软，舌淡，脉细弱。此病证的治法是()","o":["清热凉血，固冲摄血","滋阴清热，固经止血","温阳健脾，养血止血","疏肝解郁，养血健脾","益气健脾，固冲摄血"],"a":"E","e":"本题主要考查对对治法与证型的掌握。\"近半年出现月经过多，色淡质稀，伴有心悸气短，神疲乏力，腰膝酸软，舌淡，脉细弱\"为脾肾亏虚，冲脉不固证之见症，因此其治法为益气健脾，固冲摄血。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，28岁。近半年出现月经过多，色淡质稀，伴有心悸气短，神疲乏力，腰膝酸软，舌淡，脉细弱。治疗本病证首选的方剂是()","o":["归脾汤","固冲汤","四物汤","补中益气汤","逍遥散"],"a":"B","e":"本题主要考查对方剂与治法掌握。依据题干确立患者证型为脾肾亏虚，冲脉不固证，首选方剂应为固冲汤。","k":"模拟试卷A卷"},{"t":1,"s":"患者，女，28岁。近半年出现月经过多，色淡质稀，伴有心悸气短，神疲乏力，腰膝酸软，舌淡，脉细弱。所选方剂中的君药是()","o":["熟地、黄芪","熟地、白芍","白术、黄芪","黄芪、龙眼肉","黄芪、人参"],"a":"C","e":"本题主要考查对固冲汤方剂配伍的掌握。固冲汤主治脾肾亏虚，冲脉不固之血崩、月经过多。治当固冲摄血为主，辅以补益脾肾。脾主统血，气随血脱，又当益气摄血，白术补气健脾，以助健运统摄；黄芪既善补气，又善升举，尤善治流产崩漏，二药合用，令脾气旺而统摄有权。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，21岁。2天前因受寒出现恶寒发热，上吐下泻，头痛，胸膈满闷，脘腹疼痛，舌苔白腻，脉浮。当辨证是()","o":["外感风寒，内有气滞证","外感风寒，内有寒饮证","外感风寒，内伤食滞证","外感风寒，内伤湿滞证","外感风寒湿，兼有里热证"],"a":"D","e":"本题主要考查对对治法与证型的掌握。\"恶寒发热，上吐下泻，头痛，胸膈满闷，脘腹疼痛，舌苔白腻，脉浮\"为外感风寒，内伤湿滞证之见症。","k":"模拟试卷A卷"},{"t":1,"s":"患者，男，21岁。2天前因受寒出现恶寒发热，上吐下泻，头痛，胸膈满闷，脘腹疼痛，舌苔白腻，脉浮。治疗本病证首选的方剂是()","o":["香薷散","半夏泻心汤","藿香正气散","平胃散","三仁汤"],"a":"C","e":"本题主要考查对方剂与治法掌握。依据题干确立患者证型为外感风寒，内伤湿滞证，首选方剂应为藿香正气散。","k":"模拟试卷A卷"},{"t":1,"s":"四逆散主治四逆的病机是()","o":["心肾阳衰微，阴寒内盛，阳气不能温煦","营血虚弱，经脉受寒，阳气被遏","蛔虫阻塞胆道，气机逆乱，阴阳之气不相顺接","邪热积滞，闭阻于内，阳盛格阴于外","外邪传经入里，气机郁遏，阳气内郁"],"a":"E","e":"本题主要考查对相似方剂病机的掌握。四逆散常用于由外邪传经入里，气机为之郁遏，不得疏泄，阳气内郁所致疾病。阳气内郁，不能达于四末，而见手足不温。","k":"模拟试卷A卷"},{"t":1,"s":"四逆汤主治四逆的病机是()","o":["心肾阳衰微，阴寒内盛，阳气不能温煦","营血虚弱，经脉受寒，阳气被遏","蛔虫阻塞胆道，气机逆乱，阴阳之气不相顺接","邪热积滞，闭阻于内，阳盛格阴于外","外邪传经入里，气机郁遏，阳气内郁"],"a":"A","e":"本题主要考查对相似方剂病机的掌握。四逆汤所治病证是因寒邪深入少阴，伤及肾阳，肾阳虚衰，全身及肢体失于温煦，引起四肢厥逆，恶寒蜷卧等表现。","k":"模拟试卷A卷"},{"t":1,"s":"当归四逆汤主治四逆的病机是()","o":["心肾阳衰微，阴寒内盛，阳气不能温煦","营血虚弱，经脉受寒，阳气被遏","蛔虫阻塞胆道，气机逆乱，阴阳之气不相顺接","邪热积滞，闭阻于内，阳盛格阴于外","外邪传经入里，气机郁遏，阳气内郁"],"a":"B","e":"本题主要考查对相似方剂病机的掌握。当归四逆汤主治因营血虚弱，寒凝经脉，血行不利所致疾病。素体血虚而又经脉受寒，寒邪凝滞，血行不利，阳气不能达于四肢末端，营血不能充盈血脉，遂呈手足厥寒、脉细欲绝。","k":"模拟试卷A卷"},{"t":1,"s":"《温病条辨》中被称为\"辛凉平剂\"的方剂是()","o":["银翘散","麻黄汤","桂枝汤","小青龙汤","桑菊饮"],"a":"A","e":"本题主要考查对相似方剂配伍特点的掌握。银翘散是治疗温病初起的辛凉解表方剂，用银花配伍荆芥、豆豉、牛蒡子、竹叶，解表清热之力强，为\"辛凉平剂\"。","k":"模拟试卷A卷"},{"t":1,"s":"《温病条辨》中被称为\"辛凉轻剂\"的方剂是()","o":["银翘散","麻黄汤","桂枝汤","小青龙汤","桑菊饮"],"a":"E","e":"本题主要考查对相似方剂配伍特点的掌握。桑菊饮是治疗温病初起的辛凉解表方剂，桑菊饮用桑叶、菊花配伍杏仁，肃肺止咳之力大，而解表清热作用较银翘散为弱，故为\"辛凉轻剂\"。","k":"模拟试卷A卷"},{"t":1,"s":"麻杏石甘汤中麻黄与石膏的用量比例()","o":["1:1","1:2","2:1","1:5","1:7"],"a":"B","e":"本题主要考查对重点方剂中药物用量以及方解的掌握。麻杏石甘汤以散邪宣肺的麻黄、清肺透邪的石膏共为君药，石膏倍于麻黄，使本方不失为辛凉之剂。故麻黄与石膏的用量比例为1:2。","k":"模拟试卷A卷"},{"t":1,"s":"组成中含有黄连、黄芩的方剂()","o":["乌梅丸","凉膈散","黄土汤","芍药汤","茵陈蒿汤"],"a":"D","e":"本题主要考查对重点方剂组成的掌握。乌梅丸由乌梅、细辛、干姜、当归、附子、桂枝、黄柏、黄连、人参、蜀椒组成；凉膈散由芒硝、大黄、栀子、连翘、黄芩、甘草、薄荷、竹叶组成；黄土汤由甘草、干地黄、白术、附子、阿胶、黄芩、灶中黄土组成；芍药汤由芍药、槟榔、大黄、黄芩、黄连、当归、官桂、甘草、木香组成；茵陈蒿汤由茵陈、栀子、大黄组成。故而含有黄连、黄芩的方剂是芍药汤。","k":"模拟试卷A卷"},{"t":1,"s":"组成中含有栀子、黄芩的方剂()","o":["乌梅丸","凉膈散","黄土汤","芍药汤","茵陈蒿汤"],"a":"B","e":"本题主要考查对重点方剂中药物组成的掌握。依据对各方剂组成的分析，含有栀子、黄芩的是凉膈散。","k":"模拟试卷A卷"},{"t":1,"s":"组成中含有黄连、黄柏的方剂是()","o":["乌梅丸","凉膈散","黄土汤","芍药汤","茵陈蒿汤"],"a":"A","e":"本题主要考查对重点方剂中药物组成的掌握。依据对各方剂组成的分析，含有黄连、黄柏的是乌梅丸。","k":"模拟试卷A卷"},{"t":1,"s":"具有活血祛瘀、疏肝通络功用的方剂()","o":["生化汤","复元活血汤","桂枝茯苓丸","小蓟饮子","血府逐瘀汤"],"a":"B","e":"本题主要考查对重点方剂中药物组成的掌握。复元活血汤的功用是活血祛瘀、疏肝通络。","k":"模拟试卷A卷"},{"t":1,"s":"具有温胆汤的功用是()","o":["清气化痰，理气止咳","理气化痰，清胆和胃","清胆利湿，和胃化痰","燥湿化痰，理气和中","化痰息风，健脾祛湿"],"a":"B","e":"本题主要考查对温胆汤功用的掌握。温胆汤主治胆郁痰扰证，其功用是理气化痰、清胆和胃。","k":"模拟试卷A卷"},{"t":1,"s":"蒿芩清胆汤的功用是()","o":["清气化痰，理气止咳","理气化痰，清胆和胃","清胆利湿，和胃化痰","燥湿化痰，理气和中","化痰息风，健脾祛湿"],"a":"C","e":"本题主要考查对蒿芩清胆汤的掌握。蒿芩清胆汤主治少阳湿热证，其功用为清胆利湿、和胃化痰。","k":"模拟试卷A卷"},{"t":1,"s":"牡蛎散中黄芪是()","o":["君药","臣药","佐药","使药","佐使药"],"a":"B","e":"本题主要考查对牡蛎散方解的掌握。牡蛎散的功用是敛阴止汗、益气固表。主治体虚自汗、盗汗证。常自汗出，夜卧更甚，心悸惊惕，短气烦倦，舌淡红，脉细弱。黄芪味甘微温，益气实卫，固表止汗，在此方中为臣药。","k":"模拟试卷A卷"},{"t":1,"s":"当归补血汤中黄芪是()","o":["君药","臣药","佐药","使药","佐使药"],"a":"A","e":"本题主要考查对当归补血汤方解的掌握。当归补血汤的功用是补气生血。主治血虚阳浮发热证。肌热面红，烦渴欲饮，脉洪大而虚，重按无力。亦治妇人经期、产后血虚发热头痛；或疮疡溃后，久不愈合者。本方重用黄芪，一是滋阴补血固里不及，阳气外亡，故重用黄芪补气而专固肌表；一是有形之血生于无形之气，故用黄芪大补脾肺之气，以资化源，使气旺血生，为君药。","k":"模拟试卷A卷"},{"t":1,"s":"主治脾胃气虚证的方剂是()","o":["理中丸","健脾丸","保和丸","平胃散","四君子汤"],"a":"E","e":"本题主要考查对主治相似方剂的掌握。理中丸主治脾胃虚寒证；健脾丸主治脾虚食积证；保和丸主治食积停滞；平胃散主治湿滞脾胃证；四君子汤主治脾胃气虚证。","k":"模拟试卷A卷"},{"t":1,"s":"主治湿滞脾胃证的方剂是()","o":["理中丸","健脾丸","保和丸","平胃散","四君子汤"],"a":"D","e":"本题主要考查对主治相似方剂的掌握。平胃散主治湿滞脾胃证。","k":"模拟试卷A卷"},{"t":1,"s":"主治脾胃虚寒证的方剂是()","o":["理中丸","健脾丸","保和丸","平胃散","四君子汤"],"a":"A","e":"本题主要考查对主治相似方剂的掌握。理中丸主治脾胃虚寒证。","k":"模拟试卷A卷"},{"t":1,"s":"对胃肠道有刺激的药物，其服药时间宜于","o":["不拘时服","空腹服","睡前服","饭后服","发作前2小时服"],"a":"D","e":"本题考查服药法中的服药时间。胃肠有刺激的药应食后服；补益药和泻下药宜空腹服；安神药宜临卧服；急性重病则不拘时服；治疟药宜在发作前2小时服。","k":"模拟试卷B卷"},{"t":1,"s":"四逆汤与通脉四逆汤两方的变化形式属于","o":["药量增减的变化","药味增减的变化","剂型更换的变化","随证加减的变化","药物配伍的变化"],"a":"A","e":"本题考查方剂变化。两方药味相同，不同之处为附子、干姜用量的改变，通脉四逆汤是在四逆汤药基础上增加了附子和干姜的用量。","k":"模拟试卷B卷"},{"t":1,"s":"下列哪项不是真武汤中配伍芍药的意义","o":["敛阴止汗","敛阴舒筋","缓急止痛","酸敛护阴","利小便利水气"],"a":"A","e":"真武汤配白芍，一者利小便以行水气；二者柔肝缓急以止腹痛；三者敛阴舒筋以解筋肉瞤动；四者防止附子燥热伤阴，亦为佐药。","k":"模拟试卷B卷"},{"t":1,"s":"四物汤中的“血中血药”是","o":["生地黄、白芍","当归、熟地黄","熟地黄、赤芍","川芎、当归","熟地黄、白芍"],"a":"E","e":"四物汤由当归、熟地、川芎、白芍组成。熟地甘温味厚，为滋阴补血之要药；当归补血和血；白芍养血敛阴，柔肝缓急；川芎活血行气。方以熟地黄、白芍两味阴柔补血之品为血中血药，配伍辛甘发散之当归、川芎（血中气药），动静结合，重在滋补营血，补中寓行。","k":"模拟试卷B卷"},{"t":1,"s":"少阳湿热痰浊证，治宜选用的方剂是","o":["小柴胡汤","蒿芩清胆汤","葛根黄芩黄连汤","温胆汤","大柴胡汤"],"a":"B","e":"蒿芩清胆汤功用为清胆利湿、和胃化痰，主要治疗少阳湿热痰浊证。","k":"模拟试卷B卷"},{"t":1,"s":"桃核承气汤是","o":["由调胃承气汤加桃仁、桂枝变化而来","由大承气汤加桃仁、桂枝变化而来","由小承气汤加桃仁、桂枝变化而来","由增液承气汤加桃仁、桂枝变化而来","由四物汤加桃仁、桂枝变化而来"],"a":"A","e":"桃核承气汤与调胃承气汤均用了大黄、芒硝、炙甘草，但桃核承气汤中芒硝用量仅为调胃承气汤中芒硝用量的四分之一，且加入了桃仁与桂枝。","k":"模拟试卷B卷"},{"t":1,"s":"下列哪项不是独活寄生汤的组成药物","o":["杜仲、牛膝、细辛","秦艽、防风、川芎","人参、甘草、茯苓","白术、荆芥、桂枝","地黄、当归、芍药"],"a":"D","e":"本方由独活、桑寄生、杜仲、牛膝、细辛、秦艽、茯苓、肉桂心、防风、川芎、人参、甘草、当归、芍药、干地黄组成，用于治疗痹证日久，肝肾两虚，气血不足证。","k":"模拟试卷B卷"},{"t":1,"s":"具有泻火通便、清上泄下功用，体现“以泻代清”法的方剂是","o":["桃核承气汤","凉膈散","大柴胡汤","黄连解毒汤","麻子仁丸"],"a":"B","e":"凉膈散清上与泻下并行，但泻下是为清泄胸膈郁热而设，即所谓“以泻代清”。","k":"模拟试卷B卷"},{"t":1,"s":"香薷散的功用是","o":["解表清暑，化湿和中","解表散寒，温肺化饮","祛暑解表，清热化湿","祛暑解表，化湿和中","清暑解热，化气利湿"],"a":"D","e":"香薷散用香薷为君，配以厚朴、白扁豆，共奏祛暑解表、化湿和中之效。","k":"模拟试卷B卷"},{"t":1,"s":"临床治疗阴疽的代表方剂是","o":["黄连解毒汤","五味消毒饮","仙方活命饮","阳和汤","内补黄芪汤"],"a":"D","e":"阳和汤出于《外科全生集》：“主治鹤膝风，贴骨疽，及一切阴疽。”具有温阳补血，散寒通滞。","k":"模拟试卷B卷"},{"t":1,"s":"九味羌活汤中清泄里热的药物是","o":["石膏、知母","黄连、黄芩","黄芩、石膏","黄芩、生地黄","生地黄、柴胡"],"a":"D","e":"方中生地、黄芩清泄里热，并防诸辛温燥烈之品伤津。","k":"模拟试卷B卷"},{"t":1,"s":"阴虚肝郁所致脘胁疼痛的常用方剂是","o":["百合固金汤","一贯煎","逍遥散","龙胆泻肝汤","左金丸"],"a":"B","e":"一贯煎功能滋阴疏肝，是治疗阴虚肝郁所致脘胁疼痛的常用方。","k":"模拟试卷B卷"},{"t":1,"s":"脉结代，心动悸，虚羸少气，舌光少苔，治宜选用的方剂是","o":["大补阴丸","归脾汤","天王补心丹","炙甘草汤","酸枣仁汤"],"a":"D","e":"此乃阴血不足，阳气虚弱所致。故选功能益气滋阴，通阳复脉之炙甘草汤。","k":"模拟试卷B卷"},{"t":1,"s":"二陈汤的主治证是","o":["热痰证","燥痰证","寒痰证","湿痰证","风痰证"],"a":"D","e":"二陈汤由半夏、橘红、白茯苓、甘草组成，功用为燥湿化痰、理气和中，用于治疗湿痰证。","k":"模拟试卷B卷"},{"t":1,"s":"鼻衄，症见血色鲜红，来势急暴，伴烦热、口渴、尿赤，舌红，脉数。治宜首选的方剂是","o":["黄土汤","槐花散","十灰散","归脾汤","小蓟饮子"],"a":"C","e":"十灰散主治血热妄行之上部出血证。呕血、吐血、咯血、嗽血、衄血等，表现为血色鲜红，来势急暴，舌红，脉数。","k":"模拟试卷B卷"},{"t":1,"s":"止嗽散的功用是","o":["发散风热，止咳平喘","宣利肺气，疏风止咳","清肺化痰，止嗽定喘","疏风清热，止咳化痰","轻宣肺燥，化痰止嗽"],"a":"B","e":"本方由桔梗、荆芥、紫菀、百部、白前、甘草、陈皮相配，诸药配伍，肺气得宣，外邪得散，则咳痰咽痒得瘥。故其功效为宣利肺气、疏风止咳。","k":"模拟试卷B卷"},{"t":1,"s":"体现“先入后出之妙”配伍特点的方剂是","o":["清暑益气汤","犀角地黄汤","清营汤","青蒿鳖甲汤","银翘散"],"a":"D","e":"青蒿鳖甲汤主治温病后期邪伏阴分证。方中鳖甲咸寒，直入阴分，滋阴退热，入络搜邪；青蒿芳香，清热透络，引邪外出。两药相合，谓“先入后出之妙”。","k":"模拟试卷B卷"},{"t":1,"s":"下利清水，色纯青，其气臭秽，脐腹疼痛，按之坚硬有块，口舌干燥，脉滑实，治当首选的方剂是","o":["大承气汤","黄龙汤","葛根黄芩黄连汤","白头翁汤","真人养脏汤"],"a":"A","e":"此为热结旁流证。是因“旁流”是现象，燥屎坚结才是本质。故用大承气汤峻下热结，“旁流”可止。","k":"模拟试卷B卷"},{"t":1,"s":"具有和解少阳、内泻热结功用的方剂是","o":["小柴胡汤","大柴胡汤","蒿芩清胆汤","大承气汤","桃核承气汤"],"a":"B","e":"大柴胡汤是由柴胡、黄芩、半夏、生姜、枳实、大枣、芍药、大黄组成，功能和解少阳、内泻热结，为治疗少阳阳明合病代表方剂。","k":"模拟试卷B卷"},{"t":1,"s":"四君子汤和补中益气汤中共有的药物是","o":["人参、茯苓","白术、茯苓","升麻、人参","人参、甘草","白术、黄芪"],"a":"D","e":"四君子汤由人参、白术、茯苓、甘草组成；补中益气汤由黄芪、甘草、人参、当归、陈皮、升麻、柴胡组成；两方共同的药物是人参、甘草。","k":"模拟试卷B卷"},{"t":1,"s":"桂枝茯苓丸中配伍桂枝的用意是","o":["温经散寒","解表散邪","助阳化气","温通血脉","降逆平冲"],"a":"D","e":"本方由桂枝、茯苓、丹皮、桃仁、芍药组成，其中桂枝辛甘而温、温通血脉，以行瘀滞，为君药。","k":"模拟试卷B卷"},{"t":1,"s":"天麻钩藤饮的功用是","o":["滋补肝肾，益气复脉，潜阳息风","滋阴养血，柔肝息风，潜阳通络","平肝息风，补益心肾，清热活血","清热息风，补益肝肾，益气解痉","平肝息风，清热活血，补益肝肾"],"a":"E","e":"天麻钩藤饮由天麻、钩藤、石决明、山栀、黄芩、川牛膝、杜仲、桑寄生、益母草、夜交藤、朱茯神组成。功用为平肝息风、清热活血、补益肝肾。","k":"模拟试卷B卷"},{"t":1,"s":"麦门冬汤中半夏的配伍意义不包括","o":["降逆以止咳呕","开胃行津以润肺","防麦门冬滋腻壅滞","臣药","散结消痞满"],"a":"E","e":"方中麦门冬重用为君，臣以半夏降逆下气、化痰和胃，一则降逆以止咳呕，二则开胃行津以润肺，三则防大剂量麦冬之滋腻壅滞，二药相反相成。","k":"模拟试卷B卷"},{"t":1,"s":"患者，男，60岁。呛咳少痰，气短自汗，口干舌燥，苔薄少津，脉虚数。证属久咳肺虚，气阴两伤。治宜首选的方剂是","o":["泻白散","牡蛎散","百合固金汤","生脉散","清暑益气汤"],"a":"D","e":"本久咳伤肺，气阴两虚证，治法为益气生津、敛阴止汗，故生脉散宜之。","k":"模拟试卷B卷"},{"t":1,"s":"患者，男，52岁。素体虚弱，身常汗出，夜卧尤甚，伴有心悸惊惕，气短烦倦，舌淡红，脉细弱。此病证的治法是","o":["滋阴泻火，固表止汗","清暑益气，养阴生津","益气固表，育阴除烦","清热生津，敛阴止汗","敛阴止汗，益气固表"],"a":"E","e":"本证因卫外不固，阴液损伤，心阳不潜所致。应选用牡蛎散主治，因此可敛阴止汗、益气固表。","k":"模拟试卷B卷"},{"t":1,"s":"患者，女，29岁。因情志不遂，忧思过度而致胸膈痞闷，脘腹胀痛，嗳腐吞酸，恶心呕吐，饮食不消。治疗当首选的方剂是","o":["半夏厚朴汤","越鞠丸","逍遥散","健脾丸","四逆散"],"a":"B","e":"患者因情志不遂，忧思过度而致胸膈痞闷，脘腹胀痛，嗳腐吞酸，恶心呕吐，饮食不消。为气郁之证，应行气解郁，选用越鞠丸。","k":"模拟试卷B卷"},{"t":1,"s":"患者，男，48岁。失眠1年余，加重3个月。现症见失眠多梦，健忘，腰腿酸软，耳鸣遗精，口舌生疮，手足心热，大便干结，舌红苔少，脉细数。此病证治宜首选的方剂是","o":["大补阴丸","导赤散","温胆汤","朱砂安神丸","天王补心丹"],"a":"E","e":"此证为阴虚血少，虚火内扰之神志不安。天王补心丹功能滋阴清热、养血安神，是主治心肾阴血亏虚、虚火内扰所致神志不安的常用方。","k":"模拟试卷B卷"},{"t":1,"s":"患者，男，20岁。发热1天，患者症见发热，汗出不畅，微恶风寒，头痛口渴，咽痛咳嗽，舌尖红，苔微黄，脉浮数。治宜选用的方剂是","o":["麻黄汤","桂枝汤","银翘散","桑杏汤","败毒散"],"a":"C","e":"此证为温病初起，银翘散功能为辛凉透表、清热解毒，为主治该证的常用方。","k":"模拟试卷B卷"},{"t":1,"s":"患者，女，35岁。症见咳痰稠带血，咳吐不爽，心烦易怒，胸胁刺痛，咽干口苦，舌红苔黄，脉弦数。此病证治宜首选的方剂是","o":["百合固金汤","大补阴丸","咳血方","清气化痰丸","犀角地黄汤"],"a":"C","e":"此为肝火犯肺，灼伤肺络证。咳血方具有清肝宁肺、凉血止血之功，为治木火刑金的咳血常用方。","k":"模拟试卷B卷"},{"t":1,"s":"（51~53题共用题干）患儿，男，10岁。素有支气管哮喘，近因天气转冷，调摄不慎，引发哮喘。症见咳喘气急，喉中痰鸣，咯痰色黄质稠，胸膈满闷，微恶风寒，舌苔黄腻，脉滑数。该病例的病机是","o":["痰热内壅，外感风寒","痰壅于肺，肾气亏虚","外感风寒，饮郁化热","外感风热，痰饮内停","寒饮蕴肺，外感风寒"],"a":"A","e":"此证为痰热内蕴，风寒外束之哮喘，本证因素体痰多，复感风寒，郁而化热所致，因此选择痰热内壅，外感风寒。","k":"模拟试卷B卷"},{"t":1,"s":"（51~53题共用题干）其治法是","o":["发汗解表，温肺止咳","宣降肺气，清热化痰","解表散寒，温肺化饮","降气祛痰，纳气平喘","发散风热，清热化饮"],"a":"B","e":"根据51题，此证为痰热内蕴，风寒外束之哮喘，因此应宣降肺气、清热化痰。","k":"模拟试卷B卷"},{"t":1,"s":"（51~53题共用题干）治宜选用的方剂是","o":["定喘汤","小青龙汤","苏子降气汤","麻黄杏仁甘草石膏汤","贝母瓜蒌散"],"a":"A","e":"由于此证为痰热内蕴，风寒外束之哮喘，可选用定喘汤宣降肺气、清热化痰。","k":"模拟试卷B卷"},{"t":1,"s":"（54~56题共用题干）患者，男，18岁。近3日出现腹痛，便脓血，赤白相兼，里急后重，肛门灼热，小便短赤，舌苔黄腻，脉弦数。当辨证诊为","o":["湿热痢疾","热毒痢疾","虚寒痢疾","寒湿痢疾","阴虚痢疾"],"a":"A","e":"根据患者腹痛，便脓血，赤白相兼，里急后重，肛门灼热，小便短赤，舌苔黄腻，脉弦数，可以诊断为湿热痢疾。","k":"模拟试卷B卷"},{"t":1,"s":"（54~56题共用题干）当选用的治法是","o":["温中化湿，行气活血","清热解毒，凉血止痢","清热燥湿，调和气血","温补脾肾，涩肠止痢","滋阴养血，清热止痢"],"a":"C","e":"根据54题湿热痢疾判断，本证由湿热壅滞肠中，气血失调所致，因此可清热燥湿、调气和血。","k":"模拟试卷B卷"},{"t":1,"s":"（54~56题共用题干）当选用的方剂是","o":["四神丸","黄连解毒汤","乌梅丸","白头翁汤","芍药汤"],"a":"E","e":"芍药汤为治疗湿热痢疾之常用方，由芍药、槟榔、大黄、黄芩、黄连、当归、官桂、甘草、木香组成。","k":"模拟试卷B卷"},{"t":1,"s":"（57~59题共用题干）患者，男，25岁。发病5天，高热不退，烦闷躁扰，手足抽搐，舌绛而干，脉弦而数。此病例的病机是","o":["肝经热盛，热极动风","肝阳偏亢，肝风上扰","热入营血，心神被扰","邪热炽盛，灼伤阴血，虚风内动","温病后期，邪伏阴分"],"a":"A","e":"根据患者高热不退，烦闷躁扰，手足抽搐，舌绛而干，脉弦而数，为肝热生风证，本证系由温热病邪传入厥阴，肝经热盛，热极动风所致。","k":"模拟试卷B卷"},{"t":1,"s":"（57~59题共用题干）其治法是","o":["凉肝息风，增液舒筋","平肝息风，滋阴潜阳","祛风清热，通络散结","清营凉血，安神宁心","滋阴清热，养血息风"],"a":"E","e":"根据57题得肝热生风证，有高热不退、烦闷躁扰、手足抽搐等症状，因此治宜清热凉肝息风为主，配以养阴增液舒筋为法。","k":"模拟试卷B卷"},{"t":1,"s":"（57~59题共用题干）治疗宜首选的方剂是","o":["清营汤","镇肝熄风汤","天麻钩藤饮","羚角钩藤汤","大定风珠"],"a":"D","e":"羚角钩藤汤为治疗肝热生风证之常用方，由羚角片、桑叶、川贝、鲜生地、钩藤后、菊花、茯神木、生白芍、生甘草、淡竹茹组成，诸药相配，共奏凉肝息风、增液舒筋之功。","k":"模拟试卷B卷"},{"t":1,"s":"（60~61题共用备选答案）阳和汤中配伍麻黄的意义是","o":["宣通毛窍","固表止汗","宣肺平喘","利尿消肿","润肺止咳"],"a":"A","e":"阳和汤为治疗阴疽证，配伍少量麻黄，辛温达表，宣通毛窍，开腠理，散寒凝。","k":"模拟试卷B卷"},{"t":1,"s":"（60~61题共用备选答案）麻黄杏仁甘草石膏汤配伍麻黄的主要意义是","o":["宣通毛窍","固表止汗","宣肺平喘","利尿消肿","润肺止咳"],"a":"C","e":"麻黄杏仁甘草石膏汤用于治疗外感风邪，邪热壅肺证，可辛凉疏表、清肺平喘，配伍麻黄辛温，宣肺平喘、解表散邪。","k":"模拟试卷B卷"},{"t":1,"s":"（62~63题共用备选答案）小建中汤主治证的病机是","o":["中焦虚寒，肝脾失调","中焦虚寒，脾不统血","下焦阳衰，不达四末","中焦虚寒，浊阴上逆","中阳虚衰，阴寒内盛"],"a":"A","e":"小建中汤治疗中焦虚寒，肝脾失调，阴阳不和证，此证为中焦虚寒，肝脾失调，阴阳不和所致。","k":"模拟试卷B卷"},{"t":1,"s":"（62~63题共用备选答案）吴茱萸汤主治证的病机是","o":["中焦虚寒，肝脾失调","中焦虚寒，脾不统血","下焦阳衰，不达四末","中焦虚寒，浊阴上逆","中阳虚衰，阴寒内盛"],"a":"D","e":"吴茱萸汤治疗胃寒呕吐证、肝寒上逆证、肾寒上逆证，本证一为阳明寒呕，二为厥阴头痛，三为少阴吐利。其证虽属三经，然病机皆为虚寒之邪上逆犯胃所致。","k":"模拟试卷B卷"},{"t":1,"s":"（64~65题共用备选答案）四逆汤的君药是","o":["饴糖","干姜","人参","附子","甘草"],"a":"D","e":"四逆汤由炙甘草、干姜、附子组成，附子为君药。","k":"模拟试卷B卷"},{"t":1,"s":"（64~65题共用备选答案）理中丸的君药是","o":["饴糖","干姜","人参","附子","甘草"],"a":"B","e":"理中丸由人参、干姜、甘草、白术组成，方中干姜大辛大热，温脾暖胃，助阳祛寒为君药。","k":"模拟试卷B卷"},{"t":1,"s":"（66~67题共用备选答案）桑菊饮主治","o":["肺肾阴虚，虚火上炎之咳嗽","风邪犯肺之咳嗽","外寒内饮之咳嗽","风温初起，邪客肺络之咳嗽","上实下虚之喘咳"],"a":"D","e":"桑菊饮疏风清热、宣肺止咳，用于治疗风温初起，邪客肺络证。","k":"模拟试卷B卷"},{"t":1,"s":"（66~67题共用备选答案）止嗽散主治","o":["肺肾阴虚，虚火上炎之咳嗽","风邪犯肺之咳嗽","外寒内饮之咳嗽","风温初起，邪客肺络之咳嗽","上实下虚之喘咳"],"a":"B","e":"止嗽散功能宣利肺气、疏风止咳，为治疗风邪犯肺致咳嗽的常用方。","k":"模拟试卷B卷"},{"t":1,"s":"（68~69题共用备选答案）当归补血汤中当归与黄芪的用量比例是","o":["1∶2","1∶3","1∶5","3∶2","1∶7"],"a":"C","e":"方中重用黄芪，补气固表，生血，使阳生阴长，气旺血生，故以之为君。配以少量当归养血和营，并得黄芪生血之助，使阴血渐充，则浮阳秘敛，虚热自退。其用药比例1∶5。","k":"模拟试卷B卷"},{"t":1,"s":"（68~69题共用备选答案）大承气汤中大黄与厚朴的用量比例是","o":["1∶2","1∶3","1∶5","3∶2","1∶7"],"a":"A","e":"方中大黄苦寒泄热，攻积通便，荡涤肠胃邪热积滞，用为君药。积滞内阻，致使腑气不通，则内结之实热积滞，恐难速下，故本方重用厚朴亦为君药，行气消胀除满。因此用药比例为1∶2。","k":"模拟试卷B卷"},{"t":1,"s":"（74~75题共用备选答案）组成中含有川芎的方剂是","o":["温脾汤","酸枣仁汤","导赤散","三仁汤","参苓白术散"],"a":"B","e":"此方由酸枣仁、甘草、知母、茯苓、川芎组成。","k":"模拟试卷B卷"},{"t":1,"s":"（74~75题共用备选答案）组成中含有杏仁的方剂是","o":["温脾汤","酸枣仁汤","导赤散","三仁汤","参苓白术散"],"a":"D","e":"此方由杏仁、飞滑石、白通草、白蔻仁、竹叶、厚朴、生薏苡仁、半夏组成，主治湿温初起或暑温夹湿之湿重于热证。","k":"模拟试卷B卷"},{"t":1,"s":"（76~77题共用备选答案）龙胆泻肝汤方中配伍滋阴养血药物是","o":["生地、当归","生地、白芍","当归、熟地","白芍、当归","熟地、麦冬"],"a":"A","e":"因为肝为藏血之脏，肝经实火，易伤阴血，所用诸药又属苦燥渗利伤阴之品，故用生地养阴、当归补血，使祛邪而不伤正。","k":"模拟试卷B卷"},{"t":1,"s":"（76~77题共用备选答案）羚角钩藤汤方中配伍的滋阴养血药物是","o":["生地、当归","生地、白芍","当归、熟地","白芍、当归","熟地、麦冬"],"a":"B","e":"因热极动风，风火相煽，最易耗阴劫液，故用鲜生地凉血滋阴，白芍养阴柔肝。","k":"模拟试卷B卷"},{"t":1,"s":"（78~79题共用备选答案）大黄牡丹汤的组成包括","o":["桃仁、冬瓜仁","大黄、栀子","神曲、麦芽","芒硝、桂枝","山楂、莱菔子"],"a":"A","e":"大黄牡丹汤由大黄、丹皮、桃仁、瓜子、芒硝组成。","k":"模拟试卷B卷"},{"t":1,"s":"（80~81题共用备选答案）复元活血汤的君药是","o":["大黄、柴胡","青黛、栀子","柴胡、当归","栀子、黄连","生地、木通"],"a":"A","e":"复元活血汤主治跌打损伤，瘀血阻滞证。方中重用酒制大黄，荡涤凝瘀败血，导瘀下行，推陈致新；柴胡疏肝行气，并可引诸药入肝经。两药合用，一升一降，攻散胁下之瘀滞，共为君药。","k":"模拟试卷B卷"},{"t":1,"s":"（80~81题共用备选答案）咳血方的君药是","o":["大黄、柴胡","青黛、栀子","柴胡、当归","栀子、黄连","生地、木通"],"a":"B","e":"咳血方主治肝火犯肺之咳血证，故方中以青黛、栀子清肝泻火、凉血止血为君。","k":"模拟试卷B卷"},{"t":2,"s":"败毒散的药物组成包括","o":["羌活","独活","川芎","枳壳","木香"],"a":"ABCD","e":"败毒散由柴胡、前胡、川芎、枳壳、羌活、独活、茯苓、桔梗、人参、甘草组成。","k":"模拟试卷B卷"},{"t":2,"s":"理中丸的主治病证包括","o":["脾胃虚寒证","阳虚失血证","小儿慢惊风","病后喜唾涎沫","胸痹"],"a":"ABCDE","e":"理中丸主治脾胃虚寒证；阳虚失血证；中阳不足，阴寒上乘之胸痹；脾气虚寒，不能摄津之病后多涎唾；中阳虚损，土不荣木之小儿慢惊等病。","k":"模拟试卷B卷"},{"t":2,"s":"阳和汤的主治病证包括","o":["脱疽","鹤膝风","痰核","流注","贴骨疽"],"a":"ABCDE","e":"阳和汤治疗阴疽。如贴骨疽、脱疽、流注、痰核、鹤膝风等。","k":"模拟试卷B卷"},{"t":2,"s":"六味地黄丸中“三补”的药物是","o":["生地","熟地","山药","吴茱萸","山茱萸"],"a":"BCE","e":"熟地、山萸肉、山药君臣相伍，补肝脾肾，即所谓“三阴并补”。然熟地黄用量独重，而以滋补肾之阴精为主。","k":"模拟试卷B卷"},{"t":2,"s":"下列方剂的组成中含有四君子汤的是","o":["健脾丸","八珍汤","补中益气汤","参苓白术散","独活寄生汤"],"a":"ABD","e":"健脾丸由四君子汤（人参、茯苓、白术、甘草）加上山楂、麦芽、陈皮、枳实等药物组成，具有健脾和胃，消食止泻功用。八珍汤由四君子汤与四物汤合方而成，气血双补。参苓白术散是四君子汤加山药、莲子肉、白扁豆、薏苡仁、砂仁、桔梗而成。","k":"模拟试卷B卷"},{"t":2,"s":"黄芪、当归两药同用的方剂是","o":["玉屏风散","归脾汤","补中益气汤","补阳还五汤","牡蛎散"],"a":"BCD","e":"归脾汤由白术、人参、黄芪、当归、甘草、白茯苓、远志、酸枣仁、木香、龙眼肉、生姜、大枣组成。补中益气汤由黄芪、白术、陈皮、升麻、柴胡、人参、甘草、当归组成。补阳还五汤由黄芪、当归尾、赤芍、地龙（去土）、川芎、红花、桃仁组成。","k":"模拟试卷B卷"},{"t":2,"s":"仙方活命饮的功用是","o":["清热解毒","敛疮生肌","消肿溃坚","温阳补血","活血止痛"],"a":"ACE","e":"仙方活命饮由白芷、贝母、防风、赤芍药、当归尾、甘草节、皂角刺（炒）、穿山甲（炙）、天花粉、乳香、没药、金银花、陈皮组成，具有清热解毒、消肿溃坚、活血止痛之功。","k":"模拟试卷B卷"},{"t":2,"s":"芍药、甘草共用的方剂是","o":["桂枝汤","当归四逆汤","四逆散","小建中汤","五苓散"],"a":"ABCD","e":"桂枝汤组成为桂枝、芍药、甘草、大枣、生姜。当归四逆汤由当归、桂枝、芍药、细辛、通草、甘草、大枣组成。四逆散由柴胡、芍药、枳实、甘草组成。小建中汤由饴糖、桂枝、芍药、炙甘草、大枣、生姜组成。因此四方中都有芍药、甘草。","k":"模拟试卷B卷"},{"t":2,"s":"下列各项中属于“消法”范畴的是","o":["消食导滞","通导大便","行气活血","化痰利水","驱虫"],"a":"ACDE","e":"消法是通过消食导滞、行气活血、化痰利水、驱虫等方法，使气、血、痰、食、水、虫等有形之邪渐消缓散的一种治法。","k":"模拟试卷B卷"},{"t":1,"s":"应用麻黄汤与桂枝汤辨证要点的主要区别是","o":["恶寒发热","头身疼痛","舌苔脉象","口渴不渴","有汗无汗"],"a":"E","e":"麻黄汤与桂枝汤同属辛温解表之剂，都可用治外感风寒证。但麻黄汤为辛温发汗之重剂，适用于外感风寒，肺气失宣之恶寒发热、头疼身痛、无汗而喘、舌苔薄白、脉浮紧之表实证。桂枝汤发汗解表之力逊于麻黄汤，但有调和营卫之功，为辛温解表之和剂；适用于外感风寒，营卫不和所致的恶风发热、汗出、头痛、鼻鸣干呕、苔白不渴、脉浮缓或浮弱之表虚证。故二者辨证要点应是有汗无汗。","k":"模拟试卷C卷"},{"t":1,"s":"桑菊饮的组成不含有","o":["杏仁","桔梗","薄荷","芦根","竹叶"],"a":"E","e":"桑菊饮由桑叶、菊花、杏仁、连翘、薄荷、苦桔梗、甘草、苇根组成。","k":"模拟试卷C卷"},{"t":1,"s":"九味羌活汤的组成含有","o":["白芷、川芎","白术、黄芩","黄连、防风","细辛、升麻","生地、麻黄"],"a":"A","e":"九味羌活汤由羌活、防风、细辛、苍术、白芷、川芎、黄芩、生地、甘草组成。","k":"模拟试卷C卷"},{"t":1,"s":"治疗里热实证之热厥、痉病或发狂者，宜选用的药物组合是","o":["生地、玄参、麦冬","石膏、知母、粳米、竹叶","大黄、芒硝、炙甘草","生地、木通、竹叶、甘草","大黄、芒硝、枳实、厚朴"],"a":"E","e":"大承气汤由大黄、枳实、厚朴、芒硝组成，具有峻下热结的作用，主治：①阳明腑实证。②热结旁流证。③里热实证之热厥、痉病或发狂等。","k":"模拟试卷C卷"},{"t":1,"s":"温脾汤中含有的药物是","o":["附子、干姜","当归、细辛","人参、玄参","生地、芒硝","大黄、枳实"],"a":"A","e":"温脾汤由附子、大黄、芒硝、当归、干姜、人参、甘草组成。","k":"模拟试卷C卷"},{"t":1,"s":"芫花在十枣汤中的作用是","o":["渗利膀胱水湿","祛皮里膜外之痰湿","行经络络脉间水湿","消胸胁伏饮痰癖","泻脏腑之水湿"],"a":"D","e":"十枣汤主治水饮壅盛之实证，治宜攻逐水饮，使水邪速下。方中甘遂善行经隧水湿，大戟善泄脏腑水湿，芫花善消胸胁伏饮痰癖。","k":"模拟试卷C卷"},{"t":1,"s":"四逆散与龙胆泻肝汤均含有的药物是","o":["栀子、芍药","柴胡、甘草","枳实、当归","干姜、芍药","生地、甘草"],"a":"B","e":"四逆散由柴胡、芍药、枳实、甘草组成，龙胆泻肝汤由龙胆草、栀子、黄芩、木通、泽泻、车前子、柴胡、甘草、当归、生地组成。二者共有药物为柴胡和甘草。","k":"模拟试卷C卷"},{"t":1,"s":"蒿芩清胆汤的组成不包括","o":["栀子","滑石","青黛","半夏","竹茹"],"a":"A","e":"蒿芩清胆汤由青蒿、黄芩、枳壳、竹茹、陈皮、半夏、茯苓、碧玉散（滑石、甘草、青黛）组成。","k":"模拟试卷C卷"},{"t":1,"s":"小柴胡汤中柴胡与黄芩的配伍作用是","o":["解表清里","和解少阳","疏肝泄热","理气疏肝","解表燥湿"],"a":"B","e":"小柴胡汤是和解少阳的代表方剂。方中柴胡苦平，入肝胆经，透泄少阳之邪，并能疏泄气机之郁滞，使少阳半表之邪得以疏散，为君药。黄芩苦寒，清泄少阳半里之热，为臣药。柴胡之升散，得黄芩之降泄，两者配伍，是和解少阳的基本结构。","k":"模拟试卷C卷"},{"t":1,"s":"《伤寒论》原著中，半夏泻心汤证的成因是","o":["麻黄汤证误下","桂枝汤证过汗","小柴胡汤证误下","小柴胡汤证误汗","大承气汤证应下失下"],"a":"C","e":"《伤寒论》原文中提到“伤寒五六日，呕而发热者，柴胡汤证具，而以他药下之，柴胡证仍在者，复与柴胡汤……若心下满而硬痛者，此为结胸也，大陷胸汤主之；但满而不痛者，此为痞，柴胡不中与之，宜半夏泻心汤。”此方所治之痞，原系小柴胡汤证误行泻下，损伤中阳，少阳邪热乘虚内陷，以致寒热错杂，而成心下痞。","k":"模拟试卷C卷"},{"t":1,"s":"清胃散的组成不包括","o":["当归","生地","丹皮","升麻","连翘"],"a":"E","e":"清胃散由升麻、黄连、当归、生地、丹皮组成。","k":"模拟试卷C卷"},{"t":1,"s":"芍药汤的功用是","o":["利湿化浊，清热解毒","清热解毒，凉血止痢","清热利湿，升清降浊","清热化湿，理气和中","清热燥湿，调气和血"],"a":"E","e":"芍药汤主治湿热痢疾，故其功用为清热燥湿、调气和血。","k":"模拟试卷C卷"},{"t":1,"s":"主治阳明气分热盛证的方剂是","o":["银翘散","清气化痰丸","白虎汤","黄连解毒汤","凉膈散"],"a":"C","e":"白虎汤由石膏、知母、粳米、甘草组成，具有清热生津的功用，因此主治阳明气分热盛证。","k":"模拟试卷C卷"},{"t":1,"s":"清胃散的主治证候不包括","o":["牙宣出血","牙龈红肿溃烂","汗出而喘","腮颊肿痛","口气热臭"],"a":"C","e":"清胃散主治证候为牙痛牵引头疼，面颊发热，其齿喜冷恶热，口气热臭，口干舌燥，舌红苔黄，脉滑数。","k":"模拟试卷C卷"},{"t":1,"s":"具有养阴透热功用的方剂是","o":["一贯煎","导赤散","大补阴丸","清胃散","青蒿鳖甲汤"],"a":"E","e":"该方由青蒿、鳖甲、知母、生地、丹皮组成，具有养阴透热之功。","k":"模拟试卷C卷"},{"t":1,"s":"归脾汤的组成包括","o":["香附","阿胶","川芎","白芍","木香"],"a":"E","e":"归脾汤的组成为白术、人参、黄芪、当归、甘草、白茯苓、远志、酸枣仁、木香、龙眼肉、生姜、大枣。","k":"模拟试卷C卷"},{"t":1,"s":"炙甘草汤中用量最大的药物是","o":["炙甘草","人参","桂枝","生地黄","阿胶"],"a":"D","e":"炙甘草汤重用生地黄滋阴养血为君。","k":"模拟试卷C卷"},{"t":1,"s":"六味地黄丸的组成不包括","o":["熟地","山药","吴茱萸","泽泻","茯苓"],"a":"C","e":"六味地黄丸的组成为山药、熟地黄、山茱萸、泽泻、茯苓、牡丹皮。","k":"模拟试卷C卷"},{"t":1,"s":"大补阴丸的功用是","o":["滋阴降火","滋阴补肾","滋阴疏肝","滋阴潜阳","滋阴息风"],"a":"A","e":"该方组成为熟地黄、盐知母、盐黄柏、醋龟甲、猪脊髓，主治阴虚火旺证，功用为滋阴降火。","k":"模拟试卷C卷"},{"t":1,"s":"肾气丸的组成不包括","o":["生地、茯苓","肉桂、知母","附子、桂枝","丹皮、山药","泽泻、山茱萸"],"a":"B","e":"肾气丸组成为干地黄、山药、山茱萸、泽泻、茯苓、牡丹皮、桂枝、附子。","k":"模拟试卷C卷"},{"t":1,"s":"生脉散与牡蛎散均具有的功用是","o":["益气生津","敛阴止汗","益气固表","滋阴养血","益气补血"],"a":"B","e":"生脉散具有益气生津、敛阴止汗的功用，牡蛎散具有敛阴止汗、益气固表的功用。","k":"模拟试卷C卷"},{"t":1,"s":"肾气丸所治病证不包括","o":["水肿","燥痰","脚气","消渴","转胞"],"a":"B","e":"肾气丸主治肾阳不足证。症见腰痛脚软，身半以下常有冷感，少腹拘急，小便不利，或小便反多，入夜尤甚，阳痿早泄，舌淡而胖，脉虚弱，尺部沉细，以及痰饮，水肿，消渴，脚气，转胞等。","k":"模拟试卷C卷"},{"t":1,"s":"以滋肾阴，补肾阳，开窍化痰为功用的方剂是","o":["左归丸","地黄饮子","右归丸","肾气丸","一贯煎"],"a":"B","e":"地黄饮子的组成为熟干地黄、巴戟天、山茱萸、石斛、肉苁蓉、附子、五味子、官桂、白茯苓、麦门冬、菖蒲、远志，主治证为下元虚衰，痰浊上泛之喑痱证。舌强不能言，足废不能用，口干不欲饮，足冷面赤，脉沉细弱。具有滋肾阴，补肾阳，开窍化痰的功用。","k":"模拟试卷C卷"},{"t":1,"s":"八珍汤的主治证是","o":["脾胃气虚证","营血虚滞证","气血两虚证","气虚发热证","血虚发热证"],"a":"C","e":"八珍汤由人参、茯苓、白术、甘草、熟地、当归、白芍、川芎组成。功可益气补血，主治证为气血两虚证。","k":"模拟试卷C卷"},{"t":1,"s":"治疗气虚发热的最佳选方是","o":["六味地黄丸","黄土汤","补中益气汤","归脾汤","炙甘草汤"],"a":"C","e":"补中益气汤的组成为黄芪、人参、白术、甘草、升麻、陈皮。功可补中益气、升阳举陷，主治为脾虚气陷证和气虚发热证。","k":"模拟试卷C卷"},{"t":1,"s":"心脾气血两虚之心悸怔忡，失眠健忘，气短乏力者，当以何方治之","o":["酸枣仁汤","炙甘草汤","健脾丸","四物汤","归脾汤"],"a":"E","e":"白术、人参、黄芪、当归、甘草、白茯苓、远志、酸枣仁、木香、龙眼肉、生姜、大枣，可益气补血、健脾养心。主治心脾气血两虚证。","k":"模拟试卷C卷"},{"t":1,"s":"下列方剂中，遣药配伍寓“金水相生”之意的是","o":["一贯煎","麦门冬汤","百合固金汤","大补阴丸","清燥救肺汤"],"a":"C","e":"方中百合甘苦微寒，滋阴清热，润肺止咳；生地、熟地并用，滋肾壮水，其中生地兼能凉血止血。三药相伍，为润肺滋肾，金水并补的常用组合。","k":"模拟试卷C卷"},{"t":1,"s":"固涩剂组方中，最常配伍使用的一类药物是","o":["清热药","温里药","补益药","利湿药","泻下药"],"a":"C","e":"固涩剂为正气内虚，气、血、精、津液耗散或滑脱而设。凡自汗盗汗、久咳不止、泻痢不止、遗精滑泄、小便失禁、血崩带下等，皆为其适应范围。固涩剂为正虚无邪者而设，根据气、血、精、津耗伤的程度不同，配伍相应的补益药，以标本兼顾。","k":"模拟试卷C卷"},{"t":1,"s":"牡蛎散的组成包括","o":["黄芩","黄芪","麻黄","生地","白术"],"a":"B","e":"该方组成为黄芪、麻黄根、牡蛎。","k":"模拟试卷C卷"},{"t":1,"s":"固冲汤的组成包括","o":["茜草、吴茱萸","棕榈炭、白芍","桑螵蛸、白术","黄芩、牡蛎","地龙、五倍子"],"a":"B","e":"该方组成为白术、生黄芪、龙骨、牡蛎、萸肉、生杭芍、海螵蛸、茜草、棕榈炭、五倍子。","k":"模拟试卷C卷"},{"t":1,"s":"越鞠丸中用以燥湿运脾，主治“湿郁”的药物是","o":["白术","砂仁","木香","藿香","苍术"],"a":"E","e":"香附疏肝解郁，以治气郁。川芎辛香，为血中气药，既可活血祛瘀，以治血郁，又可助香附行气解郁之功。栀子清热泻火，以治火郁。苍术燥湿运脾，以治湿郁。神曲消食导滞，以治食郁。","k":"模拟试卷C卷"},{"t":1,"s":"定喘汤的组成不包括","o":["白果","麻黄","桑叶","半夏","杏仁"],"a":"C","e":"该方组成为白果、麻黄、苏子、甘草、款冬花、杏仁、桑白皮、黄芩、半夏。","k":"模拟试卷C卷"},{"t":1,"s":"治疗上实下虚之喘咳证，宜选用的方剂是","o":["清气化痰丸","苏子降气汤","杏苏散","清燥救肺汤","旋覆代赭汤"],"a":"B","e":"该方组成为紫苏子、半夏、当归、甘草、前胡、厚朴、肉桂，功可降气平喘、祛痰止咳，主治证为上实下虚喘咳证。","k":"模拟试卷C卷"},{"t":1,"s":"温经汤的药物组成中不包括","o":["川芎、当归","山茱萸、肉桂","人参、甘草","半夏、生姜","阿胶、芍药"],"a":"B","e":"该方组成为吴茱萸、麦冬、当归、芍药、川芎、人参、桂枝、阿胶、牡丹皮、生姜、甘草、半夏。","k":"模拟试卷C卷"},{"t":1,"s":"黄土汤的药物组成不包括","o":["黄芪","阿胶","甘草","附子","白术"],"a":"A","e":"黄土汤由甘草、干地黄、白术、附子、阿胶、黄芩、灶中黄土组成。","k":"模拟试卷C卷"},{"t":1,"s":"组方配伍体现肝肺同治的方剂是","o":["百合固金汤","固冲汤","逍遥散","咳血方","一贯煎"],"a":"E","e":"一贯煎重用生地黄为君药，滋养肝阴，涵养肝木。臣以枸杞子滋养肝肾；当归补血养肝，且补中有行；沙参、麦冬滋养肺胃之阴，养肺阴以清金制木，养胃阴以培土荣木。","k":"模拟试卷C卷"},{"t":1,"s":"镇肝熄风汤中重用的药物是","o":["龟甲、白芍","生龙骨、生牡蛎","怀牛膝、代赭石","天冬、玄参","生麦芽、茵陈"],"a":"C","e":"镇肝熄风汤主治之类中风，是由肝肾阴虚，肝阳偏亢，肝风内动，气血逆乱，并走于上所致。牛膝善于引血下行，并有补益肝肾之效，故重用为君，代赭石质重沉降，镇肝降逆，合牛膝以引气血下行，急治其标。","k":"模拟试卷C卷"},{"t":1,"s":"天麻钩藤饮的组成不包括","o":["石决明、栀子","杜仲、桑寄生","黄芪、生地","益母草、夜交藤","川牛膝、益母草"],"a":"C","e":"该方组成为天麻、钩藤、石决明、山栀、黄芩、川牛膝、杜仲、益母草、桑寄生、夜交藤、朱茯神。","k":"模拟试卷C卷"},{"t":1,"s":"杏苏散的组成不包括","o":["半夏、茯苓","苏子、白前","桔梗、枳壳","大枣、生姜","陈皮、甘草"],"a":"B","e":"该方组成为苏叶、半夏、茯苓、前胡、杏仁、苦桔梗、枳壳、橘皮、甘草、生姜、大枣。","k":"模拟试卷C卷"},{"t":1,"s":"清燥救肺汤的组成不包括","o":["石膏、甘草","胡麻仁、阿胶","麦门冬、杏仁","枇杷叶、人参","桑白皮、菊花"],"a":"E","e":"该方组成为桑叶、石膏、甘草、胡麻仁、真阿胶、枇杷叶、人参、麦门冬、杏仁。","k":"模拟试卷C卷"},{"t":1,"s":"平胃散的功用是","o":["燥湿运脾，益气和中","渗湿健脾，和胃止呕","解表化湿，理气和中","燥湿运脾，行气和胃","益气解表，化湿和胃"],"a":"D","e":"该方组成为苍术、厚朴、陈橘皮、甘草，具有燥湿运脾，行气和胃之功，主治湿滞脾胃证。","k":"模拟试卷C卷"},{"t":1,"s":"实脾散的组成不包括","o":["厚朴、木香","香附、苍术","生姜、大枣","槟榔、草果","木瓜、甘草"],"a":"B","e":"该方组成为厚朴、白术、木瓜、木香、草果仁、大腹子、附子、白茯苓、干姜、甘草。","k":"模拟试卷C卷"},{"t":1,"s":"藿香正气散的功用是","o":["燥湿运脾，益气和中","行气化湿，和胃止呕","理气健脾，化湿和胃","解表化湿，理气和中","疏肝和胃，燥湿运脾"],"a":"D","e":"藿香正气散主治外感风寒，内伤湿滞证，功可解表化湿、理气和中。","k":"模拟试卷C卷"},{"t":1,"s":"清气化痰丸的功用是","o":["清热化痰，宽胸散结","清热化痰，理气止咳","荡涤实热，攻逐顽痰","理气化痰，和胃利胆","和解少阳，清化痰热"],"a":"B","e":"清气化痰丸主治痰热咳嗽，功可清热化痰、理气止咳。","k":"模拟试卷C卷"},{"t":1,"s":"治疗湿痰证的首选方剂是","o":["平胃散","二陈汤","桑菊饮","香薷散","止嗽散"],"a":"B","e":"二陈汤配伍特点是结构严谨，散收相合，标本兼顾，燥湿理气祛已生之痰，健脾渗湿杜生痰之源。故而为燥湿化痰的基础方。","k":"模拟试卷C卷"},{"t":1,"s":"温胆汤的组成中含有","o":["半夏、枳实、竹茹、茯苓","陈皮、甘草、苍术、乌梅","半夏、厚朴、苏叶、白术","半夏、陈皮、生姜、细辛","厚朴、陈皮、苍术、甘草"],"a":"A","e":"该方组成为半夏、竹茹、枳实、陈皮、甘草、茯苓。","k":"模拟试卷C卷"},{"t":1,"s":"阳和汤中温化寒痰，通络散结，可达皮里膜外药物的是","o":["肉桂","麻黄","白芥子","白芷","炮姜炭"],"a":"C","e":"白芥子可达皮里膜外，在阳和汤中的作用是温化寒痰、通络散结。","k":"模拟试卷C卷"},{"t":1,"s":"乌梅丸的组成不包括","o":["附子、干姜","人参、当归","黄连、黄柏","细辛、蜀椒","肉桂、生姜"],"a":"E","e":"乌梅丸由乌梅、细辛、干姜、当归、附子、桂枝、黄柏、黄连、人参、蜀椒组成。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，6岁。发热，咳嗽3天。现发热，体温38.7℃，汗出，咳嗽，气喘鼻煽，舌红，苔薄黄，脉浮数。治宜选用的方剂是","o":["清燥救肺汤","止嗽散","麻黄杏仁甘草石膏汤","桑菊饮","银翘散"],"a":"E","e":"“发热，咳嗽，汗出，咳嗽，气喘鼻煽，舌红，苔薄黄，脉浮数”为温病初起之见症，应辛凉透表、清热解毒，故而选用银翘散。","k":"模拟试卷C卷"},{"t":1,"s":"患者，女，70岁。平素体弱易于感冒。现症见憎寒壮热，头项强痛，肢体酸楚疼痛，无汗，鼻塞声重，咳嗽吐痰色白，胸膈痞满，舌苔白腻，脉浮，重按无力。治宜选用的方剂是","o":["九味羌活汤","独活寄生汤","小青龙汤","败毒散","川芎茶调散"],"a":"D","e":"“憎寒壮热，头项强痛，肢体酸楚疼痛，无汗，鼻塞声重，咳嗽吐痰色白，胸膈痞满，舌苔白腻，脉浮，重按无力”为气虚外感风寒湿表证之见症，治宜散寒祛湿、益气解表，故而选用败毒散。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，21岁。近日来口舌生疮，心烦，口渴，尿黄，尿道灼热感，舌嫩红，舌苔薄黄，脉数。辨证是","o":["阴虚火旺证","阳明胃热证","脾胃湿热证","心经火热证","下焦湿热证"],"a":"D","e":"“口舌生疮，心烦，口渴，尿黄，尿道灼热感，舌嫩红，舌苔薄黄，脉数”为心经火热证之见症。","k":"模拟试卷C卷"},{"t":1,"s":"患者，女，26岁。症见两胁灼痛，口苦，目赤，阴痒，小便黄少，舌红苔黄腻，脉弦数。治宜选用的方剂是","o":["导赤散","芍药汤","八正散","龙胆泻肝汤","青蒿鳖甲汤"],"a":"D","e":"“两胁灼痛，口苦，目赤，阴痒，小便黄少，舌红苔黄腻，脉弦数”为肝胆实火上炎证与肝经湿热下注证之见症。应用龙胆泻肝汤治疗。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，45岁。症见脘腹疼痛，喜温欲按，呕吐便溏，脘痞食少，畏寒肢冷，口淡不渴，舌淡苔白润，脉沉迟。治宜选用的方剂是","o":["理中丸","温脾汤","逍遥散","炙甘草汤","阳和汤"],"a":"A","e":"“脘腹疼痛，喜温欲按，呕吐便溏，脘痞食少，畏寒肢冷，口淡不渴，舌淡苔白润，脉沉迟”为脾胃虚寒之见症。应用理中丸治疗。","k":"模拟试卷C卷"},{"t":1,"s":"患者，女，50岁。因长期居住寒湿之地，半年来经常手足厥冷，双膝疼痛、麻木，屈伸不利，舌淡苔白，脉沉细。治宜选用的药物除桂枝、细辛、当归、大枣、通草，还可酌加","o":["麦冬、天冬","生地、赤芍","秦艽、黄连","白芍、炙甘草","青蒿、白薇"],"a":"D","e":"“手足厥冷，双膝疼痛、麻木，屈伸不利，舌淡苔白，脉沉细”为血虚寒厥证之见症。应用当归四逆汤治疗，组成为当归、桂枝、芍药、细辛、通草、甘草、大枣。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，34岁。遗精半年，腰膝酸痛，头晕耳鸣，骨蒸潮热，虚烦盗汗，口燥咽干，舌红少苔，脉细数。治疗应选用六味地黄丸加","o":["枸杞子、阿胶","知母、黄柏","煅牡蛎、麻黄","百合、五味子","黄连、栀子"],"a":"B","e":"依据题干分析，患者虚火表现明显者，故而选择加知母、黄柏等以加强清热降火之功。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，59岁。近3月来常感左侧胸部刺痛，反复发作，时有头痛，夜寐多梦，两目黯黑，唇黯，舌质紫暗有瘀点，脉沉涩。治宜选用的方剂是","o":["复元活血汤","炙甘草汤","桃核承气汤","四物汤","血府逐瘀汤"],"a":"E","e":"“左侧胸部刺痛，反复发作……舌质紫暗有瘀点，脉沉涩”为胸中血瘀证之见症。应用血府逐瘀汤治疗。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，38岁。症见恶寒无汗，头微痛，咳嗽痰稀，鼻塞咽干，苔白，脉弦。此病证的治法是","o":["清燥润肺，利咽止咳","清热润燥，止咳化痰","轻宣燥热，宣肺止咳","轻宣凉燥，理肺化痰","清燥润肺，益气养阴"],"a":"D","e":"“恶寒无汗，头微痛，咳嗽痰稀，鼻塞咽干，苔白，脉弦”为外感凉燥证之见症。治法应为清宣凉燥、理肺化痰。","k":"模拟试卷C卷"},{"t":1,"s":"患者，女，29岁。症见带下色白，清稀无臭，面色㿠白，倦怠便溏，舌淡苔白，脉缓。治宜选用的方剂是","o":["龙胆泻肝汤","完带汤","理中丸","固冲汤","四君子汤"],"a":"B","e":"“带下色白，清稀无臭，面色㿠白，倦怠便溏，舌淡苔白，脉缓”为脾虚肝郁，湿浊带下证之见症。应用完带汤治疗。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，48岁。症见一身面目俱黄，黄色鲜明，腹微满，口渴，小便不利，舌苔黄腻，脉沉数。治宜选用的方剂是","o":["三仁汤","茵陈蒿汤","五苓散","蒿芩清胆汤","导赤散"],"a":"B","e":"“一身面目俱黄，黄色鲜明，腹微满，口渴，小便不利，舌苔黄腻，脉沉数”为湿热黄疸之见症。应用茵陈蒿汤治疗。","k":"模拟试卷C卷"},{"t":1,"s":"患者，男，29岁。5天前臀部起一疖肿，有轻微痒感，逐渐加重。刻诊：发热恶寒，体温38.5℃，口渴，便干溲赤，舌红苔黄，脉弦数。左侧臀部红肿范围8cm×5cm，灼热，有压痛，拒按，触之稍软，无波动感。治宜选用的方剂是","o":["阳和汤","复元活血汤","芍药汤","败毒散","仙方活命饮"],"a":"E","e":"“疖肿，有轻微痒感，逐渐加重。发热恶寒，口渴，便干溲赤，舌红苔黄，脉弦数，灼热，有压痛，拒按，触之稍软，无波动感”为阳证痈疡肿毒初起之见症。应用仙方活命饮治疗。","k":"模拟试卷C卷"},{"t":1,"s":"（95~97题共用备选答案）旋覆代赭汤的功用是","o":["行气消痞，健脾和胃","行气散结，降逆化痰","降逆化痰，益气和胃","寒热平调，散结消痞","行气化痰，散寒止痛"],"a":"C","e":"旋覆代赭汤的组成为旋覆花、半夏、甘草、人参、代赭石、生姜、大枣。功用为降逆化痰、益气和胃。","k":"模拟试卷C卷"},{"t":1,"s":"（95~97题共用备选答案）半夏泻心汤的功用是","o":["行气消痞，健脾和胃","行气散结，降逆化痰","降逆化痰，益气和胃","寒热平调，散结消痞","行气化痰，散寒止痛"],"a":"D","e":"半夏泻心汤的组成为半夏、黄芩、黄连、人参、大枣、甘草、干姜，功用为寒热平调、消痞散结。","k":"模拟试卷C卷"},{"t":1,"s":"（98~100题共用备选答案）药物组成含有木香、槟榔的方剂是","o":["仙方活命饮","四逆散","天王补心丹","芍药汤","归脾汤"],"a":"D","e":"根据98题解析，含有木香和槟榔的方剂为芍药汤。","k":"模拟试卷C卷"}]};
+var Q = BANK.questions, N = Q.length;
+var LTR = 'ABCDEFGH';
+var SK = 'xm3:' + BANK.slug;
+
+/* ---------------- 存储 ---------------- */
+function loadDB(){
+  var d = null;
+  try{ d = JSON.parse(localStorage.getItem(SK) || 'null'); }catch(e){}
+  if(!d || typeof d !== 'object') d = {};
+  d.hist = (d.hist && typeof d.hist === 'object') ? d.hist : {};
+  d.wrong = Array.isArray(d.wrong) ? d.wrong : [];
+  d.fav = Array.isArray(d.fav) ? d.fav : [];
+  d.pos = d.pos | 0;
+  if(typeof d.auto !== 'boolean') d.auto = false;
+  return d;
+}
+var DB = loadDB(), saveT = 0;
+function save(now){
+  clearTimeout(saveT);
+  var w = function(){ try{ localStorage.setItem(SK, JSON.stringify(DB)); }catch(e){} };
+  if(now) w(); else saveT = setTimeout(w, 240);
+}
+
+/* ---------------- 状态 ---------------- */
+var S = {
+  mode:'seq', list:[], pos:0,
+  ans:{}, judged:{}, res:{},
+  exam:null, review:false, chapter:null
+};
+var tick = null;
+
+/* ---------------- 工具 ---------------- */
+function $(id){ return document.getElementById(id); }
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function esc(s){ return s; }
+function toast(msg){
+  var t = $('toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove('on'); }, 1700);
+}
+function show(id){
+  closeSheet();
+  var qm = document.getElementById('qrmask'); if(qm) qm.classList.remove('on');
+  var ss = document.querySelectorAll('.screen');
+  for(var i=0;i<ss.length;i++) ss[i].classList.remove('on');
+  $(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function fmtTime(ms){
+  if(ms<0) ms=0;
+  var s = Math.floor(ms/1000), m = Math.floor(s/60), h = Math.floor(m/60);
+  if(h>0) return h + ':' + String(m%60).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+  return String(m).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+}
+function sortAns(s){ return String(s||'').split('').sort().join(''); }
+function isWrongBy(gi){
+  return S.res[gi] === 0;
+}
+
+/* ---------------- 首页 ---------------- */
+function renderHome(){
+  var done = 0, ok = 0, k;
+  for(k in DB.hist){ if(DB.hist.hasOwnProperty(k)){ done++; if(DB.hist[k]===1) ok++; } }
+  $('stDone').textContent = done;
+  $('stRate').textContent = done ? Math.round(ok/done*100) + '%' : '--';
+  $('stWrong').textContent = DB.wrong.length;
+  $('stBar').style.width = (done/N*100).toFixed(1) + '%';
+
+  var pos = Math.min(Math.max(DB.pos|0, 0), N-1);
+  var answeredThis = DB.hist[pos] !== undefined;
+  if(done > 0){
+    $('ctaMain').textContent = '继续练习';
+    $('ctaSub').textContent = '第 ' + (pos+1) + ' 题 · 已练 ' + done + '/' + N;
+  }else{
+    $('ctaMain').textContent = '开始练习';
+    $('ctaSub').textContent = '共 ' + N + ' 题，从头开始';
+  }
+  $('autoNext').checked = !!DB.auto;
+
+  // 模式
+  var modes = [
+    {m:'seq',   t:'顺序练习', d:'接着上次继续', ic:'<path d="M5 6h14M5 12h14M5 18h9"/>'},
+    {m:'rand',  t:'随机练习', d:'打乱顺序检验', ic:'<path d="M4 7h3l4 10h3M4 17h3l2.2-5.5M17 7h3M17 17h3M14 7h3M14 17h3"/>'},
+    {m:'exam',  t:'模拟考试', d:'100 题 · 90 分钟', ic:'<path d="M12 7v5l3 2M12 3a9 9 0 100 18 9 9 0 000-18z"/>'},
+    {m:'wrong', t:'错题本',   d:'答对自动移出', ic:'<path d="M12 8v5M12 16.5v.01M10.3 3.9L2.6 17a2 2 0 001.7 3h15.4a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/>'},
+    {m:'fav',   t:'收藏夹',   d:'标记重点题', ic:'<path d="M6 4h12v17l-6-4-6 4z"/>'},
+    {m:'rand',  t:'快速 20 题', d:'碎片时间刷题', ic:'<path d="M4 12h4l2-6 4 12 2-6h4"/>', n:20}
+  ];
+  var box = $('modes'); box.innerHTML = '';
+  modes.forEach(function(o){
+    var b = document.createElement('button');
+    b.className = 'mode';
+    b.innerHTML = '<span class="ic"><svg viewBox="0 0 24 24">' + o.ic + '</svg></span>' +
+                  '<span style="min-width:0"><b></b><span></span></span>';
+    b.querySelector('b').textContent = o.t;
+    b.querySelector('.ic + span > span').textContent = o.d;
+    b.addEventListener('click', function(){
+      if(o.n) startSession('rand', {limit:o.n});
+      else startSession(o.m);
+    });
+    box.appendChild(b);
+  });
+
+  // 章节
+  var kp = {}, order = [];
+  Q.forEach(function(q){ if(!kp[q.k]){ kp[q.k]=0; order.push(q.k); } kp[q.k]++; });
+  $('kpHint').textContent = order.length + ' 个章节';
+  var cb = $('chips'); cb.innerHTML = '';
+  order.forEach(function(name){
+    var b = document.createElement('button');
+    b.className = 'chip' + (name.indexOf('模拟试卷')>=0 ? '' : ' hot');
+    var t = document.createElement('span'); t.textContent = name;
+    var c = document.createElement('b'); c.textContent = kp[name];
+    b.appendChild(t); b.appendChild(c);
+    b.addEventListener('click', function(){ startSession('chapter', {kp:name}); });
+    cb.appendChild(b);
+  });
+}
+
+/* ---------------- 会话 ---------------- */
+function startSession(mode, opt){
+  opt = opt || {};
+  var all = Q.map(function(_,i){ return i; });
+  var list;
+
+  if(mode === 'seq'){
+    list = all.slice();
+    S.pos = Math.min(Math.max(DB.pos|0, 0), N-1);
+  }else if(mode === 'rand'){
+    list = shuffle(all.slice());
+    if(opt.limit) list = list.slice(0, opt.limit);
+    S.pos = 0;
+  }else if(mode === 'chapter'){
+    list = all.filter(function(i){ return Q[i].k === opt.kp; });
+    S.pos = 0;
+  }else if(mode === 'wrong'){
+    list = DB.wrong.filter(function(i){ return i>=0 && i<N; }).slice();
+    if(!list.length){ toast('错题本是空的，先去做几题'); return; }
+    S.pos = 0;
+  }else if(mode === 'fav'){
+    list = DB.fav.filter(function(i){ return i>=0 && i<N; }).slice();
+    if(!list.length){ toast('还没有收藏题目'); return; }
+    S.pos = 0;
+  }else if(mode === 'exam'){
+    var sg = all.filter(function(i){ return Q[i].t === 1; });
+    var mt = all.filter(function(i){ return Q[i].t === 2; });
+    var pick = shuffle(sg.slice()).slice(0, 60).concat(shuffle(mt.slice()).slice(0, 40));
+    list = shuffle(pick);
+    S.pos = 0;
+    S.exam = { start: Date.now(), limit: 90*60*1000 };
+  }
+
+  S.mode = mode;
+  S.chapter = opt.kp || null;
+  S.list = list;
+  S.ans = {}; S.judged = {}; S.res = {};
+  S.review = false;
+  if(mode !== 'exam') S.exam = null;
+  if(mode === 'exam') S.exam.start = Date.now();
+
+  show('quiz');
+  renderQ();
+  startTimer();
+}
+
+function startTimer(){
+  stopTimer();
+  var t = $('timer');
+  if(S.exam){
+    t.style.display = '';
+    var upd = function(){
+      var left = S.exam.limit - (Date.now() - S.exam.start);
+      t.textContent = fmtTime(left);
+      t.classList.toggle('warn', left < 5*60*1000);
+      if(left <= 0){ stopTimer(); submitExam(); }
+    };
+    upd();
+    tick = setInterval(upd, 1000);
+  }else{
+    t.style.display = 'none';
+  }
+}
+function stopTimer(){ if(tick){ clearInterval(tick); tick = null; } }
+
+/* ---------------- 渲染题目 ---------------- */
+function curQ(){ return Q[S.list[S.pos]]; }
+function curIdx(){ return S.list[S.pos]; }
+
+function renderQ(){
+  var gi = curIdx(), q = curQ();
+  var card = $('qcard');
+  card.classList.remove('cin');
+  void card.offsetWidth;
+  card.classList.add('cin');
+
+  $('qtag').textContent = q.t === 1 ? '单选题' : '多选题';
+  $('qtag').className = 'tag' + (q.t === 2 ? ' multi' : '');
+  $('qkp').textContent = q.k || '综合';
+  $('stem').textContent = q.s;
+
+  // 选项
+  var box = $('opts'); box.innerHTML = '';
+  var picked = (S.ans[gi] || '');
+  var judged = !!S.judged[gi];
+  var right = q.a;
+
+  q.o.forEach(function(text, i){
+    var L = LTR[i];
+    var b = document.createElement('button');
+    b.className = 'opt';
+    b.dataset.l = L;
+    var ob = document.createElement('span'); ob.className = 'ob'; ob.textContent = L;
+    var ot = document.createElement('span'); ot.className = 'ot'; ot.textContent = text;
+    var mk = document.createElement('span'); mk.className = 'mk'; mk.textContent = '';
+    b.appendChild(ob); b.appendChild(ot); b.appendChild(mk);
+
+    if(judged){
+      b.classList.add('lock');
+      var isR = right.indexOf(L) >= 0;
+      var isP = picked.indexOf(L) >= 0;
+      if(isR){ b.classList.add('right'); mk.textContent = '✓'; }
+      else if(isP){ b.classList.add('bad'); mk.textContent = '✗'; }
+      else b.classList.add('dim');
+      if(S.review && isP && !isR) b.classList.add('bad');
+    }else{
+      if(picked.indexOf(L) >= 0) b.classList.add('sel');
+      b.addEventListener('click', function(){ pick(L); });
+    }
+    box.appendChild(b);
+  });
+
+  // 解析
+  var exp = $('exp');
+  if(judged){
+    var ok = S.res[gi] === 1;
+    $('ansTxt').textContent = q.a.split('').join(' ');
+    var v = $('verd');
+    v.textContent = ok ? '回答正确' : '回答错误';
+    v.className = 'verd ' + (ok ? 'ok' : 'no');
+    $('expTxt').textContent = q.e || '本题暂无解析。';
+    $('expKp').textContent = '考查范围：' + (q.k || '综合') + '　·　本题为' + (q.t===1?'单选':'多选') + '题';
+    exp.classList.add('on');
+  }else{
+    exp.classList.remove('on');
+  }
+
+  renderFoot(judged, picked);
+  renderProg();
+  // 记录顺序模式位置
+  if(S.mode === 'seq' && !S.review){ DB.pos = gi; save(); }
+}
+
+function renderProg(){
+  var answered = 0;
+  S.list.forEach(function(gi){ if(S.judged[gi]) answered++; });
+  $('progTxt').textContent = (S.pos+1) + ' / ' + S.list.length;
+  $('progSub').textContent = S.exam ? ('已答 ' + Object.keys(S.ans).length) : ('已答 ' + answered);
+  var pct = S.exam ? (Object.keys(S.ans).length / S.list.length * 100)
+                   : (answered / S.list.length * 100);
+  $('progBar').style.width = pct + '%';
+}
+
+function renderFoot(judged, picked){
+  var box = $('qfoot'); box.innerHTML = '';
+  var q = curQ();
+  var gi = curIdx();
+
+  function btn(cls, label, fn, dis){
+    var b = document.createElement('button');
+    b.className = 'fbtn ' + cls;
+    b.textContent = label;
+    if(dis) b.disabled = true;
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  if(S.review){
+    var b1 = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var b2 = btn('pri', S.pos === S.list.length-1 ? '完成回顾' : '下一题', function(){
+      if(S.pos === S.list.length-1) exitToHome(); else go(1);
+    });
+    box.appendChild(b1); box.appendChild(b2);
+    return;
+  }
+
+  if(S.exam){
+    var e1 = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var e2 = btn('pri', S.pos === S.list.length-1 ? '交卷' : '下一题', function(){
+      if(S.pos === S.list.length-1) submitExam(); else go(1);
+    });
+    box.appendChild(e1); box.appendChild(e2);
+    return;
+  }
+
+  if(judged){
+    var prev = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var last = S.pos === S.list.length-1;
+    var next = btn('pri', last ? '查看结果' : '下一题', function(){
+      if(last) renderResult('practice'); else go(1);
+    });
+    box.appendChild(prev); box.appendChild(next);
+    return;
+  }
+
+  if(q.t === 2){
+    var pv = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var cf = btn('pri', '确认作答', function(){ doJudge(); }, !picked);
+    box.appendChild(pv); box.appendChild(cf);
+  }else{
+    var pv2 = btn('gh', '上一题', function(){ go(-1); }, S.pos === 0);
+    var tip = btn('pri', '请选择答案', function(){}, true);
+    box.appendChild(pv2); box.appendChild(tip);
+  }
+}
+
+function pick(L){
+  var gi = curIdx(), q = curQ();
+  if(S.judged[gi] || S.review) return;
+
+  if(q.t === 1){
+    if(S.exam){
+      S.ans[gi] = (S.ans[gi] === L) ? '' : L;
+      repaintSel();
+    }else{
+      S.ans[gi] = L;
+      doJudge();
+    }
+  }else{
+    var cur = (S.ans[gi] || '').split('').filter(Boolean);
+    var p = cur.indexOf(L);
+    if(p >= 0) cur.splice(p, 1); else cur.push(L);
+    S.ans[gi] = sortAns(cur.join(''));
+    repaintSel();
+  }
+}
+
+function repaintSel(){
+  var picked = S.ans[curIdx()] || '';
+  var opts = $('opts').children;
+  for(var i=0;i<opts.length;i++){
+    var L = opts[i].dataset.l;
+    opts[i].classList.toggle('sel', picked.indexOf(L) >= 0);
+  }
+  var q = curQ();
+  if(q.t === 2 && !S.exam && !S.judged[curIdx()]){
+    var f = $('qfoot').querySelector('.fbtn.pri');
+    if(f){ f.disabled = !picked; f.textContent = picked ? '确认作答' : '请选择答案'; }
+  }
+  renderProg();
+}
+
+function doJudge(){
+  var gi = curIdx(), q = curQ();
+  var picked = sortAns(S.ans[gi] || '');
+  if(!picked) return;
+  var ok = (picked === sortAns(q.a));
+  S.judged[gi] = true;
+  S.res[gi] = ok ? 1 : 0;
+
+  DB.hist[gi] = ok ? 1 : 0;
+  var w = DB.wrong.indexOf(gi);
+  if(ok){ if(w >= 0) DB.wrong.splice(w, 1); }
+  else { if(w < 0) DB.wrong.push(gi); }
+  save();
+
+  renderQ();   // 重绘（保留选中态）
+  if(ok && DB.auto && S.pos < S.list.length-1){
+    setTimeout(function(){ go(1); }, 720);
+  }
+}
+
+function go(d){
+  var n = S.pos + d;
+  if(n < 0 || n >= S.list.length) return;
+  S.pos = n;
+  renderQ();
+  if(S.mode === 'seq' && !S.review){ DB.pos = curIdx(); save(); }
+}
+
+function exitToHome(){
+  stopTimer();
+  renderHome();
+  show('home');
+}
+
+/* ---------------- 交卷 ---------------- */
+function submitExam(){
+  if(!S.exam) return;
+  var unanswered = 0;
+  S.list.forEach(function(gi){
+    var picked = sortAns(S.ans[gi] || '');
+    if(!picked) unanswered++;
+    var ok = picked && picked === sortAns(Q[gi].a);
+    S.judged[gi] = true;
+    S.res[gi] = ok ? 1 : 0;
+    DB.hist[gi] = ok ? 1 : 0;
+    var w = DB.wrong.indexOf(gi);
+    if(ok){ if(w >= 0) DB.wrong.splice(w, 1); }
+    else { if(w < 0) DB.wrong.push(gi); }
+  });
+  DB.examDone = (DB.examDone|0) + 1;
+  save(true);
+  stopTimer();
+  renderResult('exam', unanswered);
+}
+
+/* ---------------- 结果 ---------------- */
+function renderResult(kind, unanswered){
+  var total = S.list.length;
+  var ok = 0, no = 0;
+  S.list.forEach(function(gi){ if(S.res[gi] === 1) ok++; else if(S.res[gi] === 0) no++; });
+  var rate = total ? Math.round(ok/total*100) : 0;
+
+  $('rTtl').textContent = kind === 'exam' ? '模拟考试 · 成绩单' : '本次练习 · 完成';
+  $('rScore').innerHTML = '0<i>%</i>';
+  $('rOk').textContent = ok;
+  $('rNo').textContent = no;
+  $('rTotal').textContent = total;
+  var used = S.exam ? (Date.now() - S.exam.start) : 0;
+  $('rTime').textContent = S.exam ? fmtTime(used) : '--';
+
+  // 环形
+  var C = 2 * Math.PI * 80;
+  var ring = $('ring');
+  ring.style.strokeDasharray = C;
+  ring.style.strokeDashoffset = C;
+  setTimeout(function(){ ring.style.strokeDashoffset = C * (1 - rate/100); }, 80);
+
+  // 数字滚动
+  var s0 = null;
+  function step(ts){
+    if(!s0) s0 = ts;
+    var p = Math.min((ts - s0)/900, 1);
+    var e = 1 - Math.pow(1-p, 3);
+    $('rScore').innerHTML = Math.round(rate*e) + '<i>%</i>';
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+
+  // 章节掌握
+  var m = {}, order = [];
+  S.list.forEach(function(gi){
+    if(S.res[gi] === undefined) return;
+    var k = Q[gi].k || '综合';
+    if(!m[k]){ m[k] = {ok:0, n:0}; order.push(k); }
+    m[k].n++; if(S.res[gi] === 1) m[k].ok++;
+  });
+  var bars = $('kpBars'); bars.innerHTML = '';
+  order.sort(function(a,b){ return (m[a].ok/m[a].n) - (m[b].ok/m[b].n); });
+  var shown = order.slice(0, 10);
+  shown.forEach(function(k){
+    var d = m[k], pc = Math.round(d.ok/d.n*100);
+    var row = document.createElement('div'); row.className = 'bar';
+    row.innerHTML = '<span class="n"></span><span class="t"><i></i></span><span class="v"></span>';
+    row.querySelector('.n').textContent = k;
+    row.querySelector('.v').textContent = d.ok + '/' + d.n + ' ' + pc + '%';
+    bars.appendChild(row);
+    setTimeout(function(){ row.querySelector('.t i').style.width = pc + '%'; }, 120 + Math.random()*160);
+  });
+  if(!order.length){
+    bars.innerHTML = '<div class="empty">本组题目没有可统计的答题记录</div>';
+  }else if(order.length > shown.length){
+    var more = document.createElement('div');
+    more.className = 'empty';
+    more.style.padding = '10px 0 0';
+    more.style.fontSize = '11.5px';
+    more.textContent = '另有 ' + (order.length - shown.length) + ' 个章节未显示（题量较少）';
+    bars.appendChild(more);
+  }
+
+  // 按钮
+  var acts = $('rActs'); acts.innerHTML = '';
+  function act(cls, label, fn){
+    var b = document.createElement('button');
+    b.className = 'fbtn ' + cls; b.textContent = label;
+    b.addEventListener('click', fn); acts.appendChild(b);
+  }
+  var wrongN = S.list.filter(function(gi){ return S.res[gi] === 0; }).length;
+
+  if(wrongN){
+    act('pri', '重做错题（' + wrongN + ' 题）', function(){
+      var list = S.list.filter(function(gi){ return S.res[gi] === 0; });
+      S.list = list; S.pos = 0; S.review = false; S.exam = null;
+      S.ans = {}; S.judged = {}; S.res = {};
+      S.mode = 'wrong'; stopTimer();
+      show('quiz'); renderQ();
+    });
+  }
+  act('gh', '查看全部解析', function(){
+    S.review = true; S.pos = 0; S.exam = null; stopTimer();
+    show('quiz'); renderQ();
+  });
+  act('gh', '返回首页', function(){ stopTimer(); S.exam = null; renderHome(); show('home'); });
+
+  show('result');
+}
+
+/* ---------------- 答题卡 ---------------- */
+function openSheet(){
+  var sb = $('sheetSubmit');
+  sb.style.display = S.exam ? '' : 'none';
+  var g = $('grid'); g.innerHTML = '';
+  S.list.forEach(function(gi, i){
+    var b = document.createElement('button');
+    b.className = 'gi';
+    b.textContent = i+1;
+    if(S.judged[gi]) b.classList.add(S.res[gi] === 1 ? 'ok' : 'no');
+    else if(S.ans[gi]) b.classList.add('did');
+    if(i === S.pos) b.classList.add('cur');
+    b.addEventListener('click', function(){ S.pos = i; renderQ(); closeSheet(); });
+    g.appendChild(b);
+  });
+  $('mask').classList.add('on');
+  $('sheet').classList.add('on');
+}
+function closeSheet(){
+  $('mask').classList.remove('on');
+  $('sheet').classList.remove('on');
+}
+function filterSheet(f){
+  var g = $('grid');
+  for(var i=0;i<g.children.length;i++){
+    var gi = S.list[i], b = g.children[i], hide = false;
+    if(f === 'undone') hide = !!(S.judged[gi] || S.ans[gi]);
+    else if(f === 'wrong') hide = !(S.res[gi] === 0);
+    b.classList.toggle('none', hide);
+  }
+}
+
+/* ---------------- 事件 ---------------- */
+$('btnGo').addEventListener('click', function(){ startSession('seq'); });
+$('btnBack').addEventListener('click', function(){
+  if(S.exam){
+    if(!confirm('退出后本次考试作答不会计分，确定退出？')) return;
+    S.exam = null;
+  }
+  exitToHome();
+});
+$('btnCard').addEventListener('click', openSheet);
+$('mask').addEventListener('click', closeSheet);
+$('sheetClose').addEventListener('click', closeSheet);
+$('sheetSubmit').addEventListener('click', function(){
+  var used = 0; S.list.forEach(function(gi){ if(S.ans[gi]) used++; });
+  var blank = S.list.length - used;
+  var msg = blank > 0 ? ('还有 ' + blank + ' 题未作答，确定交卷？') : '确定交卷？';
+  if(confirm(msg)){ closeSheet(); submitExam(); }
+});
+
+var sfs = document.querySelectorAll('.sf');
+for(var i=0;i<sfs.length;i++){
+  sfs[i].addEventListener('click', function(){
+    for(var j=0;j<sfs.length;j++) sfs[j].classList.remove('on');
+    this.classList.add('on');
+    filterSheet(this.dataset.f);
+  });
+}
+
+$('autoNext').addEventListener('change', function(){
+  DB.auto = this.checked; save(true);
+});
+
+// 二维码
+var QR_URL = 'https://niuontheway-ops.github.io/qr-hub/ximing/fangji.html';
+$('qrUrl').textContent = QR_URL;
+$('btnQR').addEventListener('click', function(){ $('qrmask').classList.add('on'); });
+$('qrClose').addEventListener('click', function(){ $('qrmask').classList.remove('on'); });
+$('qrmask').addEventListener('click', function(e){ if(e.target === this) this.classList.remove('on'); });
+$('qrCopy').addEventListener('click', function(){
+  var done = function(){ toast('链接已复制'); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(QR_URL).then(done, function(){ fallbackCopy(); });
+  }else fallbackCopy();
+  function fallbackCopy(){
+    var ta = document.createElement('textarea');
+    ta.value = QR_URL; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){ toast('复制失败，请长按上方链接'); }
+    document.body.removeChild(ta);
+  }
+});
+
+// 键盘（桌面端）
+document.addEventListener('keydown', function(e){
+  if(!$('quiz').classList.contains('on')) return;
+  var k = e.key.toUpperCase();
+  if(LTR.indexOf(k) >= 0 && k.length === 1){
+    var opts = $('opts').children;
+    for(var i=0;i<opts.length;i++){
+      if(opts[i].dataset.l === k){ opts[i].click(); break; }
+    }
+  }else if(e.key === 'ArrowRight'){ go(1); }
+  else if(e.key === 'ArrowLeft'){ go(-1); }
+  else if(e.key === 'Enter'){
+    var f = $('qfoot').querySelector('.fbtn.pri');
+    if(f && !f.disabled) f.click();
+  }
+});
+
+// 初始化
+renderHome();
+
+// 调试入口（自动化测试用，不影响正常使用）
+window.__XM__ = { S:S, Q:Q, DB:DB, renderQ:renderQ, renderHome:renderHome, startSession:startSession };
+})();
+</script>
+</body>
+</html>
