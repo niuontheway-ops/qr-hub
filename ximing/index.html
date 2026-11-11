@@ -40,6 +40,29 @@ body{
 .hero .meta span{font-size:11.5px;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);letter-spacing:.3px}
 
 .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:-26px;position:relative;z-index:2}
+/* 置顶合卷卡 */
+.feat{
+  grid-column:1/-1;display:flex;gap:16px;align-items:center;
+  padding:20px 18px;border-radius:20px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,#163f3b 0%,#1b4b46 46%,#2f7d6f 100%);color:#fff;
+  box-shadow:0 14px 34px -16px rgba(22,63,59,.9);
+}
+.feat::before{content:"";position:absolute;inset:0;background:radial-gradient(56% 66% at 92% 4%,rgba(255,255,255,.20),transparent 62%)}
+.feat::after{content:"";position:absolute;right:-44px;top:-52px;width:156px;height:156px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);box-shadow:0 0 0 20px rgba(255,255,255,.045)}
+.feat-l{flex:1;min-width:0;position:relative;z-index:1}
+.feat .badge{display:inline-block;font-size:10px;letter-spacing:1.1px;padding:3px 9px;border-radius:20px;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24)}
+.feat h2{font-size:21px;font-weight:800;letter-spacing:1.6px;margin-top:10px;line-height:1.3}
+.feat p{font-size:12px;opacity:.84;margin-top:6px;letter-spacing:.3px}
+.feat-nums{display:flex;gap:15px;margin-top:12px;font-size:11px;opacity:.92}
+.feat-nums b{font-size:15px;font-weight:800;margin-right:3px}
+.feat-go{display:inline-flex;align-items:center;gap:5px;margin-top:15px;height:38px;padding:0 16px;
+  border-radius:11px;background:#fff;color:#1b4b46;font-size:13.5px;font-weight:800;letter-spacing:.6px;text-decoration:none}
+.feat-go:active{opacity:.88}
+.feat-go svg{width:14px;height:14px;stroke:#1b4b46;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.feat-r{flex:0 0 auto;width:114px;height:114px;background:#fff;border-radius:12px;padding:5px;position:relative;z-index:1}
+.feat-r img{width:100%;height:100%;display:block;image-rendering:pixelated}
 @media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
 
 .card{
@@ -85,7 +108,18 @@ body{
     <div class="meta"><span id="mTotal">1596 题</span><span>单选 + 多选</span><span>附完整解析</span></div>
   </div>
 
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid">
+    <div class="feat">
+      <div class="feat-l">
+        <span class="badge">四科合卷 · 每次随机</span>
+        <h2>综合模拟卷</h2>
+        <p>40 题 · 满分 100 · 限时 60 分钟</p>
+        <div class="feat-nums"><span><b>30</b>单选 2分</span><span><b>10</b>多选 4分</span></div>
+        <a class="feat-go" href="exam.html">开始答卷<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="feat-r"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFNUlEQVR42u3dQWpcOxCG0d/BW8g0kP0vKpBpFnGzAhM6qLqq7j1n/F7bsf0hQSHp47quAO/1zY8AhAfCA4QHwgOEB8IDhAfCA4QHwgPhAcID4QHCg20+X/0fvv/8seIf9ufX75av+9XP59T38+rP/6uvO+1znvb3ZsUDW00QHiA8EB4gPBAekMNzvCyZm6VpPtY1rzv1+/rq656aT576nO1/b1Y8sNUE4QHCA+EBwgPhAXnTHC/Fc4/q+di0uVb1XK7r91s9f5v292bFA1tNEB4gPBAeIDwQHpChc7wtuuZ7r35+139/am5Wfe+oFQ8QHggPhAcID4QHCA9ijncrW+5pPDWv65pzPm1eZ8UD4YHwAOGB8ADhgfCADJ3jbZ/bTHsXrut9vO3/LiseIDwQHggPEB4IDxAe5KFzvOp32PKw+zmnnXObNvfb/vdmxQPhgfAA4YHwAOGB8IAcnuO5FzGPPD92av5W/d9b8QDhgfBAeIDwQHiA8OAmPq7ryob32TJsPtZ1ju7Vn+e076f6vN+Wvx8rHthqgvAA4YHwAOGB8IA0n8frmlN1fX4edi/oXe//rD6XaMUDW00QHiA8EB4gPBAeEOfxbvWu2qm55bT3+ro+p2veaMUDW00QHiA8EB4gPBAekMPn8bL8PsNTn3/X+yS3z8dO/b6qz21a8cBWE4QHCA+EBwgPhAfkTXO8ae+tZfk9n6fme9Pex5s2n+yao1rxwFYThAcID4QHCA+EB+RNc7zquVOazmV1/Xu7zrNNex+v+vux4oGtJiA8EB4gPBAeIDzIQ8/jZfn9lhl2vqtrDnlqnlZ9rm/LvaxWPLDVBOEBwgPhAcID4QH/8HFdVzbfnzntPFiWzD/vem9qlrzTaMUDW00QHiA8EB4gPBAekDfN8TLs3N20r3vqHbxp95d2vWfYdQ7z1DzTige2miA8QHggPEB4IDwgh+d4OTTfqJ47TXtfruvftWUO2TVH7TrnacUDW00QHiA8EB4gPBAekDfN8dI0d8ry+diWOWT1XGvaOUnv44GtJiA8EB4gPBAeIDxo9pkl90x2mfZ9Vs/ZquerXfd2TnuXz4oHwgPhAcID4QHCA+EBab5XM03n6DLsfba73nvZNRf1Ph5gqwnCA4QHwgPhAcKDmOPlTufoUnxf4pbzYGmac067X7Rr/mnFA1tNEB4gPBAeIDwQHpDD92pmyfxq2v2QW865vfr5Xe8fVv8dVv88rXhgqwnCA4QHwgOEB8ID0jzH2/4+Xpa/d7fl53xq7rfl3KMVD4QHwgOEB8IDhAfCA9I8x8uS837b52nV5+Je/Zzq+Zv38QBbTRAeIDwQHggPEB7EHC8Vc6euz5l2D2TXfC9L3tnb8t6dFQ9sNQHhgfBAeIDwQHhAmud42+dCW+7tPHVebvvvt2vO5n08sNUEhAfCA4QHwgOEB7nJvZpd87Et76dV32857fvcck6v611HKx7YaoLwAOGB8ADhgfCANL+P1/WOWZacH+u6TzLD3gncPl+14oGtJiA8EB4IDxAeCA/IsjneXZ2aU52aj1XPo7reFdz+/qEVD2w1QXiA8EB4gPBAeEDM8TL53svqc2hbzuNNeyew65ynFQ+EB8IDhAfCA4QHwgPSPMebdh/mlvfWqud1Xe8Qds1Lu+aQVjyw1QThAcID4QHCA+EB/+njuq50vHeXm56vm3Zubdp8b/uc9tTnW/HAVhOEBwgPhAcID4QH5PAcD7DigfAA4YHwAOGB8EB4gPBAeIDwQHiA8EB4gPBAePBAfwG4IeYXDfPwmgAAAABJRU5ErkJggg==" alt="综合模拟卷二维码"></div>
+    </div>
+  </div>
 
   <div class="note">
     <h3>使用说明</h3>
