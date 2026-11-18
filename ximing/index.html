@@ -63,6 +63,18 @@ body{
 .feat-go svg{width:14px;height:14px;stroke:#1b4b46;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .feat-r{flex:0 0 auto;width:114px;height:114px;background:#fff;border-radius:12px;padding:5px;position:relative;z-index:1}
 .feat-r img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.feat2{grid-column:1/-1;display:flex;gap:16px;align-items:center;padding:19px 18px;border-radius:20px;
+  background:var(--card);border:1px solid var(--line);border-top:4px solid #2f7d6f;box-shadow:var(--sh)}
+.feat2-l{flex:1;min-width:0}
+.feat2 .badge2{display:inline-block;font-size:10px;letter-spacing:1px;padding:3px 9px;border-radius:20px;
+  background:rgba(47,125,111,.1);color:#1b6b5c;font-weight:700}
+.feat2 h2{font-size:19px;font-weight:800;letter-spacing:1.2px;margin-top:9px;color:var(--ink)}
+.feat2 p{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.7}
+.feat2-go{display:inline-flex;align-items:center;gap:5px;margin-top:12px;height:36px;padding:0 14px;border-radius:10px;
+  background:#1b4b46;color:#fff;font-size:13px;font-weight:800;letter-spacing:.6px;text-decoration:none}
+.feat2-go svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.feat2-r{flex:0 0 auto;width:108px;height:108px;background:#fff;border-radius:11px;padding:5px;border:1px solid var(--line)}
+.feat2-r img{width:100%;height:100%;display:block;image-rendering:pixelated}
 @media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
 
 .card{
@@ -118,6 +130,15 @@ body{
         <a class="feat-go" href="exam.html">开始答卷<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="feat-r"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFNUlEQVR42u3dQWpcOxCG0d/BW8g0kP0vKpBpFnGzAhM6qLqq7j1n/F7bsf0hQSHp47quAO/1zY8AhAfCA4QHwgOEB8IDhAfCA4QHwgPhAcID4QHCg20+X/0fvv/8seIf9ufX75av+9XP59T38+rP/6uvO+1znvb3ZsUDW00QHiA8EB4gPBAekMNzvCyZm6VpPtY1rzv1+/rq656aT576nO1/b1Y8sNUE4QHCA+EBwgPhAXnTHC/Fc4/q+di0uVb1XK7r91s9f5v292bFA1tNEB4gPBAeIDwQHpChc7wtuuZ7r35+139/am5Wfe+oFQ8QHggPhAcID4QHCA9ijncrW+5pPDWv65pzPm1eZ8UD4YHwAOGB8ADhgfCADJ3jbZ/bTHsXrut9vO3/LiseIDwQHggPEB4IDxAe5KFzvOp32PKw+zmnnXObNvfb/vdmxQPhgfAA4YHwAOGB8IAcnuO5FzGPPD92av5W/d9b8QDhgfBAeIDwQHiA8OAmPq7ryob32TJsPtZ1ju7Vn+e076f6vN+Wvx8rHthqgvAA4YHwAOGB8IA0n8frmlN1fX4edi/oXe//rD6XaMUDW00QHiA8EB4gPBAeEOfxbvWu2qm55bT3+ro+p2veaMUDW00QHiA8EB4gPBAekMPn8bL8PsNTn3/X+yS3z8dO/b6qz21a8cBWE4QHCA+EBwgPhAfkTXO8ae+tZfk9n6fme9Pex5s2n+yao1rxwFYThAcID4QHCA+EB+RNc7zquVOazmV1/Xu7zrNNex+v+vux4oGtJiA8EB4gPBAeIDzIQ8/jZfn9lhl2vqtrDnlqnlZ9rm/LvaxWPLDVBOEBwgPhAcID4QH/8HFdVzbfnzntPFiWzD/vem9qlrzTaMUDW00QHiA8EB4gPBAekDfN8TLs3N20r3vqHbxp95d2vWfYdQ7z1DzTige2miA8QHggPEB4IDwgh+d4OTTfqJ47TXtfruvftWUO2TVH7TrnacUDW00QHiA8EB4gPBAekDfN8dI0d8ry+diWOWT1XGvaOUnv44GtJiA8EB4gPBAeIDxo9pkl90x2mfZ9Vs/ZquerXfd2TnuXz4oHwgPhAcID4QHCA+EBab5XM03n6DLsfba73nvZNRf1Ph5gqwnCA4QHwgPhAcKDmOPlTufoUnxf4pbzYGmac067X7Rr/mnFA1tNEB4gPBAeIDwQHpDD92pmyfxq2v2QW865vfr5Xe8fVv8dVv88rXhgqwnCA4QHwgOEB8ID0jzH2/4+Xpa/d7fl53xq7rfl3KMVD4QHwgOEB8IDhAfCA9I8x8uS837b52nV5+Je/Zzq+Zv38QBbTRAeIDwQHggPEB7EHC8Vc6euz5l2D2TXfC9L3tnb8t6dFQ9sNQHhgfBAeIDwQHhAmud42+dCW+7tPHVebvvvt2vO5n08sNUEhAfCA4QHwgOEB7nJvZpd87Et76dV32857fvcck6v611HKx7YaoLwAOGB8ADhgfCANL+P1/WOWZacH+u6TzLD3gncPl+14oGtJiA8EB4IDxAeCA/IsjneXZ2aU52aj1XPo7reFdz+/qEVD2w1QXiA8EB4gPBAeEDM8TL53svqc2hbzuNNeyew65ynFQ+EB8IDhAfCA4QHwgPSPMebdh/mlvfWqud1Xe8Qds1Lu+aQVjyw1QThAcID4QHCA+EB/+njuq50vHeXm56vm3Zubdp8b/uc9tTnW/HAVhOEBwgPhAcID4QH5PAcD7DigfAA4YHwAOGB8EB4gPBAeIDwQHiA8EB4gPBAePBAfwG4IeYXDfPwmgAAAABJRU5ErkJggg==" alt="综合模拟卷二维码"></div>
+    </div>
+    <div class="feat2">
+      <div class="feat2-l">
+        <span class="badge2">67 章 · 1084 个真题考点</span>
+        <h2>考点笔记</h2>
+        <p>按章节整理 · 答案遮住先回忆<br>按 1/3/7/15/30 天节奏复习</p>
+        <a class="feat2-go" href="notes.html">开始背<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="feat2-r"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAIAAABkZftOAAAFVklEQVR42u3dQWocSxBF0SfjLXhq8P4XZfDUiyivQBYFGR0RXeeM/fVbpb5kQpBZH9d1BXitbx4BCA+EBwgPhAcID4QHCA+EBwgPhAfCA4QHwgOEB9t8v/sf/Pj1c8Uv9vf3nyM/57Pf9+7P3/Jz7j7PUz/nad83Kx7YaoLwAOGB8ADhgfCAHJ7jpXhulmFzxerf69Tnr57LTZtDbv++WfHAVhOEBwgPhAcID4QH5EVzvBTPParP16Vp7rf9nFv159z+fbPiga0mCA8QHggPEB4ID8jQOd4Wp+Zgd8+bdc3TTj2fu//fU+fxrHiA8EB4gPBAeCA8QHgQc7xHq57L3f05087dVX9+Kx4gPBAeIDwQHiA8EB7EHC8b3y+XpvsYu86hVb9fbvv5ui3fNyseCA+EBwgPhAcID4QH5EVzvOp7HdM0/6k+h9Z1D+f2ezW3f9+seCA8EB4gPBAeIDwQHpDDc7yn3YtY/ftuuZey+hzg075vVjwQHggPEB4IDxAeCA/4wsd1XZn0vrg0zd9Ofc5p5+6q52Bdz237/NaKB7aaIDxAeCA8QHggPCDN78fLkjlY1z2ZXXOtU89n2nnCrud29/ey4oGtJggPEB4IDxAeCA9I8/vxTp2Lmzavqz7HNe05TPu7T3tuVjyw1QSEB8ID4QHCA+EBab5XM286j5o2d+r6nNvPMW65h9OKB7aaIDxAeCA8QHggPCCHz+NV35d4d84z7Z7Ju89n2vm96rlZ15xt2nv5rHhgqwnCA4QHwgOEB8ID0nyvZobNCbvOrVXPhbruyeyaE576PFY8sNUEhAfCA4QHwgOEB3nzOd72ezKnvT8tTecJq+dp1ef6qp+/9+OBrSYgPBAeIDwQHggPyND343Wds8qweya75ntdz616HjhN9TzQige2miA8QHggPEB4IDwgh+d4aZr/dM0VM2z+s+X5Z8n767rmz1Y8sNUE4QHCA+EBwgPhAXnRvZppmr9Vz2GmnR/reg9h9b+vnk9+9nO67ue04oGtJggPEB4IDxAeCA/Ii87jpen82LT311X/Xl1zy+rP+bTvjxUPbDVBeIDwQHiA8EB4QA6fx6ue21Sfx9tybnDa8+86l1h9/tCKB7aagPBAeIDwQHiA8CAPvVdz+/2N0z5n9eeZNof0fjzAVhOEBwgPhAcID4QHMcfLxnNr0+Z728+Jdc05pz1/78cDW01AeCA8QHggPEB4kDeZ43WdW+v699Xn2arne6fOuVWfA0zT/ZzV8z0rHthqgvAA4YHwAOGB8IAvfFzXlQ3nl7LkfFqa5mnT5mbT5q5dn9+KB7aaIDxAeCA8QHggPCBD53jbz61Vvy8uxfPDd50Tdv0dzfHAVhMQHggPEB4ID4QHZOi9mtXvu9syh8mw97Btn7N1ve/O+/HAVhMQHggPEB4IDxAe5E3meNvnQtXznFPvYZs258yw+0u3z12teGCrCcIDhAfCA4QHwgNyeI6X5fdMVp/X6nov3Knfd8t79qbdR+peTbDVBIQHwgPhAcID4QEZOsdL8fmup917Oe2+0Or55LQ5YfXnseKBrSYIDxAeCA8QHggPSPMc7111zZ1Ozc2yZA5WPc/s+jta8UB4IDxAeCA8QHggPCDmeHmneVQe9h65U/dhZth9sFY8EB4IDxAeCA8QHggPSPMcr2tOUj3nqb4Pc9qcMMPODU57D6EVD2w1AeGB8EB4gPBAeECGzvG67ifsmi9Vz4W63o/XdW6w6xxg13zPige2miA8QHggPEB4IDzgCx/XdXkKYMUD4QHCA+EBwgPhAcID4YHwPAIQHggPEB4IDxAeCA/4v38+giTqzXtpngAAAABJRU5ErkJggg==" alt="考点笔记二维码"></div>
     </div>
   </div>
 
